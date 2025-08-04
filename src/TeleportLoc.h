@@ -1,6 +1,8 @@
-// TeleportLoc.h: interface for the CTeleportLoc class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_TELEPORTLOC_H__D4288400_F8C0_11D2_9B6C_00001C7030A6__INCLUDED_)
 #define AFX_TELEPORTLOC_H__D4288400_F8C0_11D2_9B6C_00001C7030A6__INCLUDED_
@@ -25,7 +27,7 @@ public:
 	short m_sDestX2, m_sDestY2;
 
 	int   m_iV1, m_iV2;
-	DWORD m_dwTime, m_dwTime2;
+	uint32_t m_dwTime, m_dwTime2;
 
 };
 

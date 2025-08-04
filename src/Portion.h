@@ -1,6 +1,8 @@
-// Portion.h: interface for the CPortion class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_PORTION_H__E18064C0_AF0D_11D3_9DC2_00001C7030A6__INCLUDED_)
 #define AFX_PORTION_H__E18064C0_AF0D_11D3_9DC2_00001C7030A6__INCLUDED_

@@ -1,6 +1,8 @@
-// Tile.cpp: implementation of the CTile class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Tile.h"
 
@@ -12,10 +14,10 @@ CTile::CTile()
 { 
  int i;
 
-	m_bIsMoveAllowed = TRUE;
-	m_bIsTeleport    = FALSE;
-	m_bIsWater       = FALSE;
-	m_bIsFarm        = FALSE;
+	m_bIsMoveAllowed = true;
+	m_bIsTeleport    = false;
+	m_bIsWater       = false;
+	m_bIsFarm        = false;
 												   
 	m_sOwner      = NULL;
 	m_cOwnerClass = NULL;
@@ -30,7 +32,7 @@ CTile::CTile()
 	m_wDynamicObjectID   = NULL;
 	m_sDynamicObjectType = NULL;
 
-	m_bIsTempMoveAllowed = TRUE;
+	m_bIsTempMoveAllowed = true;
 
 	m_iOccupyStatus    = NULL;
 	m_iOccupyFlagIndex = NULL;

@@ -1,6 +1,8 @@
-// Teleport.h: interface for the CTeleport class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_TELEPORT_H__A9554BE2_A96B_11D2_B143_00001C7030A6__INCLUDED_)
 #define AFX_TELEPORT_H__A9554BE2_A96B_11D2_B143_00001C7030A6__INCLUDED_
@@ -28,7 +30,7 @@ public:
 			// both
 			// elvine
 			// aresden
-	BOOL m_bTeleportHunt, m_bTeleportNtrl, m_bTeleportCrmnl;	// Check if player is a Civilian, Neutral, or Criminal.
+	bool m_bTeleportHunt, m_bTeleportNtrl, m_bTeleportCrmnl;	// Check if player is a Civilian, Neutral, or Criminal.
 };
 
 #endif // AFX_TELEPORT_H__A9554BE2_A96B_11D2_B143_00001C7030A6__INCLUDED_

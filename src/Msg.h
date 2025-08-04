@@ -1,6 +1,8 @@
-// Msg.h: interface for the CMsg class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_MSG_H__57BA71C0_B929_11D2_B143_00001C7030A6__INCLUDED_)
 #define AFX_MSG_H__57BA71C0_B929_11D2_B143_00001C7030A6__INCLUDED_
@@ -19,15 +21,15 @@
 class CMsg  								 
 {
 public:
-	void Get(char * pFrom, char * pData, DWORD * pSize, int * pIndex, char * pKey);
-	BOOL bPut(char cFrom, char * pData, DWORD dwSize, int iIndex, char cKey);
+	void Get(char * pFrom, char * pData, uint32_t * pSize, int * pIndex, char * pKey);
+	bool bPut(char cFrom, char * pData, uint32_t dwSize, int iIndex, char cKey);
 	CMsg();
 	virtual ~CMsg();
 
 	char   m_cFrom;
 
 	char * m_pData;
-	DWORD  m_dwSize;
+	uint32_t  m_dwSize;
 
 	int    m_iIndex;
 	char   m_cKey;   // v1.4

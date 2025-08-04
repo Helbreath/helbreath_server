@@ -1,6 +1,8 @@
-// DelayEvent.h: interface for the CDelayEvent class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_DELAYEVENT_H__047EB960_D8C0_11D2_B145_00001C7030A6__INCLUDED_)
 #define AFX_DELAYEVENT_H__047EB960_D8C0_11D2_B145_00001C7030A6__INCLUDED_
@@ -35,7 +37,7 @@ public:
 	char m_cTargetType;
 	int m_iV1, m_iV2, m_iV3;
 
-	DWORD m_dwTriggerTime;
+	uint32_t m_dwTriggerTime;
 };
 
 #endif // !defined(AFX_DELAYEVENT_H__047EB960_D8C0_11D2_B145_00001C7030A6__INCLUDED_)

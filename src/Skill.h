@@ -1,6 +1,8 @@
-// Skill.h: interface for the CSkill class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_SKILL_H__CD611901_EF3A_11D2_9B6C_00001C7030A6__INCLUDED_)
 #define AFX_SKILL_H__CD611901_EF3A_11D2_9B6C_00001C7030A6__INCLUDED_
@@ -13,9 +15,9 @@
 
 
 
-#define DEF_SKILLEFFECTTYPE_GET			    1		// ¾ò´Â´Ù. ¹°°í±â³ª ±¤¹°µî 
-#define DEF_SKILLEFFECTTYPE_PRETEND			2		// ...ÇÑ Ã¼ ÇÏ´Ù 
-#define DEF_SKILLEFFECTTYPE_TAMING			3		//  ±æµéÀÌ±â °è¿­	
+#define DEF_SKILLEFFECTTYPE_GET			    1		// Â¾Ã²Â´Ã‚Â´Ã™. Â¹Â°Â°Ã­Â±Ã¢Â³Âª Â±Â¤Â¹Â°ÂµÃ® 
+#define DEF_SKILLEFFECTTYPE_PRETEND			2		// ...Ã‡Ã‘ ÃƒÂ¼ Ã‡ÃÂ´Ã™ 
+#define DEF_SKILLEFFECTTYPE_TAMING			3		//  Â±Ã¦ÂµÃ©Ã€ÃŒÂ±Ã¢ Â°Ã¨Â¿Â­	
 
 
 class CSkill  

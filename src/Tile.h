@@ -1,6 +1,8 @@
-// Tile.h: interface for the CTile class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_TILE_H__12609161_8060_11D2_A8E6_00001C7030A6__INCLUDED_)
 #define AFX_TILE_H__12609161_8060_11D2_A8E6_00001C7030A6__INCLUDED_
@@ -23,24 +25,24 @@ public:
 	char  m_cOwnerClass;		// DEF_OT_PLAYER / DEF_OT_NPC
 	short m_sOwner;
 
-	char  m_cDeadOwnerClass;	// DEF_OT_PLAYER / DEF_OT_NPC Á×¾îÀÖ´Â ÇÃ·¹ÀÌ¾î´Â ÀÌ°÷¿¡ 
+	char  m_cDeadOwnerClass;	// DEF_OT_PLAYER / DEF_OT_NPC ÃÃ—Â¾Ã®Ã€Ã–Â´Ã‚ Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Â´Ã‚ Ã€ÃŒÂ°Ã·Â¿Â¡ 
 	short m_sDeadOwner;
 
 	class CItem * m_pItem[DEF_TILE_PER_ITEMS];
 	char  m_cTotalItem;
 
-	WORD  m_wDynamicObjectID;
+	uint16_t  m_wDynamicObjectID;
 	short m_sDynamicObjectType;
-	DWORD m_dwDynamicObjectRegisterTime;
+	uint32_t m_dwDynamicObjectRegisterTime;
 
-	BOOL  m_bIsMoveAllowed, m_bIsTeleport, m_bIsWater, m_bIsFarm, m_bIsTempMoveAllowed;
+	bool  m_bIsMoveAllowed, m_bIsTeleport, m_bIsWater, m_bIsFarm, m_bIsTempMoveAllowed;
 
-	// Á¡·ÉÁö Ç¥½Ã¿ë 
-	int   m_iOccupyStatus;    // AresdenÀÌ¸é -°ªÀ¸·Î, ElvineÀÌ¸é +·Î ´õÇØÁø´Ù. ÃÑ ÇÕÀÌ ÀÌ Áö¿ªÀÇ °æÇâ¼º 
-	int   m_iOccupyFlagIndex; // ÀÌ Å¸ÀÏ À§¿¡ ¼­ ÀÖ´Â Á¡·É±ê¹ßÀÇ ÀÎµ¦½º 
+	// ÃÂ¡Â·Ã‰ÃÃ¶ Ã‡Â¥Â½ÃƒÂ¿Ã« 
+	int   m_iOccupyStatus;    // AresdenÃ€ÃŒÂ¸Ã© -Â°ÂªÃ€Â¸Â·Ã, ElvineÃ€ÃŒÂ¸Ã© +Â·Ã Â´ÃµÃ‡Ã˜ÃÃ¸Â´Ã™. ÃƒÃ‘ Ã‡Ã•Ã€ÃŒ Ã€ÃŒ ÃÃ¶Â¿ÂªÃ€Ã‡ Â°Ã¦Ã‡Ã¢Â¼Âº 
+	int   m_iOccupyFlagIndex; // Ã€ÃŒ Ã…Â¸Ã€Ã Ã€Â§Â¿Â¡ Â¼Â­ Ã€Ã–Â´Ã‚ ÃÂ¡Â·Ã‰Â±ÃªÂ¹ÃŸÃ€Ã‡ Ã€ÃÂµÂ¦Â½Âº 
 
 	// Crusade
-	int	  m_iAttribute;		  // Å¸ÀÏÀÇ »óÅÂ ºñÆ®: Ã¹¹øÂ° ºñÆ®(¸¶¹ı º¸È£) µÎ¹øÂ° ºñÆ®(¹°¸® °ø°İ º¸È£) ¼¼¹øÂ° ºñÆ®(¾ÈÀüÁö´ë)
+	int	  m_iAttribute;		  // Ã…Â¸Ã€ÃÃ€Ã‡ Â»Ã³Ã…Ã‚ ÂºÃ±Ã†Â®: ÃƒÂ¹Â¹Ã¸Ã‚Â° ÂºÃ±Ã†Â®(Â¸Â¶Â¹Ã½ ÂºÂ¸ÃˆÂ£) ÂµÃÂ¹Ã¸Ã‚Â° ÂºÃ±Ã†Â®(Â¹Â°Â¸Â® Â°Ã¸Â°Ã ÂºÂ¸ÃˆÂ£) Â¼Â¼Â¹Ã¸Ã‚Â° ÂºÃ±Ã†Â®(Â¾ÃˆÃ€Ã¼ÃÃ¶Â´Ã«)
 	
 	
 };

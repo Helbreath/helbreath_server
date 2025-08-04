@@ -1,6 +1,8 @@
-// CrusadeCore.h: interface for the CCrusadeCore class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_CRUSADECORE_H__1C9B4D7E_9D11_43E4_86FA_36AEE57690BF__INCLUDED_)
 #define AFX_CRUSADECORE_H__1C9B4D7E_9D11_43E4_86FA_36AEE57690BF__INCLUDED_

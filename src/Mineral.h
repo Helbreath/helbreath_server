@@ -1,6 +1,8 @@
-// Mineral.h: interface for the CMineral class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_MINERAL_H__1A17B280_B21E_11D3_9DC2_00001C7030A6__INCLUDED_)
 #define AFX_MINERAL_H__1A17B280_B21E_11D3_9DC2_00001C7030A6__INCLUDED_

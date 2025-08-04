@@ -1,6 +1,8 @@
-// Player.h: interface for the CPlayer class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_PLAYER_H__C3D29FC6_755B_11D2_A8E6_00001C7030A6__INCLUDED_)
 #define AFX_PLAYER_H__C3D29FC6_755B_11D2_A8E6_00001C7030A6__INCLUDED_

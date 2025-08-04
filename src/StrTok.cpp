@@ -1,6 +1,8 @@
-// StrTok.cpp: implementation of the CStrTok class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "StrTok.h"
 extern void PutLogFileList(char * cStr);
@@ -25,11 +27,11 @@ CStrTok::~CStrTok()
 
 char * CStrTok::pGet()
 {
- register int i = 0;
+ int i = 0;
  char cNextData;
- BOOL bFlag;
+ bool bFlag;
 
-	ZeroMemory(m_cToken, sizeof(m_cToken));
+	memset(m_cToken, 0, sizeof(m_cToken));
 
 	while (m_iCurLoc < m_iDataLength) {
 
@@ -37,25 +39,25 @@ char * CStrTok::pGet()
 			 cNextData = m_pData[m_iCurLoc+1];
 		else cNextData = NULL;
 
-		if (_bIsSeperator(m_pData[m_iCurLoc], cNextData) == FALSE) {
-			// separator°¡ ¾Æ´Ï¸é ÅäÅ«À» ÀÛ¼º  
+		if (_bIsSeperator(m_pData[m_iCurLoc], cNextData) == false) {
+			// separatorÂ°Â¡ Â¾Ã†Â´ÃÂ¸Ã© Ã…Ã¤Ã…Â«Ã€Â» Ã€Ã›Â¼Âº  
 			m_cToken[i] = m_pData[m_iCurLoc];
 			i++;
 			m_iCurLoc++;
 		}
 		else {
-			// ´ÙÀ½ ÅäÅ«±îÁö Æ÷ÀÎÅÍ¸¦ ÀÌµ¿½ÃÅ²ÈÄ ÅäÅ«À» ¹ÝÈ¯ÇÑ´Ù.
-			bFlag = FALSE;
-			while (bFlag == FALSE) {
+			// Â´Ã™Ã€Â½ Ã…Ã¤Ã…Â«Â±Ã®ÃÃ¶ Ã†Ã·Ã€ÃŽÃ…ÃÂ¸Â¦ Ã€ÃŒÂµÂ¿Â½ÃƒÃ…Â²ÃˆÃ„ Ã…Ã¤Ã…Â«Ã€Â» Â¹ÃÃˆÂ¯Ã‡Ã‘Â´Ã™.
+			bFlag = false;
+			while (bFlag == false) {
 				if (m_iCurLoc <= (m_iDataLength - 2))
 					 cNextData = m_pData[m_iCurLoc+1];
 				else cNextData = NULL;
-				if (_bIsSeperator(m_pData[m_iCurLoc], cNextData) == TRUE) {
+				if (_bIsSeperator(m_pData[m_iCurLoc], cNextData) == true) {
 					m_iCurLoc++;	
 				}
-				else bFlag = TRUE;
+				else bFlag = true;
 
-				if (m_iCurLoc >= (m_iDataLength-1)) bFlag = TRUE;
+				if (m_iCurLoc >= (m_iDataLength-1)) bFlag = true;
 			}
 			
 			return (char *)(&m_cToken);
@@ -66,18 +68,18 @@ char * CStrTok::pGet()
 	return NULL;
 }
 
-BOOL CStrTok::_bIsSeperator(char cData, char cNextData)
+bool CStrTok::_bIsSeperator(char cData, char cNextData)
 {
  int i = 0;
 	
-	if (cData == NULL) return TRUE;
-	if ((cData == 0x0D) && (cNextData == 0x0A)) return TRUE;
+	if (cData == NULL) return true;
+	if ((cData == 0x0D) && (cNextData == 0x0A)) return true;
 	
 	while (m_pSeps[i] != NULL) {
-		if (m_pSeps[i] == cData) return TRUE;
+		if (m_pSeps[i] == cData) return true;
 		i++;
 	}
 
-	return FALSE;
+	return false;
 }
 

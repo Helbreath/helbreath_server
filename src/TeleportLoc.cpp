@@ -1,6 +1,8 @@
-// TeleportLoc.cpp: implementation of the CTeleportLoc class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "TeleportLoc.h"
 
@@ -11,8 +13,8 @@
 CTeleportLoc::CTeleportLoc()
 {
 
-	ZeroMemory(m_cDestMapName, sizeof(m_cDestMapName));
-	//ZeroMemory(m_cDestMapName2, sizeof(m_cDestMapName2));
+	memset(m_cDestMapName, 0, sizeof(m_cDestMapName));
+	//memset(m_cDestMapName2, 0, sizeof(m_cDestMapName2));
 	m_sSrcX   = -1;
 	m_sSrcY	  = -1;
 	m_sDestX  = -1;								    

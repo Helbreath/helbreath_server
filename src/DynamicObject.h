@@ -1,6 +1,8 @@
-// DynamicObject.h: interface for the CDynamicObject class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_DYNAMICOBJECT_H__D8E4A581_0C95_11D3_8F1D_00001C7030A6__INCLUDED_)
 #define AFX_DYNAMICOBJECT_H__D8E4A581_0C95_11D3_8F1D_00001C7030A6__INCLUDED_
@@ -14,7 +16,7 @@
 class CDynamicObject  
 {
 public:
-	CDynamicObject(short sOwner, char cOwnerType, short sType, char cMapIndex, short sX, short sY, DWORD dwRegisterTime, DWORD dwLastTime, int iV1);
+	CDynamicObject(short sOwner, char cOwnerType, short sType, char cMapIndex, short sX, short sY, uint32_t dwRegisterTime, uint32_t dwLastTime, int iV1);
 	virtual ~CDynamicObject();
 
 	short m_sOwner;
@@ -23,11 +25,11 @@ public:
 	short m_sType;
 	char  m_cMapIndex;
 	short m_sX, m_sY; 
-	DWORD m_dwRegisterTime;
-	DWORD m_dwLastTime;
+	uint32_t m_dwRegisterTime;
+	uint32_t m_dwLastTime;
 
-	int   m_iCount;			// Æ¯¼ö ¿ÀºêÁ§Æ®ÀÇ °æ¿ì »ç¿ëÇÏ´Â Ä«¿îÅÍ º¯¼ö 
-	int   m_iV1;			// Ãß°¡ Á¤º¸¸¦ ³ÖÀ»¶§ »ç¿ëÇÑ´Ù.
+	int   m_iCount;			// Ã†Â¯Â¼Ã¶ Â¿Ã€ÂºÃªÃÂ§Ã†Â®Ã€Ã‡ Â°Ã¦Â¿Ã¬ Â»Ã§Â¿Ã«Ã‡ÃÂ´Ã‚ Ã„Â«Â¿Ã®Ã…Ã ÂºÂ¯Â¼Ã¶ 
+	int   m_iV1;			// ÃƒÃŸÂ°Â¡ ÃÂ¤ÂºÂ¸Â¸Â¦ Â³Ã–Ã€Â»Â¶Â§ Â»Ã§Â¿Ã«Ã‡Ã‘Â´Ã™.
 };
 
 #endif // !defined(AFX_DYNAMICOBJECT_H__D8E4A581_0C95_11D3_8F1D_00001C7030A6__INCLUDED_)

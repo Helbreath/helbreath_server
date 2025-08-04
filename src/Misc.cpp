@@ -1,6 +1,8 @@
-// Misc.cpp: implementation of the CMisc class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Misc.h"
 
@@ -57,8 +59,8 @@ char CMisc::cGetNextMoveDir(short sX, short sY, short dX, short dY)
 
 void CMisc::GetPoint(int x0, int y0, int x1, int y1, int * pX, int * pY, int * pError)
 {
- register int dx, dy, x_inc, y_inc, error, index;
- register int iResultX, iResultY, iDstCnt;
+ int dx, dy, x_inc, y_inc, error, index;
+ int iResultX, iResultY, iDstCnt;
 
 	if ((x0 == x1) && (y0 == y1)) {
 		*pX = x0;
@@ -134,8 +136,8 @@ CALC_OK:;
 
 void CMisc::GetPoint2(int x0, int y0, int x1, int y1, int * pX, int * pY, int * pError, int iCount)
 {
- register int dx, dy, x_inc, y_inc, error, index;
- register int iResultX, iResultY, iCnt = 0;
+ int dx, dy, x_inc, y_inc, error, index;
+ int iResultX, iResultY, iCnt = 0;
 
 
 	if ((x0 == x1) && (y0 == y1)) {
@@ -229,69 +231,69 @@ void CMisc::GetDirPoint(char cDir, int * pX, int * pY)
 }
 
 
-BOOL CMisc::bEncode(char cKey, char *pStr)
+bool CMisc::bEncode(char cKey, char *pStr)
 {
  int i, iLen;
 
 	// !!
-	return TRUE;
+	return true;
 
 	iLen = strlen(pStr);
 	for (i = 0; i <= iLen-1; i++) {
 		pStr[i]  = pStr[i] ^ (cKey);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
-BOOL CMisc::bDecode(char cKey, char *pStr)
+bool CMisc::bDecode(char cKey, char *pStr)
 {
  int i, iLen;
 
 	// !!
-	return TRUE;
+	return true;
 
 	iLen = strlen(pStr);
 	for (i = 0; i <= iLen-1; i++) {
 		pStr[i]  = pStr[i] ^ (cKey);
 	}
 
-	return TRUE;
+	return true;
 }
 
 
-BOOL CMisc::bCheckValidName(char *pStr)
+bool CMisc::bCheckValidName(char *pStr)
 {
- register int i, iLen;
+ int i, iLen;
  
 	iLen = strlen(pStr);
 	for (i = 0; i < iLen; i++) {
-		// Æ¯¼ö ¹®ÀÚ°¡ µé¾î°¡ ÀÖ´Â °æ¿ì °ÅºÎ 
+		// Ã†Â¯Â¼Ã¶ Â¹Â®Ã€ÃšÂ°Â¡ ÂµÃ©Â¾Ã®Â°Â¡ Ã€Ã–Â´Ã‚ Â°Ã¦Â¿Ã¬ Â°Ã…ÂºÃŽ 
 		if ( (pStr[i] == ',')  || (pStr[i] == '=')  || (pStr[i] == ' ') ||
 			 (pStr[i] == '\n') || (pStr[i] == '\t') || /*(pStr[i] == '.') ||*/
 			 (pStr[i] == '\\') || (pStr[i] == '/')  || (pStr[i] == ':') || 
 			 (pStr[i] == '*')  || (pStr[i] == '?')  || (pStr[i] == '<') || 
-			 (pStr[i] == '>')  || (pStr[i] == '|')  || (pStr[i] == '"') ) return FALSE;
+			 (pStr[i] == '>')  || (pStr[i] == '|')  || (pStr[i] == '"') ) return false;
 
 		if ((i <= iLen-2) && ((unsigned char)pStr[i] >= 128)) {
 			if (((unsigned char)pStr[i] == 164) && ((unsigned char)pStr[i+1] >= 161) && 
 				((unsigned char)pStr[i+1] <= 211)) {
-				// ÀûÇÕ	
+				// Ã€Ã»Ã‡Ã•	
 				
 			}
 			else
 			if (((unsigned char)pStr[i] >= 176) && ((unsigned char)pStr[i] <= 200) && 
 				((unsigned char)pStr[i+1] >= 161) && ((unsigned char)pStr[i+1] <= 254)) {
-				// ÀûÇÕ 
+				// Ã€Ã»Ã‡Ã• 
 				
 			}
-			else return FALSE;
-			i++; // !!! Áõ°¡½ÃÄÑ¾ß¸¸ ¸Â´Ù.
+			else return false;
+			i++; // !!! ÃÃµÂ°Â¡Â½ÃƒÃ„Ã‘Â¾ÃŸÂ¸Â¸ Â¸Ã‚Â´Ã™.
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -307,57 +309,57 @@ void CMisc::Temp()
 	pSrcFileA = fopen("middleland1.amd", "rb");
 	pSrcFileB = fopen("middleland2.amd", "rb");
 
-	// ±âÁ¸ È­ÀÏ À§Ä¡ ÀÌµ¿
+	// Â±Ã¢ÃÂ¸ ÃˆÂ­Ã€Ã Ã€Â§Ã„Â¡ Ã€ÃŒÂµÂ¿
 	fread(cTemp, 1, 256, pSrcFile);
 	fread(cTemp, 1, 256, pSrcFileA);
 	fread(cTemp, 1, 256, pSrcFileB);
 	for (i = 1; i <= 444; i++)
 		fread(cTemp, 1, 5240, pSrcFileB);
 
-	ZeroMemory(cTemp, sizeof(cTemp));
+	memset(cTemp, 0, sizeof(cTemp));
 	strcpy(cTemp, "MAPSIZEX = 824 MAPSIZEY = 824 TILESIZE = 10");
 	
-	// »õ ÆÄÀÏ Çì´õ ¾´´Ù.
+	// Â»Ãµ Ã†Ã„Ã€Ã Ã‡Ã¬Â´Ãµ Â¾Â´Â´Ã™.
 	fwrite(cTemp, 1, 256, pDestFile);
 	
-	// »õ ÆÄÀÏ À­ºÎºÐ
+	// Â»Ãµ Ã†Ã„Ã€Ã Ã€Â­ÂºÃŽÂºÃ
 	for (i = 1; i <= 80; i++) { 
-		ZeroMemory(cTemp, sizeof(cTemp));
+		memset(cTemp, 0, sizeof(cTemp));
 		fread((cTemp + 1500), 1, 5240, pSrcFileA);
 		fwrite(cTemp, 1, 824*10, pDestFile);
 	}
 
-	ZeroMemory(cTemp, sizeof(cTemp));
+	memset(cTemp, 0, sizeof(cTemp));
 	for (i = 1; i <= 68; i++) fwrite(cTemp, 1, 824*10, pDestFile);
 
 	//148
 	/*
-	ZeroMemory(cTemp, sizeof(cTemp));
+	memset(cTemp, 0, sizeof(cTemp));
 	for (i = 1; i <= 150; i++) fwrite(cTemp, 1, 824*10, pDestFile);
 	*/
 
-	// »õ ÆÄÀÏ Áß°£ºÎºÐ
+	// Â»Ãµ Ã†Ã„Ã€Ã ÃÃŸÂ°Â£ÂºÃŽÂºÃ
 	for (i = 1; i <= 524; i++) { 
-		ZeroMemory(cTemp, sizeof(cTemp));
+		memset(cTemp, 0, sizeof(cTemp));
 		fread((cTemp + 1500), 1, 5240, pSrcFile);
 		fwrite(cTemp, 1, 824*10, pDestFile);
 	}
 
-	// »õ ÆÄÀÏ µÞºÎºÐ
-	ZeroMemory(cTemp, sizeof(cTemp));
+	// Â»Ãµ Ã†Ã„Ã€Ã ÂµÃžÂºÃŽÂºÃ
+	memset(cTemp, 0, sizeof(cTemp));
 	for (i = 1; i <= 68; i++) fwrite(cTemp, 1, 824*10, pDestFile);
 
 	for (i = 1; i <= 80; i++) { 
-		ZeroMemory(cTemp, sizeof(cTemp));
+		memset(cTemp, 0, sizeof(cTemp));
 		fread((cTemp + 1500), 1, 5240, pSrcFileB);
 		fwrite(cTemp, 1, 824*10, pDestFile);
 	}
 
-	ZeroMemory(cTemp, sizeof(cTemp));
+	memset(cTemp, 0, sizeof(cTemp));
 	for (i = 1; i <= 2; i++) fwrite(cTemp, 1, 824*10, pDestFile);
 
 	/*
-	ZeroMemory(cTemp, sizeof(cTemp));
+	memset(cTemp, 0, sizeof(cTemp));
 	for (i = 1; i <= 150; i++) fwrite(cTemp, 1, 824*10, pDestFile);
 	*/
 

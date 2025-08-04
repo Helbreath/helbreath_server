@@ -1,3 +1,8 @@
+//
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #define DEF_DYNAMICOBJECT_FIRE			1
 #define DEF_DYNAMICOBJECT_FISH			2

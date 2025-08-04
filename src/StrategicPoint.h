@@ -1,6 +1,8 @@
-// StrategicPoint.h: interface for the CStrategicPoint class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_STRATEGICPOINT_H__FEF1CCB2_D12D_46AD_8034_4AC488E87D72__INCLUDED_)
 #define AFX_STRATEGICPOINT_H__FEF1CCB2_D12D_46AD_8034_4AC488E87D72__INCLUDED_
@@ -18,9 +20,9 @@ public:
 	CStrategicPoint();
 	virtual ~CStrategicPoint();
 
-	int		m_iSide;			// Àü·«Àû ¿äÃæÁöÀÇ ¼Ò¼Ó: 0ÀÌ¸é Áß¸³
-	int     m_iValue;			// Áß¿äµµ
-	int		m_iX, m_iY;			// À§Ä¡ 
+	int		m_iSide;			// Ã€Ã¼Â·Â«Ã€Ã» Â¿Ã¤ÃƒÃ¦ÃÃ¶Ã€Ã‡ Â¼Ã’Â¼Ã“: 0Ã€ÃŒÂ¸Ã© ÃÃŸÂ¸Â³
+	int     m_iValue;			// ÃÃŸÂ¿Ã¤ÂµÂµ
+	int		m_iX, m_iY;			// Ã€Â§Ã„Â¡ 
 };
 
 #endif // !defined(AFX_STRATEGICPOINT_H__FEF1CCB2_D12D_46AD_8034_4AC488E87D72__INCLUDED_)

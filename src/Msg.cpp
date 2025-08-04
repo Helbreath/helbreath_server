@@ -1,6 +1,8 @@
-// Msg.cpp: implementation of the CMsg class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Msg.h"
 
@@ -19,11 +21,11 @@ CMsg::~CMsg()
 	if (m_pData != NULL) delete m_pData;
 }
 
-BOOL CMsg::bPut(char cFrom, char * pData, DWORD dwSize, int iIndex, char cKey)
+bool CMsg::bPut(char cFrom, char * pData, uint32_t dwSize, int iIndex, char cKey)
 {
 	m_pData = new char [dwSize + 1];
-	if (m_pData == NULL) return FALSE;
-	ZeroMemory(m_pData, dwSize + 1);
+	if (m_pData == NULL) return false;
+	memset(m_pData, 0, dwSize + 1);
 	memcpy(m_pData, pData, dwSize);
 
 	m_dwSize = dwSize;
@@ -31,10 +33,10 @@ BOOL CMsg::bPut(char cFrom, char * pData, DWORD dwSize, int iIndex, char cKey)
 	m_iIndex = iIndex;
 	m_cKey   = cKey;
 
-	return TRUE;
+	return true;
 }
 
-void CMsg::Get(char * pFrom, char * pData, DWORD * pSize, int * pIndex, char * pKey)
+void CMsg::Get(char * pFrom, char * pData, uint32_t * pSize, int * pIndex, char * pKey)
 {
 	*pFrom  = m_cFrom;
 	memcpy(pData, m_pData, m_dwSize);

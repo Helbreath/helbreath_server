@@ -1,6 +1,8 @@
-// Fish.h: interface for the CFish class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_FISH_H__B43430CE_E9DE_45BF_9E17_EDF084B0BADD__INCLUDED_)
 #define AFX_FISH_H__B43430CE_E9DE_45BF_9E17_EDF084B0BADD__INCLUDED_
@@ -19,15 +21,15 @@ public:
 	virtual ~CFish();
 
 	char  m_cMapIndex;
-	short m_sX, m_sY;			// ¸Ê»óÀÇ À§Ä¡ 
+	short m_sX, m_sY;			// Â¸ÃŠÂ»Ã³Ã€Ã‡ Ã€Â§Ã„Â¡ 
 
-	short m_sType;				// ¹°°í±â Á¾·ù  
-	class CItem * m_pItem;		// ³¬¾ÒÀ»¶§ ÇÒ´çµÇ´Â ¾ÆÀÌÅÛ(¹°°í±â ·ùÀÏ °ÍÀÓ)
+	short m_sType;				// Â¹Â°Â°Ã­Â±Ã¢ ÃÂ¾Â·Ã¹  
+	class CItem * m_pItem;		// Â³Â¬Â¾Ã’Ã€Â»Â¶Â§ Ã‡Ã’Â´Ã§ÂµÃ‡Â´Ã‚ Â¾Ã†Ã€ÃŒÃ…Ã›(Â¹Â°Â°Ã­Â±Ã¢ Â·Ã¹Ã€Ã Â°ÃÃ€Ã“)
 
 	short m_sDynamicObjectHandle;
 
-	short m_sEngagingCount;		// ÇöÀç ÀÌ ¹°°í±â¸¦ ³ë¸®°í ÀÖ´Â ÇÃ·¹ÀÌ¾î ¼ö 
-	int   m_iDifficulty;		// ³­ÀÌµµ. ÃÖ¼Ò 1Àº µÇ¾î¾ß ÇÑ´Ù.
+	short m_sEngagingCount;		// Ã‡Ã¶Ã€Ã§ Ã€ÃŒ Â¹Â°Â°Ã­Â±Ã¢Â¸Â¦ Â³Ã«Â¸Â®Â°Ã­ Ã€Ã–Â´Ã‚ Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â¼Ã¶ 
+	int   m_iDifficulty;		// Â³Â­Ã€ÃŒÂµÂµ. ÃƒÃ–Â¼Ã’ 1Ã€Âº ÂµÃ‡Â¾Ã®Â¾ÃŸ Ã‡Ã‘Â´Ã™.
 };
 
 #endif // !defined(AFX_FISH_H__B43430CE_E9DE_45BF_9E17_EDF084B0BADD__INCLUDED_)

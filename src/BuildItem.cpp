@@ -1,6 +1,8 @@
-// BuildItem.cpp: implementation of the CBuildItem class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "BuildItem.h"
 
@@ -12,7 +14,7 @@ CBuildItem::CBuildItem()
 {
  int i;
 
-	ZeroMemory(m_cName, sizeof(m_cName));
+	memset(m_cName, 0, sizeof(m_cName));
 	m_sItemID = -1;
 
 	m_iSkillLimit = 0;

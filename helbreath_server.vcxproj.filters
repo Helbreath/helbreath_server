@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{cab093da-8207-426f-8dc5-225f0cd11998}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="configs">
+      <UniqueIdentifier>{959094f2-7140-4af1-84d3-fe32caa84619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="configs\ide">
+      <UniqueIdentifier>{e60825d5-5a61-440c-bb49-feb1c621a26f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{ff0b6634-b4af-41b8-91cc-8d14b442b3ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\sockets">
+      <UniqueIdentifier>{136f6444-59b0-43c3-ad70-e6a770c4a11c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\units">
+      <UniqueIdentifier>{0bc9be2a-fea8-4583-8077-96a5970ac964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utilities">
+      <UniqueIdentifier>{86a2a1de-c971-48fe-97f8-f6c78fb67d21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\map">
+      <UniqueIdentifier>{f446d9c8-46c8-4440-afba-674a09c1e11f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ActionID.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BuildItem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Client.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CrusadeCore.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DebugDialog.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DelayEvent.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DynamicObject.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DynamicObjectID.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Fish.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlobalDef.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GuildsMan.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\IrcBot.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Item.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Magic.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Map.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MessageIndex.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mineral.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Misc.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Msg.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NetMessages.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Npc.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OccupyFlag.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Player.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Portion.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Quest.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\rusadeCore.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Skill.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SkillNum.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StrategicPoint.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StrTok.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Structure.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Teleport.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TeleportLoc.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TempNpcItem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tile.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UserMessages.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\XSocket.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\time_utils.h">
+      <Filter>src\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\timer_manager.h">
+      <Filter>src\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\types.h">
+      <Filter>src\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\streams.h">
+      <Filter>src\utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\session.h">
+      <Filter>src\sockets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\BuildItem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Client.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CrusadeCore.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DebugDialog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DelayEvent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DynamicObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Fish.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GuildsMan.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IrcBot.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Magic.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Map.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mineral.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Misc.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Msg.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Npc.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NpcItem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OccupyFlag.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Portion.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Quest.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rusadeCore.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Skill.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StrategicPoint.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StrTok.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Structure.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Teleport.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TeleportLoc.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TempNpcItem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\XSocket.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\timer_manager.cpp">
+      <Filter>src\utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="LICENSE">
+      <Filter>configs\ide</Filter>
+    </ClCompile>
+    <ClCompile Include="config_parsing.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vcpkg.json">
+      <Filter>configs\ide</Filter>
+    </None>
+    <None Include=".editorconfig">
+      <Filter>configs\ide</Filter>
+    </None>
+    <None Include=".gitattributes">
+      <Filter>configs\ide</Filter>
+    </None>
+    <None Include=".gitignore">
+      <Filter>configs\ide</Filter>
+    </None>
+    <None Include="README.md">
+      <Filter>configs\ide</Filter>
+    </None>
+  </ItemGroup>
+</Project>

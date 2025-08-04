@@ -1,6 +1,8 @@
-// Misc.h: interface for the CMisc class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #if !defined(AFX_MISC_H__C3D29FC0_755B_11D2_A8E6_00001C7030A6__INCLUDED_)
 #define AFX_MISC_H__C3D29FC0_755B_11D2_A8E6_00001C7030A6__INCLUDED_
@@ -17,9 +19,9 @@ class CMisc
 {
 public:
 	void Temp();
-	BOOL bCheckValidName(char *pStr);
-	BOOL bDecode(char cKey, char *pStr);
-	BOOL bEncode(char cKey, char *pStr);
+	bool bCheckValidName(char *pStr);
+	bool bDecode(char cKey, char *pStr);
+	bool bEncode(char cKey, char *pStr);
 	void GetDirPoint(char cDir, int * pX, int * pY);
 	void GetPoint2(int x0, int y0, int x1, int y1, int * pX, int * pY, int * pError, int iCount);
 	void GetPoint(int x0, int y0, int x1, int y1, int * pX, int * pY, int * pError);

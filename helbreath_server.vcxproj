@@ -74,12 +74,120 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>src;~/vcpkg/installed/x64-linux/include</IncludePath>
+    <LibraryPath>~/vcpkg/installed/x64-linux/lib</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>src;~/vcpkg/installed/x64-linux/include</IncludePath>
+    <LibraryPath>~/vcpkg/installed/x64-linux/lib</LibraryPath>
+  </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="src\ActionID.h" />
+    <ClInclude Include="src\BuildItem.h" />
+    <ClInclude Include="src\Client.h" />
+    <ClInclude Include="src\CrusadeCore.h" />
+    <ClInclude Include="src\DebugDialog.h" />
+    <ClInclude Include="src\DelayEvent.h" />
+    <ClInclude Include="src\DynamicObject.h" />
+    <ClInclude Include="src\DynamicObjectID.h" />
+    <ClInclude Include="src\Fish.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GlobalDef.h" />
+    <ClInclude Include="src\GuildsMan.h" />
+    <ClInclude Include="src\IrcBot.h" />
+    <ClInclude Include="src\Item.h" />
+    <ClInclude Include="src\Magic.h" />
+    <ClInclude Include="src\Map.h" />
+    <ClInclude Include="src\MessageIndex.h" />
+    <ClInclude Include="src\Mineral.h" />
+    <ClInclude Include="src\Misc.h" />
+    <ClInclude Include="src\Msg.h" />
+    <ClInclude Include="src\NetMessages.h" />
+    <ClInclude Include="src\Npc.h" />
+    <ClInclude Include="src\OccupyFlag.h" />
+    <ClInclude Include="src\Player.h" />
+    <ClInclude Include="src\Portion.h" />
+    <ClInclude Include="src\Quest.h" />
+    <ClInclude Include="src\rusadeCore.h" />
+    <ClInclude Include="src\session.h" />
+    <ClInclude Include="src\Skill.h" />
+    <ClInclude Include="src\SkillNum.h" />
+    <ClInclude Include="src\StrategicPoint.h" />
+    <ClInclude Include="src\streams.h" />
+    <ClInclude Include="src\StrTok.h" />
+    <ClInclude Include="src\Structure.h" />
+    <ClInclude Include="src\Teleport.h" />
+    <ClInclude Include="src\TeleportLoc.h" />
+    <ClInclude Include="src\TempNpcItem.h" />
+    <ClInclude Include="src\Tile.h" />
+    <ClInclude Include="src\timer_manager.h" />
+    <ClInclude Include="src\time_utils.h" />
+    <ClInclude Include="src\types.h" />
+    <ClInclude Include="src\UserMessages.h" />
+    <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\XSocket.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="config_parsing.cpp" />
+    <ClCompile Include="LICENSE" />
+    <ClCompile Include="src\BuildItem.cpp" />
+    <ClCompile Include="src\Client.cpp" />
+    <ClCompile Include="src\CrusadeCore.cpp" />
+    <ClCompile Include="src\DebugDialog.cpp" />
+    <ClCompile Include="src\DelayEvent.cpp" />
+    <ClCompile Include="src\DynamicObject.cpp" />
+    <ClCompile Include="src\Fish.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GuildsMan.cpp" />
+    <ClCompile Include="src\IrcBot.cpp" />
+    <ClCompile Include="src\Item.cpp" />
+    <ClCompile Include="src\Magic.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\Mineral.cpp" />
+    <ClCompile Include="src\Misc.cpp" />
+    <ClCompile Include="src\Msg.cpp" />
+    <ClCompile Include="src\Npc.cpp" />
+    <ClCompile Include="src\NpcItem.cpp" />
+    <ClCompile Include="src\OccupyFlag.cpp" />
+    <ClCompile Include="src\Portion.cpp" />
+    <ClCompile Include="src\Quest.cpp" />
+    <ClCompile Include="src\rusadeCore.cpp" />
+    <ClCompile Include="src\Skill.cpp" />
+    <ClCompile Include="src\StrategicPoint.cpp" />
+    <ClCompile Include="src\StrTok.cpp" />
+    <ClCompile Include="src\Structure.cpp" />
+    <ClCompile Include="src\Teleport.cpp" />
+    <ClCompile Include="src\TeleportLoc.cpp" />
+    <ClCompile Include="src\TempNpcItem.cpp" />
+    <ClCompile Include="src\Tile.cpp" />
+    <ClCompile Include="src\timer_manager.cpp" />
+    <ClCompile Include="src\XSocket.cpp" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemGroup>
+    <None Include=".editorconfig" />
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="README.md" />
+    <None Include="vcpkg.json" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <CppLanguageStandard>c++20</CppLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>ssl; z; sodium; spdlog; async++; crypto;</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <CppLanguageStandard>c++20</CppLanguageStandard>
+    </ClCompile>
+    <Link>
+      <LibraryDependencies>ssl; z; sodium; spdlog; async++; crypto;</LibraryDependencies>
+    </Link>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

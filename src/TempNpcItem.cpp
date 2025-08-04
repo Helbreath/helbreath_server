@@ -1,6 +1,8 @@
-// StrTok.cpp: implementation of the CStrTok class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "TempNpcItem.h"
 extern void PutLogFileList(char * cStr);
@@ -11,7 +13,7 @@ extern void PutLogFileList(char * cStr);
 
 CNpcItem::CNpcItem()
 {
-	ZeroMemory(m_cName, sizeof(m_cName));
+	memset(m_cName, 0, sizeof(m_cName));
 
 	m_sItemID = 0;
 	m_sFirstProbability = 0;

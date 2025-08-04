@@ -1,6 +1,8 @@
-// Npc.cpp: implementation of the CNpc class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Npc.h"
 
@@ -11,7 +13,7 @@
 CNpc::CNpc(char * pName5)
 {
  int i;
-	ZeroMemory(m_cName, sizeof(m_cName));
+	memset(m_cName, 0, sizeof(m_cName));
 	memcpy(m_cName, pName5, 5);
 	
 	for (i = 0; i < DEF_MAXWAYPOINTS; i++)			  
@@ -20,11 +22,11 @@ CNpc::CNpc(char * pName5)
 	for (i = 0; i < DEF_MAXMAGICEFFECTS; i++) 
 		m_cMagicEffectStatus[i]	= 0;
 
-	m_bIsSummoned       = FALSE;
-	m_bIsPermAttackMode = FALSE;
+	m_bIsSummoned       = false;
+	m_bIsPermAttackMode = false;
 
 	m_dwRegenTime = NULL;
-	m_bIsKilled   = FALSE;
+	m_bIsKilled   = false;
 
 	m_sOriginalType      = NULL;
 	m_iSummonControlMode = NULL;
@@ -41,11 +43,11 @@ CNpc::CNpc(char * pName5)
 
 	m_iBuildCount = 0;
 	m_iManaStock  = 0;
-	m_bIsUnsummoned = FALSE;
+	m_bIsUnsummoned = false;
 	m_cCropType = 0;
 	m_cCropSkill = 0;
 
-	m_bIsMaster  = FALSE;
+	m_bIsMaster  = false;
 	m_iGuildGUID = NULL;
 	m_iV1 = 0;
 

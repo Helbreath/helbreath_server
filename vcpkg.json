@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+  "name": "helbreath-server",
+  "version": "0.0.1",
+  "homepage": "https://helbreathx.net",
+  "dependencies": [
+    "asio",
+    "asyncplusplus",
+    "libsodium",
+    "nlohmann-json",
+    "openssl",
+    "spdlog",
+    "sqlite3",
+    "zlib"
+  ],
+  "builtin-baseline": "0cf34c184ce990471435b5b9c92edcf7424930b1"
+}

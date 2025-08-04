@@ -1,6 +1,8 @@
-// Portion.cpp: implementation of the CPortion class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Portion.h"
 
@@ -12,7 +14,7 @@ CPortion::CPortion()
 {
  int i;
 	
-	ZeroMemory(m_cName, sizeof(m_cName));
+	memset(m_cName, 0, sizeof(m_cName));
 	m_iSkillLimit = 0;
 	m_iDifficulty = 0;
 

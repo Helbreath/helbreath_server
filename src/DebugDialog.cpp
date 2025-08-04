@@ -1,7 +1,13 @@
+//
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
+
 #include "DebugDialog.h"
 #include "resource.h"
 
-BOOL CALLBACK lpDialogFunc(HWND,UINT,WPARAM,LPARAM);
+bool CALLBACK lpDialogFunc(HWND,UINT,WPARAM,LPARAM);
 void DebugWindowThread();
 HWND m_DbgWnd;
 HWND m_DbgList;
@@ -9,16 +15,16 @@ HANDLE outHand;
 char crlf[]={0x0d,0x0a,0x0d,0x0a};
 
 //Constructor
-CDebugWindow::CDebugWindow() : m_isVisible(FALSE)
+CDebugWindow::CDebugWindow() : m_isVisible(false)
 {
 }
 
 // Startups The Debug Dialog
 void CDebugWindow::Startup(void)
 {
-	DWORD lpThreadId;
+	uint32_t lpThreadId;
 	//Create a thread for dialog
-	m_isVisible = TRUE;
+	m_isVisible = true;
 	CloseHandle(CreateThread(NULL,0,(LPTHREAD_START_ROUTINE)DebugWindowThread,NULL,0,&lpThreadId));
 	//Give time for dialog to startup properly
 	Sleep(10);
@@ -29,7 +35,7 @@ void DebugWindowThread(){
 	DialogBox(GetModuleHandle(NULL),MAKEINTRESOURCE(IDD_DIALOG1),NULL,(DLGPROC)lpDialogFunc);
 }
 
-BOOL CALLBACK lpDialogFunc(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam){
+bool CALLBACK lpDialogFunc(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam){
 	switch(uMsg) {
 	case WM_INITDIALOG:
 		//Copy HWND's
@@ -48,14 +54,14 @@ BOOL CALLBACK lpDialogFunc(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam){
 void CDebugWindow::Shutdown(void)
 {
 	//Close Dialog
-	EndDialog(m_DbgWnd,TRUE);
+	EndDialog(m_DbgWnd,true);
 	//Close File Handle
 	CloseHandle(outHand);
 }
 
 void CDebugWindow::AddEventMsg(char* cMsg)
 {
-	DWORD written;
+	uint32_t written;
 	if (m_isVisible) {
 		SendMessage(m_DbgList,LB_ADDSTRING,0,(LPARAM)cMsg);
 		//Highlight Last Active Message
@@ -66,9 +72,9 @@ void CDebugWindow::AddEventMsg(char* cMsg)
 	}
 }
 
-void CDebugWindow::AddEventMsg(int cMsgType, char* cData, DWORD dwSize, char cKey)
+void CDebugWindow::AddEventMsg(int cMsgType, char* cData, uint32_t dwSize, char cKey)
 {
-	DWORD written;
+	uint32_t written;
 	char DbgBuffer[10000];
 
 	if (m_isVisible) {
@@ -114,10 +120,10 @@ void CDebugWindow::ShowWindow(bool isVisible)
 	Sleep(10);
 	if (isVisible) {
 		::ShowWindow(m_DbgWnd,SW_SHOW);
-		m_isVisible = TRUE;
+		m_isVisible = true;
 	}
 	else {
 		::ShowWindow(m_DbgWnd,SW_HIDE);
-		m_isVisible = FALSE;
+		m_isVisible = false;
 	}
 }

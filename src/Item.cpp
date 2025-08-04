@@ -1,6 +1,8 @@
-// Item.cpp: implementation of the CItem class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Item.h"
 
@@ -10,7 +12,7 @@
 
 CItem::CItem()
 {
-	ZeroMemory(m_cName, sizeof(m_cName));
+	memset(m_cName, 0, sizeof(m_cName));
 	m_sSprite = 0;
 	m_sSpriteFrame = 0;
 											  
@@ -42,7 +44,7 @@ CItem::CItem()
 	m_cCategory = NULL;
 	m_sIDnum    = 0;
 
-	m_bIsForSale = FALSE;
+	m_bIsForSale = false;
 }
 
 CItem::~CItem()
