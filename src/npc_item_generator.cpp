@@ -5,7 +5,7 @@
 //
 
 #include "Game.h"
-
+#include "string_utils.h"
 
 void CGame::NpcDeadItemGenerator(int iNpcH, short sAttackerH, char cAttackerType)
 {
@@ -859,7 +859,7 @@ void CGame::NpcDeadItemGenerator(int iNpcH, short sAttackerH, char cAttackerType
         char cTemp[256];
         GetLocalTime(&SysTime);
         memset(cTemp, 0, sizeof(cTemp));
-        wsprintf(cTemp, "%d%2d", (short)SysTime.wMonth, (short)SysTime.wDay);
+        copy_string(cTemp, "%d%2d", (short)SysTime.wMonth, (short)SysTime.wDay);
         pItem->m_sTouchEffectValue3 = atoi(cTemp);
 
         m_pMapList[m_pNpcList[iNpcH]->m_cMapIndex]->bSetItem(m_pNpcList[iNpcH]->m_sX,

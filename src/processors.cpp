@@ -5,6 +5,7 @@
 //
 
 #include "Game.h"
+#include "string_utils.h"
 
 void CGame::DelayEventProcessor()
 {
@@ -671,7 +672,7 @@ void CGame::EnergySphereProcessor(bool bIsAdminCreate, int iClientH)
         {
             // 
             memset(cName_Internal, 0, sizeof(cName_Internal));
-            wsprintf(cName_Internal, "XX%d", iNamingValue);
+            copy_string(cName_Internal, "XX%d", iNamingValue);
             cName_Internal[0] = '_';
             cName_Internal[1] = m_iMiddlelandMapIndex + 65;
 
@@ -721,7 +722,7 @@ void CGame::EnergySphereProcessor(bool bIsAdminCreate, int iClientH)
         {
             // 
             memset(cName_Internal, 0, sizeof(cName_Internal));
-            wsprintf(cName_Internal, "XX%d", iNamingValue);
+            copy_string(cName_Internal, "XX%d", iNamingValue);
             cName_Internal[0] = '_';
             cName_Internal[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 

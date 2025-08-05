@@ -5,7 +5,7 @@
 //
 
 #include "Game.h"
-
+#include "string_utils.h"
 
 void CGame::AdminOrder_CallGuard(int iClientH, char * pData, uint32_t dwMsgSize)
 {
@@ -19,7 +19,6 @@ void CGame::AdminOrder_CallGuard(int iClientH, char * pData, uint32_t dwMsgSize)
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelCallGaurd)
     {
-        // Admin user levelÃ€ÃŒ Â³Â·Â¾Ã†Â¼Â­ Ã€ÃŒ Â±Ã¢Â´Ã‰Ã€Â» Â»Ã§Â¿Ã«Ã‡Ã’ Â¼Ã¶ Â¾Ã¸Â´Ã™.
         SendNotifyMsg(0, iClientH, DEF_NOTIFY_ADMINUSERLEVELLOW, 0, 0, 0, 0);
         return;
     }
@@ -37,7 +36,6 @@ void CGame::AdminOrder_CallGuard(int iClientH, char * pData, uint32_t dwMsgSize)
 
     if (token != 0)
     {
-        // tokenÃ€ÃŒ Â°Ã° ÃƒÂ¤Ã†ÃƒÃ€Â» ÂºÃ’Â°Â¡Â´Ã‰Ã‡ÃÂ°Ã” Â¸Â¸ÂµÃ© Â»Ã§Â¿Ã«Ã€Ãš Ã€ÃŒÂ¸Â§ 
         if (strlen(token) > 10)
             memcpy(cTargetName, token, 10);
         else memcpy(cTargetName, token, strlen(token));
@@ -45,23 +43,19 @@ void CGame::AdminOrder_CallGuard(int iClientH, char * pData, uint32_t dwMsgSize)
         for (i = 1; i < DEF_MAXCLIENTS; i++)
             if ((m_pClientList[i] != 0) && (memcmp(m_pClientList[i]->m_cCharName, cTargetName, 10) == 0))
             {
-                // Â¸Ã±Ã‡Â¥ Ã„Â³Â¸Â¯Ã…ÃÂ¸Â¦ ÃƒÂ£Â¾Ã’Â´Ã™. 	
-
                 if (memcmp(m_pClientList[i]->m_cMapName, "aresden", 7) == 0)
                     strcpy(cNpcName, "Guard-Aresden");
                 else if (memcmp(m_pClientList[i]->m_cMapName, "elvine", 6) == 0)
                     strcpy(cNpcName, "Guard-Elvine");
-                else strcpy(cNpcName, "Guard-Neutral");  // <- Ã€ÃŒÂ°ÃÃ€Âº Â¸Â¶Ã€Â»Ã€ÃŒ Â¾Ã†Â´ÃÂ¹Ã‡Â·ÃŽ ÃÃŸÂ¸Â³ Â°Â¡ÂµÃ¥Â¸Â¦ Â»Ã½Â¼ÂºÂ½ÃƒÃ…Â²Â´Ã™.
+                else strcpy(cNpcName, "Guard-Neutral");
 
                 iNamingValue = m_pMapList[m_pClientList[i]->m_cMapIndex]->iGetEmptyNamingValue();
                 if (iNamingValue == -1)
                 {
-                    // Â´ÃµÃ€ÃŒÂ»Ã³ Ã€ÃŒ Â¸ÃŠÂ¿Â¡ NPCÂ¸Â¦ Â¸Â¸ÂµÃ©Â¼Ã¶ Â¾Ã¸Â´Ã™. Ã€ÃŒÂ¸Â§Ã€Â» Ã‡Ã’Â´Ã§Ã‡Ã’ Â¼Ã¶ Â¾Ã¸Â±Ã¢ Â¶Â§Â¹Â®.
                 }
                 else
                 {
-                    // NPCÂ¸Â¦ Â»Ã½Â¼ÂºÃ‡Ã‘Â´Ã™.
-                    wsprintf(cName, "XX%d", iNamingValue);
+                    copy_string(cName, "XX%d", iNamingValue);
                     cName[0] = '_';
                     cName[1] = m_pClientList[i]->m_cMapIndex + 65;
 
@@ -119,12 +113,12 @@ void CGame::AdminOrder_Kill(int iClientH, char * pData, uint32_t dwMsgSize)
     pStrTok = new class CStrTok(cBuff, seps);
     token = pStrTok->pGet();
     //testcode
-    //wsprintf(G_cTxt, "%s", token);
+    //copy_string(G_cTxt, "%s", token);
     //log->info(G_cTxt);
     //
     token = pStrTok->pGet();
     //testcode
-    //wsprintf(G_cTxt, "%s", token);
+    //copy_string(G_cTxt, "%s", token);
     //log->info(G_cTxt);
     //
     if (token != 0)
@@ -149,7 +143,7 @@ void CGame::AdminOrder_Kill(int iClientH, char * pData, uint32_t dwMsgSize)
     }
 
     //testcode
-    //wsprintf(G_cTxt, "%s", token);
+    //copy_string(G_cTxt, "%s", token);
     //log->info(G_cTxt);
     //
 
@@ -325,7 +319,7 @@ void CGame::AdminOrder_SummonDemon(int iClientH)
         strcpy(cNpcName, "Demon");
 
         memset(cName, 0, sizeof(cName));
-        wsprintf(cName, "XX%d", iNamingValue);
+        copy_string(cName, "XX%d", iNamingValue);
         cName[0] = '_';
         cName[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -342,7 +336,7 @@ void CGame::AdminOrder_SummonDemon(int iClientH)
         else
         {
             // Admin Log
-            wsprintf(G_cTxt, "Admin Order(%s): Summon Demon", m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "Admin Order(%s): Summon Demon", m_pClientList[iClientH]->m_cCharName);
             PutAdminLogFileList(G_cTxt);
         }
     }
@@ -376,7 +370,7 @@ void CGame::AdminOrder_SummonDeath(int iClientH)
         strcpy(cNpcName, "Wyvern");
 
         memset(cName, 0, sizeof(cName));
-        wsprintf(cName, "XX%d", iNamingValue);
+        copy_string(cName, "XX%d", iNamingValue);
         cName[0] = '_';
         cName[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -393,7 +387,7 @@ void CGame::AdminOrder_SummonDeath(int iClientH)
         else
         {
             // Admin Log
-            wsprintf(G_cTxt, "Admin Order(%s): Summon Death", m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "Admin Order(%s): Summon Death", m_pClientList[iClientH]->m_cCharName);
             PutAdminLogFileList(G_cTxt);
         }
     }
@@ -447,7 +441,7 @@ void CGame::AdminOrder_ReserveFightzone(int iClientH, char * pData, uint32_t dwM
     if (m_iFightZoneReserve[iNum] != -1)
     {
         // Admin Log
-        wsprintf(G_cTxt, "Admin Order(%s):  %d FightzoneReserved", m_pClientList[iClientH]->m_cCharName, iNum);
+        copy_string(G_cTxt, "Admin Order(%s):  %d FightzoneReserved", m_pClientList[iClientH]->m_cCharName, iNum);
         PutAdminLogFileList(G_cTxt);
 
         m_iFightZoneReserve[iNum] = -1;        // Â¿Ã®Â¿ÂµÃ€ÃšÂ°Â¡ Â¿Â¹Â¾Ã Ã‡Ã‘ Â»Ã§Ã…ÃµÃ€Ã¥Ã€Âº -1 Â°ÂªÃ€ÃŒ ÂµÃ©Â¾Ã®Â°Â£Â´Ã™.
@@ -458,7 +452,7 @@ void CGame::AdminOrder_ReserveFightzone(int iClientH, char * pData, uint32_t dwM
     }
     else
     {	// Â¿Ã®Â¿ÂµÃ€ÃšÂ°Â¡ Â¿Â¹Â¾Ã Ã‡Ã‘ Â»Ã§Ã…ÃµÃ€Ã¥Ã€Â» Â´Ã™Â½Ãƒ Â¿Â¹Â¾Ã Ã‡ÃÂ¸Ã© Â¿Â¹Â¾Ã Ã€ÃŒ ÃƒÃ«Â¼Ã’ÂµÃˆÂ´Ã™.
-        wsprintf(G_cTxt, "Admin Order(%s):  %d Cancel FightzoneReserved", m_pClientList[iClientH]->m_cCharName, iNum);
+        copy_string(G_cTxt, "Admin Order(%s):  %d Cancel FightzoneReserved", m_pClientList[iClientH]->m_cCharName, iNum);
         PutAdminLogFileList(G_cTxt);
 
         m_iFightZoneReserve[iNum] = 0;
@@ -508,7 +502,7 @@ void CGame::AdminOrder_CloseConn(int iClientH, char * pData, uint32_t dwMsgSize)
                 }
 
                 // Admin Log
-                wsprintf(G_cTxt, "Admin Order(%s): Close Conn", m_pClientList[iClientH]->m_cCharName);
+                copy_string(G_cTxt, "Admin Order(%s): Close Conn", m_pClientList[iClientH]->m_cCharName);
                 PutAdminLogFileList(G_cTxt);
 
                 delete pStrTok;
@@ -868,7 +862,7 @@ void CGame::AdminOrder_CheckIP(int iClientH, char * pData, uint32_t dwMsgSize)
             {
                 // Â¿Ã¤Â±Â¸Ã‡Ã‘ ÃÃ–Â¼Ã’Â¿Ã Ã€ÃÃ„Â¡Ã‡ÃÂ´Ã‚ Ã…Â¬Â¶Ã³Ã€ÃŒÂ¾Ã°Ã†Â® Â¹ÃŸÂ°ÃŸ. 
                 memset(cInfoString, 0, sizeof(cInfoString));
-                wsprintf(cInfoString, "Name(%s/%s) Loc(%s: %d %d) Level(%d:%d) Init(%d) IP(%s)",
+                copy_string(cInfoString, "Name(%s/%s) Loc(%s: %d %d) Level(%d:%d) Init(%d) IP(%s)",
                     m_pClientList[i]->m_cAccountName, m_pClientList[i]->m_cCharName, m_pClientList[i]->m_cMapName,
                     m_pClientList[i]->m_sX, m_pClientList[i]->m_sY,
                     m_pClientList[i]->m_iLevel, 0/*m_pClientList[i]->m_cAccountStatus*/,
@@ -1120,20 +1114,20 @@ void CGame::AdminOrder_Time(int iClientH, char * pData, uint32_t dwMsgSize)
         if (token[0] == '2')
         {
             m_cDayOrNight = 2;
-            wsprintf(G_cTxt, "(%s) Admin(%s) Order: Forces night mode", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "(%s) Admin(%s) Order: Forces night mode", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
             bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, G_cTxt);
             m_bManualTime = true;
         }
         else if (token[0] == '1')
         {
             m_cDayOrNight = 1;
-            wsprintf(G_cTxt, "(%s) Admin(%s) Order: Forces day mode", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "(%s) Admin(%s) Order: Forces day mode", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
             m_bManualTime = true;
             bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, G_cTxt);
         }
         else if (token[0] == '0')
         {
-            wsprintf(G_cTxt, "(%s) Admin(%s) Order: Disables force time", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "(%s) Admin(%s) Order: Disables force time", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
             m_bManualTime = false;
             bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, G_cTxt);
         }
@@ -1162,7 +1156,7 @@ void CGame::AdminOrder_CheckRep(int iClientH, char * pData, uint32_t dwMsgSize)
     memset(cRepMessage, 0, sizeof(cRepMessage));
     if (m_pClientList[iClientH]->m_iAdminUserLevel < 1)
     {
-        wsprintf(cRepMessage, " You have %d reputation points.", m_pClientList[iClientH]->m_iRating);
+        copy_string(cRepMessage, " You have %d reputation points.", m_pClientList[iClientH]->m_iRating);
         ShowClientMsg(iClientH, cRepMessage);
     }
     else
@@ -1211,7 +1205,7 @@ void CGame::AdminOrder_CheckRep(int iClientH, char * pData, uint32_t dwMsgSize)
             for (i = 1; i < DEF_MAXCLIENTS; i++)
                 if ((m_pClientList[i] != 0) && (memcmp(m_pClientList[i]->m_cCharName, cTargetName, 10) == 0))
                 {
-                    wsprintf(cRepMessage, " %s has %d reputation points.", m_pClientList[i]->m_cCharName, m_pClientList[i]->m_iRating);
+                    copy_string(cRepMessage, " %s has %d reputation points.", m_pClientList[i]->m_cCharName, m_pClientList[i]->m_iRating);
                     ShowClientMsg(iClientH, cRepMessage);
                 }
         }
@@ -1387,7 +1381,7 @@ void CGame::AdminOrder_Pushplayer(int iClientH, char * pData, uint32_t dwMsgSize
                 if (bFlag == true)
                     //Reqeust the Push/Teleport
                     RequestTeleportHandler(i, "2   ", cMapName, dX, dY);
-                wsprintf(G_cTxt, "(%s) GM(%s) sends (%s) Player(%s) to [%s](%d,%d)", m_pClientList[iClientH]->m_cIPaddress,
+                copy_string(G_cTxt, "(%s) GM(%s) sends (%s) Player(%s) to [%s](%d,%d)", m_pClientList[iClientH]->m_cIPaddress,
                     m_pClientList[iClientH]->m_cCharName, m_pClientList[i]->m_cIPaddress, m_pClientList[i]->m_cCharName, cMapName, dX, dY);
                 bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, G_cTxt);
                 delete pStrTok;
@@ -1418,7 +1412,7 @@ void CGame::AdminOrder_SummonGuild(int iClientH, char * pData, uint32_t dwMsgSiz
     pX = m_pClientList[iClientH]->m_sX;
     pY = m_pClientList[iClientH]->m_sY;
     memcpy(cLocation, m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->m_cName, 11);
-    wsprintf(buff, "Summon-Guild: %s (%s) %s %d %d", m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_cGuildName, cLocation, pX, pY);
+    copy_string(buff, "Summon-Guild: %s (%s) %s %d %d", m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_cGuildName, cLocation, pX, pY);
     log->info(buff);
     for (i = 0; i < DEF_MAXCLIENTS; i++)
 
@@ -1485,7 +1479,7 @@ void CGame::AdminOrder_CheckStats(int iClientH, char * pData, uint32_t dwMsgSize
             {
                 // m_iStr, m_iInt, m_iVit, m_iDex, m_iMag, m_iCharisma
                 memset(cStatMessage, 0, sizeof(cStatMessage));
-                wsprintf(cStatMessage, "Str:%d Dex:%d Vit:%d Int:%d Mag:%d Chr:%d", m_pClientList[i]->m_iStr, m_pClientList[i]->m_iDex, m_pClientList[i]->m_iVit, m_pClientList[i]->m_iInt, m_pClientList[i]->m_iMag, m_pClientList[i]->m_iCharisma);
+                copy_string(cStatMessage, "Str:%d Dex:%d Vit:%d Int:%d Mag:%d Chr:%d", m_pClientList[i]->m_iStr, m_pClientList[i]->m_iDex, m_pClientList[i]->m_iVit, m_pClientList[i]->m_iInt, m_pClientList[i]->m_iMag, m_pClientList[i]->m_iCharisma);
                 ShowClientMsg(iClientH, cStatMessage);
             }
     }
@@ -1541,11 +1535,11 @@ void CGame::AdminOrder_GoTo(int iClientH, char * pData, uint32_t dwMsgSize)
                 {
                     if (m_pClientList[i]->m_sX == -1 && m_pClientList[i]->m_sX == -1)
                     {
-                        wsprintf(cBuff, "GM Order(%s): GoTo MapName(%s)", m_pClientList[iClientH]->m_cCharName, m_pClientList[i]->m_cMapName);
+                        copy_string(cBuff, "GM Order(%s): GoTo MapName(%s)", m_pClientList[iClientH]->m_cCharName, m_pClientList[i]->m_cMapName);
                     }
                     else
                     {
-                        wsprintf(cBuff, "GM Order(%s): GoTo MapName(%s)(%d %d)", m_pClientList[iClientH]->m_cCharName,
+                        copy_string(cBuff, "GM Order(%s): GoTo MapName(%s)(%d %d)", m_pClientList[iClientH]->m_cCharName,
                             m_pClientList[i]->m_cMapName, m_pClientList[i]->m_sX, m_pClientList[i]->m_sY);
                     }
                     bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, cBuff);
@@ -1650,7 +1644,7 @@ void CGame::AdminOrder_SetForceRecallTime(int iClientH, char * pData, uint32_t d
 
         bStockMsgToGateServer(cBuff, 3);
 
-        wsprintf(G_cTxt, "(!) Game Server Force Recall Time (%d)min", m_sForceRecallTime);
+        copy_string(G_cTxt, "(!) Game Server Force Recall Time (%d)min", m_sForceRecallTime);
         log->info(G_cTxt);
     }
 
@@ -1864,7 +1858,7 @@ void CGame::AdminOrder_Summon(int iClientH, char * pData, uint32_t dwMsgSize)
     pY = m_pClientList[iClientH]->m_sY;
 
     // Â¸ÃžÂ½ÃƒÃÃ¶ ÃƒÃ¢Â·Ã‚ 
-    wsprintf(G_cTxt, "(!) Admin Order: Summon(%s)-(%d)", cNpcName, iNum);
+    copy_string(G_cTxt, "(!) Admin Order: Summon(%s)-(%d)", cNpcName, iNum);
     log->info(G_cTxt);
 
     iNamingValue = m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->iGetEmptyNamingValue();
@@ -1872,7 +1866,7 @@ void CGame::AdminOrder_Summon(int iClientH, char * pData, uint32_t dwMsgSize)
     {
         // Master MobÃ€Â» Â»Ã½Â¼ÂºÃ‡Ã‘Â´Ã™.
         memset(cName_Master, 0, sizeof(cName_Master));
-        wsprintf(cName_Master, "XX%d", iNamingValue);
+        copy_string(cName_Master, "XX%d", iNamingValue);
         cName_Master[0] = '_';
         cName_Master[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -1890,7 +1884,7 @@ void CGame::AdminOrder_Summon(int iClientH, char * pData, uint32_t dwMsgSize)
         {
             // Slave MobÂµÃ©Ã€Â» Â»Ã½Â¼ÂºÃ‡Ã‘Â´Ã™.
             memset(cName_Slave, 0, sizeof(cName_Slave));
-            wsprintf(cName_Slave, "XX%d", iNamingValue);
+            copy_string(cName_Slave, "XX%d", iNamingValue);
             cName_Slave[0] = '_';
             cName_Slave[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -1961,7 +1955,7 @@ void CGame::AdminOrder_SummonAll(int iClientH, char * pData, uint32_t dwMsgSize)
             RequestTeleportHandler(i, "2   ", cMapName, pX, pY);
         }
 
-    wsprintf(G_cTxt, "GM Order(%s): PC(%s) Summoned to (%s)", m_pClientList[iClientH]->m_cLocation,
+    copy_string(G_cTxt, "GM Order(%s): PC(%s) Summoned to (%s)", m_pClientList[iClientH]->m_cLocation,
         cLocation, cMapName);
     bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, G_cTxt);
 
@@ -2043,7 +2037,7 @@ void CGame::AdminOrder_SummonPlayer(int iClientH, char * pData, uint32_t dwMsgSi
         }//m_pClientList[i]->m_cCharName
 
     // find char on other hg's
-    wsprintf(G_cTxt, "GM Order(%s): PC(%s) Summoned to (%s)", m_pClientList[iClientH]->m_cCharName,
+    copy_string(G_cTxt, "GM Order(%s): PC(%s) Summoned to (%s)", m_pClientList[iClientH]->m_cCharName,
         cName, cMapName);
     bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, G_cTxt);
 
@@ -2139,7 +2133,7 @@ void CGame::AdminOrder_EnableAdminCommand(int iClientH, char * pData, uint32_t d
         {
             try
             {
-                wsprintf(G_cTxt, "(%s) Player(%s) attempts to access /enableadmincommand with %s", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, token);
+                copy_string(G_cTxt, "(%s) Player(%s) attempts to access /enableadmincommand with %s", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, token);
                 PutHackLogFileList(G_cTxt);
             }
             catch (...)
@@ -2310,7 +2304,7 @@ void CGame::AdminOrder_CreateItem(int iClientH, char * pData, uint32_t dwMsgSize
             pItem->m_sTouchEffectValue2 = iDice(1, 100000);
             // ¸¶Áö¸· ¼ýÀÚ´Â ¾ÆÀÌÅÛ »ý¼º ¿ù, ÀÏ	
             memset(cTemp, 0, sizeof(cTemp));
-            wsprintf(cTemp, "%d%2d", (short)SysTime.wMonth, (short)SysTime.wDay);
+            copy_string(cTemp, "%d%2d", (short)SysTime.wMonth, (short)SysTime.wDay);
             pItem->m_sTouchEffectValue3 = atoi(cTemp);
             break;
     }
@@ -2391,7 +2385,7 @@ void CGame::AdminOrder_CreateItem(int iClientH, char * pData, uint32_t dwMsgSize
 
 
         // v2.14 Admin Log
-        wsprintf(G_cTxt, "(%s) GM Order(%s): Create ItemName(%s)", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, cItemName);
+        copy_string(G_cTxt, "(%s) GM Order(%s): Create ItemName(%s)", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, cItemName);
         bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, 0, G_cTxt);
 
         return;

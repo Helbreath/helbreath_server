@@ -5,6 +5,7 @@
 //
 
 #include "Game.h"
+#include "string_utils.h"
 
 void CGame::LocalEndApocalypse()
 {
@@ -19,8 +20,7 @@ void CGame::LocalEndApocalypse()
             SendNotifyMsg(0, i, DEF_NOTIFY_APOCGATEENDMSG, 0, 0, 0, 0);
         }
     }
-    wsprintf(G_cTxt, "(!)Apocalypse Mode OFF.");
-    log->info(G_cTxt);
+    log->info("(!)Apocalypse Mode OFF.");
 }
 
 void CGame::LocalStartApocalypse(uint32_t dwApocalypseGUID)
@@ -45,8 +45,7 @@ void CGame::LocalStartApocalypse(uint32_t dwApocalypseGUID)
             //SendNotifyMsg(0, i, DEF_NOTIFY_APOCFORCERECALLPLAYERS, 0, 0, 0, 0);
         }
     }
-    wsprintf(G_cTxt, "(!)Apocalypse Mode ON.");
-    log->info(G_cTxt);
+    log->info("(!)Apocalypse Mode ON.");
 }
 
 void CGame::_CreateApocalypseGUID(uint32_t dwApocalypseGUID)
@@ -65,60 +64,21 @@ void CGame::_CreateApocalypseGUID(uint32_t dwApocalypseGUID)
     pFile = fopen(cFn, "wt");
     if (pFile == 0)
     {
-        // Ã†Ã„Ã€ÃÃ€Â» Â¸Â¸ÂµÃ© Â¼Ã¶ Â¾Ã¸Â°Ã…Â³Âª Â»Ã§Ã€ÃŒÃÃ®Â°Â¡ ÃÃ¶Â³ÂªÃ„Â¡Â°Ã” Ã€Ã›Ã€Âº Â°Ã¦Â¿Ã¬Â´Ã‚ . 
-        wsprintf(cTxt, "(!) Cannot create ApocalypseGUID(%d) file", dwApocalypseGUID);
-        log->info(cTxt);
+        log->info(cTxt, "(!) Cannot create ApocalypseGUID({}) file", dwApocalypseGUID);
     }
     else
     {
         memset(cTemp, 0, sizeof(cTemp));
 
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "ApocalypseGUID = %d\n", dwApocalypseGUID);
+        copy_string(cTxt, "ApocalypseGUID = %d\n", dwApocalypseGUID);
         strcat(cTemp, cTxt);
 
         cp = (char *)cTemp;
         fwrite(cp, strlen(cp), 1, pFile);
 
-        wsprintf(cTxt, "(O) ApocalypseGUID(%d) file created", dwApocalypseGUID);
+        copy_string(cTxt, "(O) ApocalypseGUID(%d) file created", dwApocalypseGUID);
         log->info(cTxt);
     }
     if (pFile != 0) fclose(pFile);
-}
-
-void CGame::ApocalypseEnder()
-{
-    SYSTEMTIME SysTime;
-    int i;
-
-    if (m_bIsApocalypseMode == false) return;
-    if (m_bIsApocalypseStarter == false) return;
-
-    GetLocalTime(&SysTime);
-
-    for (i = 0; i < DEF_MAXAPOCALYPSE; i++)
-        if ((m_stApocalypseScheduleEnd[i].iDay == SysTime.wDayOfWeek) &&
-            (m_stApocalypseScheduleEnd[i].iHour == SysTime.wHour) &&
-            (m_stApocalypseScheduleEnd[i].iMinute == SysTime.wMinute))
-        {
-            log->info("(!) Automated apocalypse is concluded!");
-            GlobalEndApocalypseMode();
-            return;
-        }
-}
-
-void CGame::GlobalEndApocalypseMode()
-{
-    char * cp, cData[120];
-
-    if (m_bIsApocalypseMode == false) return;
-
-    memset(cData, 0, sizeof(cData));
-    cp = (char *)cData;
-    *cp = GSM_ENDAPOCALYPSE;
-    cp++;
-
-    LocalEndApocalypse();
-
-    bStockMsgToGateServer(cData, 5);
 }

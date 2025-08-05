@@ -5,6 +5,7 @@
 //
 
 #include "Game.h"
+#include "string_utils.h"
 
 void CGame::PartyOperationResult_Create(int iClientH, char * pName, int iResult, int iPartyID)
 {
@@ -43,7 +44,7 @@ void CGame::PartyOperationResult_Create(int iClientH, char * pName, int iResult,
                     m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iIndex[i] = iClientH;
                     m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers++;
                     //testcode
-                    wsprintf(G_cTxt, "PartyID:%d member:%d New Total:%d", m_pClientList[iClientH]->m_iPartyID, iClientH, m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers);
+                    copy_string(G_cTxt, "PartyID:%d member:%d New Total:%d", m_pClientList[iClientH]->m_iPartyID, iClientH, m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers);
                     log->info(G_cTxt);
                     goto PORC_LOOPBREAK1;
                 }
@@ -114,7 +115,7 @@ void CGame::PartyOperationResult_Join(int iClientH, char * pName, int iResult, i
                     m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iIndex[i] = iClientH;
                     m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers++;
 
-                    wsprintf(G_cTxt, "PartyID:%d member:%d In(Join) Total:%d", m_pClientList[iClientH]->m_iPartyID, iClientH, m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers);
+                    copy_string(G_cTxt, "PartyID:%d member:%d In(Join) Total:%d", m_pClientList[iClientH]->m_iPartyID, iClientH, m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers);
                     log->info(G_cTxt);
                     goto PORC_LOOPBREAK1;
                 }
@@ -158,7 +159,7 @@ void CGame::PartyOperationResult_Dismiss(int iClientH, char * pName, int iResult
                         m_stPartyInfo[iPartyID].iIndex[i] = 0;
                         m_stPartyInfo[iPartyID].iTotalMembers--;
                         //testcode
-                        wsprintf(G_cTxt, "PartyID:%d member:%d Out Total:%d", iPartyID, iClientH, m_stPartyInfo[iPartyID].iTotalMembers);
+                        copy_string(G_cTxt, "PartyID:%d member:%d Out Total:%d", iPartyID, iClientH, m_stPartyInfo[iPartyID].iTotalMembers);
                         log->info(G_cTxt);
                         goto PORC_LOOPBREAK1;
                     }
@@ -204,7 +205,7 @@ void CGame::PartyOperationResult_Dismiss(int iClientH, char * pName, int iResult
                     m_stPartyInfo[iPartyID].iIndex[i] = 0;
                     m_stPartyInfo[iPartyID].iTotalMembers--;
                     //testcode
-                    wsprintf(G_cTxt, "PartyID:%d member:%d Out Total:%d", iPartyID, iClientH, m_stPartyInfo[iPartyID].iTotalMembers);
+                    copy_string(G_cTxt, "PartyID:%d member:%d Out Total:%d", iPartyID, iClientH, m_stPartyInfo[iPartyID].iTotalMembers);
                     log->info(G_cTxt);
                     goto PORC_LOOPBREAK2;
                 }
@@ -246,7 +247,7 @@ void CGame::PartyOperationResult_Delete(int iPartyID)
             m_pClientList[i]->m_iPartyStatus = DEF_PARTYSTATUS_NULL;
             m_pClientList[i]->m_iReqJoinPartyClientH = 0;
             //testcode
-            wsprintf(G_cTxt, "Notify delete party: %d", i);
+            copy_string(G_cTxt, "Notify delete party: %d", i);
             log->info(G_cTxt);
         }
 }

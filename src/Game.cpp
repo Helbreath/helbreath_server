@@ -9,6 +9,7 @@
 #include <spdlog/sinks/daily_file_sink.h>
 #include <spdlog/async.h>
 #include <spdlog/fmt/fmt.h>
+#include "string_utils.h"
 
 extern int32_t timeGetTime();
 
@@ -1007,7 +1008,7 @@ void CGame::DeleteClient(int iClientH, bool bSave, bool bNotify, bool bCountLogo
     {
         if (memcmp(m_pClientList[iClientH]->m_cMapName, "fight", 5) == 0)
         {
-            wsprintf(G_cTxt, "Char(%s)-Exit(%s)", m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_cMapName);
+            copy_string(G_cTxt, "Char(%s)-Exit(%s)", m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_cMapName);
             PutLogEventFileList(G_cTxt);
         }
 
@@ -1288,7 +1289,7 @@ void CGame::DeleteClient(int iClientH, bool bSave, bool bNotify, bool bCountLogo
                 m_pClientList[iClientH]->m_iPartyID = 0;
                 m_pClientList[iClientH]->m_iPartyStatus = DEF_PARTYSTATUS_NULL;
                 m_pClientList[iClientH]->m_iReqJoinPartyClientH = 0;
-                wsprintf(G_cTxt, "PartyID:%d member:%d Out(Delete) Total:%d", m_pClientList[iClientH]->m_iPartyID, iClientH, m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers);
+                copy_string(G_cTxt, "PartyID:%d member:%d Out(Delete) Total:%d", m_pClientList[iClientH]->m_iPartyID, iClientH, m_stPartyInfo[m_pClientList[iClientH]->m_iPartyID].iTotalMembers);
                 log->info(G_cTxt);
                 goto DC_LOOPBREAK1;
             }
@@ -2205,7 +2206,7 @@ void CGame::CheckClientResponseTime()
                 if (m_pClientList[i]->m_bIsInitComplete == true)
                 {
                     //Testcode 
-                    wsprintf(G_cTxt, "Client Timeout: %s", m_pClientList[i]->m_cIPaddress);
+                    copy_string(G_cTxt, "Client Timeout: %s", m_pClientList[i]->m_cIPaddress);
                     log->info(G_cTxt);
 
                     DeleteClient(i, true, true);
@@ -2439,7 +2440,7 @@ void CGame::CheckClientResponseTime()
                     (m_pClientList[i]->m_iLevel >= 20) &&
                     (m_pClientList[i]->m_iAdminUserLevel == 0))
                 {
-                    wsprintf(G_cTxt, "Traveller Hack: (%s) Player: (%s) is a traveller and is greater than level 19.", m_pClientList[i]->m_cIPaddress, m_pClientList[i]->m_cCharName);
+                    copy_string(G_cTxt, "Traveller Hack: (%s) Player: (%s) is a traveller and is greater than level 19.", m_pClientList[i]->m_cIPaddress, m_pClientList[i]->m_cCharName);
                     PutHackLogFileList(G_cTxt);
                     DeleteClient(i, true, true);
                 }
@@ -2740,7 +2741,7 @@ bool CGame::bSendMsgToLS(uint32_t dwMsg, int iClientH, bool bFlag, char * pData)
             cp += 4;
 
             //testcode
-            wsprintf(G_cTxt, "Confirmed. Account: (%s) Name: (%s) Level: (%d)", m_pClientList[iClientH]->m_cAccountName, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iLevel);
+            copy_string(G_cTxt, "Confirmed. Account: (%s) Name: (%s) Level: (%d)", m_pClientList[iClientH]->m_cAccountName, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iLevel);
             log->info(G_cTxt);
 
 
@@ -2760,7 +2761,7 @@ bool CGame::bSendMsgToLS(uint32_t dwMsg, int iClientH, bool bFlag, char * pData)
         case MSGID_REQUEST_REGISTERGAMESERVER:
             if (m_pMainLogSock == 0) return false;
 
-            wsprintf(cTxt, "(!) Try to register game server(%s)", m_cServerName);
+            copy_string(cTxt, "(!) Try to register game server(%s)", m_cServerName);
             log->info(cTxt);
 
             dwp = (uint32_t *)(G_cData50000 + DEF_INDEX4_MSGID);
@@ -3072,7 +3073,7 @@ bool CGame::bSendMsgToLS(uint32_t dwMsg, int iClientH, bool bFlag, char * pData)
         case DEF_XSOCKEVENT_CRITICALERROR:
         case DEF_XSOCKEVENT_SOCKETCLOSED:
             // Sub-log-socket
-            wsprintf(G_cTxt, "(!!!) Sub-log-socket(%d) send error!", m_iCurSubLogSockIndex);
+            copy_string(G_cTxt, "(!!!) Sub-log-socket(%d) send error!", m_iCurSubLogSockIndex);
             log->info(G_cTxt);
             PutLogFileList(G_cTxt);
 
@@ -3085,7 +3086,7 @@ bool CGame::bSendMsgToLS(uint32_t dwMsg, int iClientH, bool bFlag, char * pData)
             m_pSubLogSock[m_iCurSubLogSockIndex]->bConnect(m_cLogServerAddr, m_iLogServerPort, (WM_ONLOGSOCKETEVENT + m_iCurSubLogSockIndex + 1));
             m_pSubLogSock[m_iCurSubLogSockIndex]->bInitBufferSize(DEF_MSGBUFFERSIZE);
 
-            wsprintf(G_cTxt, "(!) Try to reconnect sub-log-socket(%d)... Addr:%s  Port:%d", m_iCurSubLogSockIndex, m_cLogServerAddr, m_iLogServerPort);
+            copy_string(G_cTxt, "(!) Try to reconnect sub-log-socket(%d)... Addr:%s  Port:%d", m_iCurSubLogSockIndex, m_cLogServerAddr, m_iLogServerPort);
             log->info(G_cTxt);
 
             // v1.41 sub-log-socket
@@ -3132,7 +3133,7 @@ void CGame::InitPlayerData(int iClientH, char * pData, uint32_t dwSize)
     bRet = _bDecodePlayerDatafileContents(iClientH, cp, dwSize - 19);
     if (bRet == false)
     {
-        wsprintf(G_cTxt, "(HACK?) Character(%s) data error!", m_pClientList[iClientH]->m_cCharName);
+        copy_string(G_cTxt, "(HACK?) Character(%s) data error!", m_pClientList[iClientH]->m_cCharName);
         DeleteClient(iClientH, false, true); //!!!
         return;
     }
@@ -3176,7 +3177,7 @@ void CGame::InitPlayerData(int iClientH, char * pData, uint32_t dwSize)
     {
         try
         {
-            wsprintf(G_cTxt, "Data Error: (%s) Player: (%s) CurrentExp: %d --- Minimum Exp: %d", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iExp, (iGetLevelExp(m_pClientList[iClientH]->m_iLevel) - 1));
+            copy_string(G_cTxt, "Data Error: (%s) Player: (%s) CurrentExp: %d --- Minimum Exp: %d", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iExp, (iGetLevelExp(m_pClientList[iClientH]->m_iLevel) - 1));
             PutHackLogFileList(G_cTxt);
             DeleteClient(iClientH, true, true);
         }
@@ -3193,7 +3194,7 @@ void CGame::InitPlayerData(int iClientH, char * pData, uint32_t dwSize)
     {
         try
         {
-            wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) - has more than allowed skill points (%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, iTotalPoints);
+            copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) - has more than allowed skill points (%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, iTotalPoints);
             PutHackLogFileList(G_cTxt);
             DeleteClient(iClientH, true, true);
         }
@@ -3227,7 +3228,7 @@ void CGame::InitPlayerData(int iClientH, char * pData, uint32_t dwSize)
 
     if (m_pClientList[iClientH] == nullptr)
     {
-        wsprintf(cTxt, "<%d> InitPlayerData error - Socket error! Disconnected.", iClientH);
+        copy_string(cTxt, "<%d> InitPlayerData error - Socket error! Disconnected.", iClientH);
         log->info(cTxt);
         return;
     }
@@ -3246,7 +3247,7 @@ void CGame::InitPlayerData(int iClientH, char * pData, uint32_t dwSize)
         case DEF_XSOCKEVENT_CRITICALERROR:
         case DEF_XSOCKEVENT_SOCKETCLOSED:
             // ## BUG POINT!!!
-            wsprintf(cTxt, "<%d> InitPlayerData - Socket error! Disconnected.", iClientH);
+            copy_string(cTxt, "<%d> InitPlayerData - Socket error! Disconnected.", iClientH);
             log->info(cTxt);
 
             DeleteClient(iClientH, false, true); //!!!!!
@@ -3298,7 +3299,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     GetLocalTime(&SysTime);
     strcat(pData, "[FILE-DATE]\n\n");
 
-    wsprintf(cTxt, "file-saved-date: %d %d %d %d %d\n", SysTime.wYear, SysTime.wMonth, SysTime.wDay, SysTime.wHour, SysTime.wMinute);
+    copy_string(cTxt, "file-saved-date: %d %d %d %d %d\n", SysTime.wYear, SysTime.wMonth, SysTime.wDay, SysTime.wHour, SysTime.wMinute);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
@@ -3338,7 +3339,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     {
         // GuildRank
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "%d", m_pClientList[iClientH]->m_iGuildGUID);
+        copy_string(cTxt, "%d", m_pClientList[iClientH]->m_iGuildGUID);
         strcat(pData, cTxt);
     }
     else strcat(pData, "-1");
@@ -3364,130 +3365,130 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     if (m_pClientList[iClientH]->m_iHP <= 0)
         m_pClientList[iClientH]->m_iHP = 30;
 
-    wsprintf(cTxt, "character-HP       = %d", m_pClientList[iClientH]->m_iHP);
+    copy_string(cTxt, "character-HP       = %d", m_pClientList[iClientH]->m_iHP);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-MP       = %d", m_pClientList[iClientH]->m_iMP);
+    copy_string(cTxt, "character-MP       = %d", m_pClientList[iClientH]->m_iMP);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     if (m_pClientList[iClientH]->m_iSP < 0) m_pClientList[iClientH]->m_iSP = 0; // v1.1
-    wsprintf(cTxt, "character-SP       = %d", m_pClientList[iClientH]->m_iSP);
+    copy_string(cTxt, "character-SP       = %d", m_pClientList[iClientH]->m_iSP);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-LEVEL    = %d", m_pClientList[iClientH]->m_iLevel);
+    copy_string(cTxt, "character-LEVEL    = %d", m_pClientList[iClientH]->m_iLevel);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-RATING   = %d", m_pClientList[iClientH]->m_iRating);
+    copy_string(cTxt, "character-RATING   = %d", m_pClientList[iClientH]->m_iRating);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-STR      = %d", m_pClientList[iClientH]->m_iStr);
+    copy_string(cTxt, "character-STR      = %d", m_pClientList[iClientH]->m_iStr);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-INT      = %d", m_pClientList[iClientH]->m_iInt);
+    copy_string(cTxt, "character-INT      = %d", m_pClientList[iClientH]->m_iInt);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-VIT      = %d", m_pClientList[iClientH]->m_iVit);
+    copy_string(cTxt, "character-VIT      = %d", m_pClientList[iClientH]->m_iVit);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-DEX      = %d", m_pClientList[iClientH]->m_iDex);
+    copy_string(cTxt, "character-DEX      = %d", m_pClientList[iClientH]->m_iDex);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-MAG      = %d", m_pClientList[iClientH]->m_iMag);
+    copy_string(cTxt, "character-MAG      = %d", m_pClientList[iClientH]->m_iMag);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-CHARISMA = %d", m_pClientList[iClientH]->m_iCharisma);
+    copy_string(cTxt, "character-CHARISMA = %d", m_pClientList[iClientH]->m_iCharisma);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-LUCK     = %d", m_pClientList[iClientH]->m_iLuck);
+    copy_string(cTxt, "character-LUCK     = %d", m_pClientList[iClientH]->m_iLuck);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-EXP      = %d", m_pClientList[iClientH]->m_iExp);
+    copy_string(cTxt, "character-EXP      = %d", m_pClientList[iClientH]->m_iExp);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-LU_Pool  = %d", m_pClientList[iClientH]->m_iLU_Pool);
+    copy_string(cTxt, "character-LU_Pool  = %d", m_pClientList[iClientH]->m_iLU_Pool);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     /*
-    wsprintf(cTxt, "character-LU_Str   = %d", m_pClientList[iClientH]->m_cLU_Str);
+    copy_string(cTxt, "character-LU_Str   = %d", m_pClientList[iClientH]->m_cLU_Str);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "character-LU_Vit   = %d", m_pClientList[iClientH]->m_cLU_Vit);
+    copy_string(cTxt, "character-LU_Vit   = %d", m_pClientList[iClientH]->m_cLU_Vit);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "character-LU_Dex   = %d", m_pClientList[iClientH]->m_cLU_Dex);
+    copy_string(cTxt, "character-LU_Dex   = %d", m_pClientList[iClientH]->m_cLU_Dex);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "character-LU_Int   = %d", m_pClientList[iClientH]->m_cLU_Int);
+    copy_string(cTxt, "character-LU_Int   = %d", m_pClientList[iClientH]->m_cLU_Int);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "character-LU_Mag   = %d", m_pClientList[iClientH]->m_cLU_Mag);
+    copy_string(cTxt, "character-LU_Mag   = %d", m_pClientList[iClientH]->m_cLU_Mag);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "character-LU_Char  = %d", m_pClientList[iClientH]->m_cLU_Char);
+    copy_string(cTxt, "character-LU_Char  = %d", m_pClientList[iClientH]->m_cLU_Char);
     strcat(pData, cTxt);
     strcat(pData,"\n");
     */
-    wsprintf(cTxt, "character-EK-Count = %d", m_pClientList[iClientH]->m_iEnemyKillCount);
+    copy_string(cTxt, "character-EK-Count = %d", m_pClientList[iClientH]->m_iEnemyKillCount);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-PK-Count = %d", m_pClientList[iClientH]->m_iPKCount);
+    copy_string(cTxt, "character-PK-Count = %d", m_pClientList[iClientH]->m_iPKCount);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-reward-gold = %d", m_pClientList[iClientH]->m_iRewardGold);
+    copy_string(cTxt, "character-reward-gold = %d", m_pClientList[iClientH]->m_iRewardGold);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-downskillindex = %d", m_pClientList[iClientH]->m_iDownSkillIndex);
+    copy_string(cTxt, "character-downskillindex = %d", m_pClientList[iClientH]->m_iDownSkillIndex);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-IDnum1 = %d", m_pClientList[iClientH]->m_sCharIDnum1);
+    copy_string(cTxt, "character-IDnum1 = %d", m_pClientList[iClientH]->m_sCharIDnum1);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-IDnum2 = %d", m_pClientList[iClientH]->m_sCharIDnum2);
+    copy_string(cTxt, "character-IDnum2 = %d", m_pClientList[iClientH]->m_sCharIDnum2);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-IDnum3 = %d", m_pClientList[iClientH]->m_sCharIDnum3);
+    copy_string(cTxt, "character-IDnum3 = %d", m_pClientList[iClientH]->m_sCharIDnum3);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     /*
-    wsprintf(cTxt, "party-rank = %d", m_pClientList[iClientH]->m_iPartyRank);
+    copy_string(cTxt, "party-rank = %d", m_pClientList[iClientH]->m_iPartyRank);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "party-IDnum1 = %d", m_pClientList[iClientH]->m_sPartyIDnum1);
+    copy_string(cTxt, "party-IDnum1 = %d", m_pClientList[iClientH]->m_sPartyIDnum1);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "party-IDnum2 = %d", m_pClientList[iClientH]->m_sPartyIDnum2);
+    copy_string(cTxt, "party-IDnum2 = %d", m_pClientList[iClientH]->m_sPartyIDnum2);
     strcat(pData, cTxt);
     strcat(pData,"\n");
 
-    wsprintf(cTxt, "party-IDnum3 = %d", m_pClientList[iClientH]->m_sPartyIDnum3);
+    copy_string(cTxt, "party-IDnum3 = %d", m_pClientList[iClientH]->m_sPartyIDnum3);
     strcat(pData, cTxt);
     strcat(pData,"\n\n");
     */
@@ -3513,115 +3514,115 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "hunger-status    = %d", m_pClientList[iClientH]->m_iHungerStatus);
+    copy_string(cTxt, "hunger-status    = %d", m_pClientList[iClientH]->m_iHungerStatus);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "timeleft-shutup  = %d", m_pClientList[iClientH]->m_iTimeLeft_ShutUp);
+    copy_string(cTxt, "timeleft-shutup  = %d", m_pClientList[iClientH]->m_iTimeLeft_ShutUp);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "timeleft-rating  = %d", m_pClientList[iClientH]->m_iTimeLeft_Rating);
+    copy_string(cTxt, "timeleft-rating  = %d", m_pClientList[iClientH]->m_iTimeLeft_Rating);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "timeleft-force-recall  = %d", m_pClientList[iClientH]->m_iTimeLeft_ForceRecall);
+    copy_string(cTxt, "timeleft-force-recall  = %d", m_pClientList[iClientH]->m_iTimeLeft_ForceRecall);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "timeleft-firm-staminar = %d", m_pClientList[iClientH]->m_iTimeLeft_FirmStaminar);
+    copy_string(cTxt, "timeleft-firm-staminar = %d", m_pClientList[iClientH]->m_iTimeLeft_FirmStaminar);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "admin-user-level = %d", m_pClientList[iClientH]->m_iAdminUserLevel);
+    copy_string(cTxt, "admin-user-level = %d", m_pClientList[iClientH]->m_iAdminUserLevel);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "penalty-block-date = %d %d %d", m_pClientList[iClientH]->m_iPenaltyBlockYear, m_pClientList[iClientH]->m_iPenaltyBlockMonth, m_pClientList[iClientH]->m_iPenaltyBlockDay);
+    copy_string(cTxt, "penalty-block-date = %d %d %d", m_pClientList[iClientH]->m_iPenaltyBlockYear, m_pClientList[iClientH]->m_iPenaltyBlockMonth, m_pClientList[iClientH]->m_iPenaltyBlockDay);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-quest-number = %d", m_pClientList[iClientH]->m_iQuest);
+    copy_string(cTxt, "character-quest-number = %d", m_pClientList[iClientH]->m_iQuest);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-quest-ID     = %d", m_pClientList[iClientH]->m_iQuestID);
+    copy_string(cTxt, "character-quest-ID     = %d", m_pClientList[iClientH]->m_iQuestID);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "current-quest-count    = %d", m_pClientList[iClientH]->m_iCurQuestCount);
+    copy_string(cTxt, "current-quest-count    = %d", m_pClientList[iClientH]->m_iCurQuestCount);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "quest-reward-type      = %d", m_pClientList[iClientH]->m_iQuestRewardType);
+    copy_string(cTxt, "quest-reward-type      = %d", m_pClientList[iClientH]->m_iQuestRewardType);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "quest-reward-amount    = %d", m_pClientList[iClientH]->m_iQuestRewardAmount);
+    copy_string(cTxt, "quest-reward-amount    = %d", m_pClientList[iClientH]->m_iQuestRewardAmount);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-contribution = %d", m_pClientList[iClientH]->m_iContribution);
+    copy_string(cTxt, "character-contribution = %d", m_pClientList[iClientH]->m_iContribution);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-war-contribution = %d", m_pClientList[iClientH]->m_iWarContribution);
+    copy_string(cTxt, "character-war-contribution = %d", m_pClientList[iClientH]->m_iWarContribution);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "character-quest-completed = %d", (int)m_pClientList[iClientH]->m_bIsQuestCompleted);
+    copy_string(cTxt, "character-quest-completed = %d", (int)m_pClientList[iClientH]->m_bIsQuestCompleted);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "special-event-id = %d", (int)m_pClientList[iClientH]->m_iSpecialEventID);
+    copy_string(cTxt, "special-event-id = %d", (int)m_pClientList[iClientH]->m_iSpecialEventID);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "super-attack-left = %d", (int)m_pClientList[iClientH]->m_iSuperAttackLeft);
+    copy_string(cTxt, "super-attack-left = %d", (int)m_pClientList[iClientH]->m_iSuperAttackLeft);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     // v1.4311-3
-    wsprintf(cTxt, "reserved-fightzone-id = %d %d %d", m_pClientList[iClientH]->m_iFightzoneNumber, m_pClientList[iClientH]->m_iReserveTime, m_pClientList[iClientH]->m_iFightZoneTicketNumber);
+    copy_string(cTxt, "reserved-fightzone-id = %d %d %d", m_pClientList[iClientH]->m_iFightzoneNumber, m_pClientList[iClientH]->m_iReserveTime, m_pClientList[iClientH]->m_iFightZoneTicketNumber);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "special-ability-time = %d", m_pClientList[iClientH]->m_iSpecialAbilityTime);
+    copy_string(cTxt, "special-ability-time = %d", m_pClientList[iClientH]->m_iSpecialAbilityTime);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "locked-map-name = %s", m_pClientList[iClientH]->m_cLockedMapName);
+    copy_string(cTxt, "locked-map-name = %s", m_pClientList[iClientH]->m_cLockedMapName);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "locked-map-time = %d", m_pClientList[iClientH]->m_iLockedMapTime);
+    copy_string(cTxt, "locked-map-time = %d", m_pClientList[iClientH]->m_iLockedMapTime);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "crusade-job = %d", m_pClientList[iClientH]->m_iCrusadeDuty);
+    copy_string(cTxt, "crusade-job = %d", m_pClientList[iClientH]->m_iCrusadeDuty);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "crusade-GUID = %d", m_pClientList[iClientH]->m_dwCrusadeGUID);
+    copy_string(cTxt, "crusade-GUID = %d", m_pClientList[iClientH]->m_dwCrusadeGUID);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
-    wsprintf(cTxt, "construct-point = %d", m_pClientList[iClientH]->m_iConstructionPoint);
+    copy_string(cTxt, "construct-point = %d", m_pClientList[iClientH]->m_iConstructionPoint);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     // v2.04 
-    wsprintf(cTxt, "dead-penalty-time = %d", m_pClientList[iClientH]->m_iDeadPenaltyTime);
+    copy_string(cTxt, "dead-penalty-time = %d", m_pClientList[iClientH]->m_iDeadPenaltyTime);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     // v2.06 12-4
-    wsprintf(cTxt, "party-id = %d", m_pClientList[iClientH]->m_iPartyID);
+    copy_string(cTxt, "party-id = %d", m_pClientList[iClientH]->m_iPartyID);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
     // v2.15
-    wsprintf(cTxt, "gizon-item-upgade-left = %d", m_pClientList[iClientH]->m_iGizonItemUpgradeLeft);
+    copy_string(cTxt, "gizon-item-upgade-left = %d", m_pClientList[iClientH]->m_iGizonItemUpgradeLeft);
     strcat(pData, cTxt);
     strcat(pData, "\n");
 
@@ -3772,7 +3773,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     strcat(pData, "magic-mastery     = ");
     for (i = 0; i < DEF_MAXMAGICTYPE; i++)
     {
-        wsprintf(cTxt, "%d", (int)m_pClientList[iClientH]->m_cMagicMastery[i]);
+        copy_string(cTxt, "%d", (int)m_pClientList[iClientH]->m_cMagicMastery[i]);
         strcat(pData, cTxt);
     }
     strcat(pData, "\n");
@@ -3783,7 +3784,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     for (i = 0; i < 60; i++)
     {
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "%d ", m_pClientList[iClientH]->m_cSkillMastery[i]);
+        copy_string(cTxt, "%d ", m_pClientList[iClientH]->m_cSkillMastery[i]);
 
         strcat(pData, cTxt);
     }
@@ -3793,7 +3794,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     for (i = 0; i < 60; i++)
     {
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "%d ", m_pClientList[iClientH]->m_iSkillSSN[i]);
+        copy_string(cTxt, "%d ", m_pClientList[iClientH]->m_iSkillSSN[i]);
 
         strcat(pData, cTxt);
     }
@@ -3824,7 +3825,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     for (i = 0; i < DEF_MAXITEMS; i++)
     {
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "%d ", m_pClientList[iClientH]->m_ItemPosList[i].x);
+        copy_string(cTxt, "%d ", m_pClientList[iClientH]->m_ItemPosList[i].x);
         strcat(pData, cTxt);
     }
     strcat(pData, "\n");
@@ -3833,7 +3834,7 @@ int CGame::_iComposePlayerDataFileContents(int iClientH, char * pData)
     for (i = 0; i < DEF_MAXITEMS; i++)
     {
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "%d ", m_pClientList[iClientH]->m_ItemPosList[i].y);
+        copy_string(cTxt, "%d ", m_pClientList[iClientH]->m_ItemPosList[i].y);
         strcat(pData, cTxt);
     }
     strcat(pData, "\n\n");
@@ -4004,7 +4005,7 @@ int CGame::bCreateNewNpc(char * pNpcName, char * pName, char * pMapName, short s
             m_pNpcList[i] = new class CNpc(pName);
             if (_bInitNpcAttr(m_pNpcList[i], pNpcName, sClass, cSA) == false)
             {
-                wsprintf(cTxt, "(!) Not existing NPC creation request! (%s) Ignored.", pNpcName);
+                copy_string(cTxt, "(!) Not existing NPC creation request! (%s) Ignored.", pNpcName);
                 log->info(cTxt);
 
                 delete m_pNpcList[i];
@@ -4279,7 +4280,7 @@ int CGame::bCreateNewNpc(char * pNpcName, char * pName, char * pMapName, short s
             //testcode
             if (iGuildGUID != 0)
             {
-                wsprintf(G_cTxt, "Summon War Unit(%d) GUID(%d)", m_pNpcList[i]->m_sType, iGuildGUID);
+                copy_string(G_cTxt, "Summon War Unit(%d) GUID(%d)", m_pNpcList[i]->m_sType, iGuildGUID);
                 log->info(G_cTxt);
             }
 
@@ -4823,7 +4824,7 @@ void CGame::MsgProcess()
                                 break;
                         }
 
-                        //wsprintf(G_cTxt, "%d %d %d %d %d %d %d", (int)m_bIsGameStarted, (int)m_bIsItemAvailable, m_bIsNpcAvailable, (int)m_bIsGateSockAvailable, (int)m_bIsLogSockAvailable, (int)m_bIsMagicAvailable, (int)m_bIsSkillAvailable);
+                        //copy_string(G_cTxt, "%d %d %d %d %d %d %d", (int)m_bIsGameStarted, (int)m_bIsItemAvailable, m_bIsNpcAvailable, (int)m_bIsGateSockAvailable, (int)m_bIsLogSockAvailable, (int)m_bIsMagicAvailable, (int)m_bIsSkillAvailable);
                         //log->info(G_cTxt);
 
                         /*
@@ -4843,7 +4844,7 @@ void CGame::MsgProcess()
             case DEF_MSGFROM_CLIENT:
                 /*m_pClientList[iClientH]->m_cConnectionCheck++;
                 if (m_pClientList[iClientH]->m_cConnectionCheck > 3) {
-                    wsprintf(G_cTxt, "Client Hex Edit: (%s) Player: (%s) - has removed 3203203 (check connection handler).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+                    copy_string(G_cTxt, "Client Hex Edit: (%s) Player: (%s) - has removed 3203203 (check connection handler).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
                     PutHackLogFileList(G_cTxt);
                     DeleteClient(iClientH, true, true);
                     break;
@@ -4970,7 +4971,7 @@ void CGame::MsgProcess()
                         break;
 
                     default:
-                        wsprintf(m_msgBuff, "Unknown message received! (0x%.8X) Delete Client", *dwpMsgID);
+                        copy_string(m_msgBuff, "Unknown message received! (0x%.8X) Delete Client", *dwpMsgID);
                         log->info(m_msgBuff);
                         DeleteClient(iClientH, true, true); // v1.4
                         break;
@@ -5064,7 +5065,7 @@ void CGame::MsgProcess()
                             log->critical("(!!!) STOPPED! POTION configuration error.");
                         }
 
-                        //wsprintf(G_cTxt, "%d %d %d %d %d %d %d", (int)m_bIsGameStarted, (int)m_bIsItemAvailable, m_bIsNpcAvailable, (int)m_bIsGateSockAvailable, (int)m_bIsLogSockAvailable, (int)m_bIsMagicAvailable, (int)m_bIsSkillAvailable);
+                        //copy_string(G_cTxt, "%d %d %d %d %d %d %d", (int)m_bIsGameStarted, (int)m_bIsItemAvailable, m_bIsNpcAvailable, (int)m_bIsGateSockAvailable, (int)m_bIsLogSockAvailable, (int)m_bIsMagicAvailable, (int)m_bIsSkillAvailable);
                         //log->info(G_cTxt);
 
                         /*
@@ -7585,13 +7586,13 @@ bool CGame::__bReadMapInfo(int iMapIndex)
     pFile = fopen(cFn, "rt");
     if (pFile == 0)
     {
-        wsprintf(cTxt, "(!) Cannot open file : %s", cFn);
+        copy_string(cTxt, "(!) Cannot open file : %s", cFn);
         log->critical(cTxt);
         return false;
     }
     else
     {
-        wsprintf(cTxt, "(!) Reading Map info file : %s", cFn);
+        copy_string(cTxt, "(!) Reading Map info file : %s", cFn);
         log->info(cTxt);
         dwReadSize = fread(pContents, dwFileSize, 1, pFile);
         fclose(pFile);
@@ -7793,7 +7794,7 @@ bool CGame::__bReadMapInfo(int iMapIndex)
                             {
                                 // NPCÂ¸Â¦ Â»Ã½Â¼ÂºÃ‡Ã‘Â´Ã™.
                                 memset(cName, 0, sizeof(cName));
-                                wsprintf(cName, "XX%d", iNamingValue);
+                                copy_string(cName, "XX%d", iNamingValue);
                                 cName[0] = cNamePrefix;
                                 cName[1] = iMapIndex + 65;
 
@@ -8619,7 +8620,7 @@ bool CGame::__bReadMapInfo(int iMapIndex)
                             if (m_pMapList[iMapIndex]->m_stEnergySphereGoalList[iIndex].cResult != 0)
                             {
                                 // Ã€ÃŒÂ¹ÃŒ Ã‡Ã’Â´Ã§ÂµÃ‡Â¾Ã®Ã€Ã–Â´Ã‚ Energy-Sphere-Goal Point Â¹Ã¸ÃˆÂ£Ã€ÃŒÂ´Ã™.
-                                wsprintf(G_cTxt, "(!!!) CRITICAL ERROR! Map Info file error 67 - Duplicate EnergySphereGoal number(%d:%d)", iIndex, m_pMapList[iMapIndex]->m_stEnergySphereGoalList[iIndex].cResult);
+                                copy_string(G_cTxt, "(!!!) CRITICAL ERROR! Map Info file error 67 - Duplicate EnergySphereGoal number(%d:%d)", iIndex, m_pMapList[iMapIndex]->m_stEnergySphereGoalList[iIndex].cResult);
                                 log->critical(G_cTxt);
                                 delete pContents;
                                 delete pStrTok;
@@ -8714,7 +8715,7 @@ bool CGame::__bReadMapInfo(int iMapIndex)
                             if (strlen(m_pMapList[iMapIndex]->m_stStrikePoint[iIndex].cRelatedMapName) != 0)
                             {
                                 // Ã€ÃŒÂ¹ÃŒ Ã‡Ã’Â´Ã§ÂµÃ‡Â¾Ã®Ã€Ã–Â´Ã‚  Point Â¹Ã¸ÃˆÂ£Ã€ÃŒÂ´Ã™.
-                                wsprintf(G_cTxt, "(!!!) CRITICAL ERROR! Map Info file error 74 - Duplicate Strike Point number(%d)", iIndex);
+                                copy_string(G_cTxt, "(!!!) CRITICAL ERROR! Map Info file error 74 - Duplicate Strike Point number(%d)", iIndex);
                                 log->critical(G_cTxt);
                                 delete pContents;
                                 delete pStrTok;
@@ -8922,7 +8923,7 @@ bool CGame::__bReadMapInfo(int iMapIndex)
                             if (strlen(m_pMapList[iMapIndex]->m_stItemEventList[iIndex].cItemName) != 0)
                             {
                                 // ÀÌ¹Ì ÇÒ´çµÇ¾îÀÖ´Â Item-Event ¹øÈ£ÀÌ´Ù.
-                                wsprintf(G_cTxt, "(!!!) CRITICAL ERROR! Map Info file error 79 - Duplicate Item-Event number(%d:%s)", iIndex, m_pMapList[iMapIndex]->m_stItemEventList[iIndex].cItemName);
+                                copy_string(G_cTxt, "(!!!) CRITICAL ERROR! Map Info file error 79 - Duplicate Item-Event number(%d:%s)", iIndex, m_pMapList[iMapIndex]->m_stItemEventList[iIndex].cItemName);
                                 log->critical(G_cTxt);
                                 delete pContents;
                                 delete pStrTok;
@@ -9325,7 +9326,7 @@ bool CGame::__bReadMapInfo(int iMapIndex)
                             pTile = (char *)(m_pMapList[iMapIndex]->m_pTile + dX + dY * m_pMapList[iMapIndex]->m_sSizeY);
                             if (pTile == 0)
                             {
-                                wsprintf(cTxt, "(!!!) CRITICAL ERROR! Map Info file error HeldenianWinningZone - pTile is Null dx(%d), dy(%d).", dX, dY);
+                                copy_string(cTxt, "(!!!) CRITICAL ERROR! Map Info file error HeldenianWinningZone - pTile is Null dx(%d), dy(%d).", dX, dY);
                                 log->critical(cTxt);
                                 delete pContents;
                                 delete pStrTok;
@@ -9602,7 +9603,7 @@ bool CGame::__bReadMapInfo(int iMapIndex)
         return false;
     }
 
-    wsprintf(cTxt, "(!) Map info file decoding(%s) - success! TL(%d) WP(%d) LNPC(%d) MXO(%d) RMG(%d / %d)", cFn, iTeleportLocIndex, iWayPointCfgIndex, iTotalNpcSetting, m_pMapList[iMapIndex]->m_iMaximumObject, m_pMapList[iMapIndex]->m_bRandomMobGenerator, m_pMapList[iMapIndex]->m_cRandomMobGeneratorLevel);
+    copy_string(cTxt, "(!) Map info file decoding(%s) - success! TL(%d) WP(%d) LNPC(%d) MXO(%d) RMG(%d / %d)", cFn, iTeleportLocIndex, iWayPointCfgIndex, iTotalNpcSetting, m_pMapList[iMapIndex]->m_iMaximumObject, m_pMapList[iMapIndex]->m_bRandomMobGenerator, m_pMapList[iMapIndex]->m_cRandomMobGeneratorLevel);
     log->info(cTxt);
 
     // Crusade Â°Ã¸Â°Ã ÂºÃ’Â°Â¡Â´Ã‰ Â¿ÂµÂ¿ÂªÃ€Â» Ã…Â¸Ã€ÃÂ¿Â¡ Ã‡Â¥Â½ÃƒÃ‡Ã‘Â´Ã™.
@@ -10993,7 +10994,7 @@ void CGame::DeleteNpc(int iNpcH)
         if (iNumItem > 0)
         {
             GetLocalTime(&SysTime);
-            wsprintf(cTemp, "%d%02d%", SysTime.wMonth, SysTime.wDay);
+            copy_string(cTemp, "%d%02d%", SysTime.wMonth, SysTime.wDay);
             for (int j = 0; j < iNumItem; j++)
             {
                 if (pItem == 0)
@@ -11778,7 +11779,7 @@ int CGame::iCalculateUseSkillItemEffect(int iOwnerH, char cOwnerType, char cOwne
             {
                 case 1:
                     // Â±Â¤Â¹Â° 
-                    wsprintf(cItemName, "Meat");
+                    copy_string(cItemName, "Meat");
                     break;
 
                 case 2:
@@ -11790,9 +11791,9 @@ int CGame::iCalculateUseSkillItemEffect(int iOwnerH, char cOwnerType, char cOwne
                     if (cOwnerType == DEF_OWNERTYPE_PLAYER)
                     {
                         iFish = iCheckFish(iOwnerH, cMapIndex, dX, dY);
-                        if (iFish == 0) wsprintf(cItemName, "Fish");
+                        if (iFish == 0) copy_string(cItemName, "Fish");
                     }
-                    else wsprintf(cItemName, "Fish");
+                    else copy_string(cItemName, "Fish");
                     break;
             }
 
@@ -12085,7 +12086,7 @@ void CGame::GetPlayerProfile(int iClientH, char * pMsg, uint32_t dwMsgSize)
             {
 
                 memset(cBuff2, 0, sizeof(cBuff2));
-                wsprintf(cBuff2, "%s Profile: %s", cName, m_pClientList[i]->m_cProfile);
+                copy_string(cBuff2, "%s Profile: %s", cName, m_pClientList[i]->m_cProfile);
                 SendNotifyMsg(0, iClientH, DEF_NOTIFY_PLAYERPROFILE, 0, 0, 0, cBuff2);
 
                 delete pStrTok;
@@ -12324,7 +12325,7 @@ void CGame::___RestorePlayerCharacteristics(int iClientH)
 
         if (iVerifyPoint != iOriginalPoint)
         {
-            wsprintf(cTxt, "(T_T) RestorePlayerCharacteristics(Minor) FAIL! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
+            copy_string(cTxt, "(T_T) RestorePlayerCharacteristics(Minor) FAIL! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
             log->info(cTxt);
 
             // Â¿Â¡Â·Â¯Â´Ã™. Ã€ÃŒÃ€Ã¼ Â°ÂªÃ€Â¸Â·ÃŽ ÂºÂ¹Â±Â¸.
@@ -12337,7 +12338,7 @@ void CGame::___RestorePlayerCharacteristics(int iClientH)
         }
         else
         {
-            wsprintf(cTxt, "(^o^) RestorePlayerCharacteristics(Minor) SUCCESS! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
+            copy_string(cTxt, "(^o^) RestorePlayerCharacteristics(Minor) SUCCESS! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
             log->info(cTxt);
         }
     }
@@ -12507,13 +12508,13 @@ void CGame::___RestorePlayerCharacteristics(int iClientH)
 
         if (iVerifyPoint != iOriginalPoint)
         {
-            wsprintf(cTxt, "(T_T) RestorePlayerCharacteristics(Over) FAIL! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
+            copy_string(cTxt, "(T_T) RestorePlayerCharacteristics(Over) FAIL! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
             log->info(cTxt);
 
         }
         else
         {
-            wsprintf(cTxt, "(^o^) RestorePlayerCharacteristics(Over) SUCCESS! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
+            copy_string(cTxt, "(^o^) RestorePlayerCharacteristics(Over) SUCCESS! Player(%s)-(%d/%d)", m_pClientList[iClientH]->m_cCharName, iVerifyPoint, iOriginalPoint);
             log->info(cTxt);
         }
     }
@@ -12648,7 +12649,7 @@ void CGame::CalcTotalItemEffect(int iClientH, int iEquipItemID, bool bNotify)
                     // v2.05 ¹«±âÀÇ Æ¯¼ºÄ¡ Ãß°¡ 
                     iTemp = (m_pClientList[iClientH]->m_pItemList[sItemIndex]->m_dwAttribute & 0xF0000000) >> 28;
                     //testcode
-                    //wsprintf(G_cTxt, "Add Damage: %d", iTemp);
+                    //copy_string(G_cTxt, "Add Damage: %d", iTemp);
                     //log->info(G_cTxt);
 
                     // °íÁ¤ ´ë¹ÌÁö Ãß°¡
@@ -12698,7 +12699,7 @@ void CGame::CalcTotalItemEffect(int iClientH, int iEquipItemID, bool bNotify)
                                 m_pClientList[iClientH]->m_iMinAP_L = (m_pClientList[iClientH]->m_cAttackDiceThrow_L * m_pClientList[iClientH]->m_cAttackDiceRange_L + m_pClientList[iClientH]->m_cAttackBonus_L);
 
                             //testcode
-                            //wsprintf(G_cTxt, "MinAP: %d %d +(%d)", m_pClientList[iClientH]->m_iMinAP_SM, m_pClientList[iClientH]->m_iMinAP_L, (int)dV1);
+                            //copy_string(G_cTxt, "MinAP: %d %d +(%d)", m_pClientList[iClientH]->m_iMinAP_SM, m_pClientList[iClientH]->m_iMinAP_L, (int)dV1);
                             //log->info(G_cTxt);
                         }
                         else if (m_pClientList[iClientH]->m_iCustomItemValue_Attack < 0)
@@ -12724,7 +12725,7 @@ void CGame::CalcTotalItemEffect(int iClientH, int iEquipItemID, bool bNotify)
                                 m_pClientList[iClientH]->m_iMaxAP_L = (m_pClientList[iClientH]->m_cAttackDiceThrow_L * m_pClientList[iClientH]->m_cAttackDiceRange_L + m_pClientList[iClientH]->m_cAttackBonus_L);
 
                             //testcode
-                            //wsprintf(G_cTxt, "MaxAP: %d %d +(%d)", m_pClientList[iClientH]->m_iMaxAP_SM, m_pClientList[iClientH]->m_iMaxAP_L, (int)dV1);
+                            //copy_string(G_cTxt, "MaxAP: %d %d +(%d)", m_pClientList[iClientH]->m_iMaxAP_SM, m_pClientList[iClientH]->m_iMaxAP_L, (int)dV1);
                             //log->info(G_cTxt);
                         }
                     }
@@ -12942,7 +12943,7 @@ void CGame::CalcTotalItemEffect(int iClientH, int iEquipItemID, bool bNotify)
                         if (m_pClientList[iClientH]->m_iDefenseRatio <= 0) m_pClientList[iClientH]->m_iDefenseRatio = 1;
 
                         //testcode
-                        //wsprintf(G_cTxt, "Custom-Defense: %d", (int)dV1);
+                        //copy_string(G_cTxt, "Custom-Defense: %d", (int)dV1);
                         //log->info(G_cTxt);
                     }
 
@@ -13149,7 +13150,7 @@ bool CGame::bAnalyzeCriminalAction(int iClientH, short dX, short dY, bool bIsChe
             {
                 memset(cNpcWaypoint, 0, sizeof(cNpcWaypoint));
                 memset(cName, 0, sizeof(cName));
-                wsprintf(cName, "XX%d", iNamingValue);
+                copy_string(cName, "XX%d", iNamingValue);
                 cName[0] = '_';
                 cName[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -13410,7 +13411,7 @@ void CGame::ShutUpPlayer(int iClientH, char * pMsg, uint32_t dwMsgSize)
                 SendNotifyMsg(0, i, DEF_NOTIFY_PLAYERSHUTUP, iTime, 0, 0, cName);
 
                 // Admin Log
-                wsprintf(G_cTxt, "GM Order(%s): Shutup PC(%s) (%d)Min", m_pClientList[iClientH]->m_cCharName,
+                copy_string(G_cTxt, "GM Order(%s): Shutup PC(%s) (%d)Min", m_pClientList[iClientH]->m_cCharName,
                     m_pClientList[i]->m_cCharName, iTime);
                 PutAdminLogFileList(G_cTxt);
 
@@ -14276,7 +14277,7 @@ void CGame::ForceDisconnectAccount(char * pAccountName, uint16_t wCount)
     for (i = 1; i < DEF_MAXCLIENTS; i++)
         if ((m_pClientList[i] != 0) && (memcmp(m_pClientList[i]->m_cAccountName, pAccountName, 10) == 0))
         {
-            wsprintf(G_cTxt, "<%d> Force disconnect account: CharName(%s) AccntName(%s) Count(%d)", i, m_pClientList[i]->m_cCharName, m_pClientList[i]->m_cAccountName, wCount);
+            copy_string(G_cTxt, "<%d> Force disconnect account: CharName(%s) AccntName(%s) Count(%d)", i, m_pClientList[i]->m_cCharName, m_pClientList[i]->m_cAccountName, wCount);
             log->info(G_cTxt);
 
             // v1.42 Ã„Â«Â¿Ã®Ã†Ãƒ Ã‡ÃƒÂ·Â¡Â±Ã—Â¸Â¦ ÃˆÂ°Â¼ÂºÃˆÂ­ Ã‡Ã˜Â¾ÃŸ Ã‡Ã‘Â´Ã™. 
@@ -14384,14 +14385,14 @@ void CGame::LocalSavePlayerData(int iClientH)
 
     GetLocalTime(&SysTime);
     memset(cCharDir, 0, sizeof(cDir));
-    wsprintf(cCharDir, "Character_%d_%d_%d_%d", SysTime.wMonth, SysTime.wDay, SysTime.wHour, SysTime.wMinute);
+    copy_string(cCharDir, "Character_%d_%d_%d_%d", SysTime.wMonth, SysTime.wDay, SysTime.wHour, SysTime.wMinute);
 
     memset(cDir, 0, sizeof(cDir));
     memset(cFn, 0, sizeof(cFn));
     strcat(cFn, cCharDir);
     strcat(cFn, "\\");
     strcat(cFn, "\\");
-    wsprintf(cTxt, "MeC77%d", (unsigned char)m_pClientList[iClientH]->m_cCharName[0]);
+    copy_string(cTxt, "MeC77%d", (unsigned char)m_pClientList[iClientH]->m_cCharName[0]);
     strcat(cFn, cTxt);
     strcpy(cDir, cFn);
     strcat(cFn, "\\");
@@ -14412,12 +14413,12 @@ void CGame::LocalSavePlayerData(int iClientH)
     pFile = fopen(cFn, "wt");
     if (pFile == 0)
     {
-        wsprintf(cTxt, "(!) Cannot create temporary player data file : Name(%s)", cFn);
+        copy_string(cTxt, "(!) Cannot create temporary player data file : Name(%s)", cFn);
         log->critical(cTxt);
     }
     else
     {
-        wsprintf(cTxt, "(!) temporary player data file saved : Name(%s)", cFn);
+        copy_string(cTxt, "(!) temporary player data file saved : Name(%s)", cFn);
         log->info(cTxt);
         fwrite(cp, iSize, 1, pFile);
     }
@@ -15305,7 +15306,7 @@ int CGame::_iComposeFlagStatusContents(char * pData)
     GetLocalTime(&SysTime);
     strcat(pData, "[FILE-DATE]\n\n");
 
-    wsprintf(cTxt, "file-saved-date: %d %d %d %d %d\n", SysTime.wYear, SysTime.wMonth, SysTime.wDay, SysTime.wHour, SysTime.wMinute);
+    copy_string(cTxt, "file-saved-date: %d %d %d %d %d\n", SysTime.wYear, SysTime.wMonth, SysTime.wDay, SysTime.wHour, SysTime.wMinute);
     strcat(pData, cTxt);
     strcat(pData, "\n\n");
 
@@ -15314,7 +15315,7 @@ int CGame::_iComposeFlagStatusContents(char * pData)
         if (m_pMapList[m_iMiddlelandMapIndex]->m_pOccupyFlag[i] != 0)
         {
 
-            wsprintf(cTxt, "flag = %d %d %d %d", m_pMapList[m_iMiddlelandMapIndex]->m_pOccupyFlag[i]->m_cSide,
+            copy_string(cTxt, "flag = %d %d %d %d", m_pMapList[m_iMiddlelandMapIndex]->m_pOccupyFlag[i]->m_cSide,
                 m_pMapList[m_iMiddlelandMapIndex]->m_pOccupyFlag[i]->m_sX,
                 m_pMapList[m_iMiddlelandMapIndex]->m_pOccupyFlag[i]->m_sY,
                 m_pMapList[m_iMiddlelandMapIndex]->m_pOccupyFlag[i]->m_iEKCount);
@@ -16572,7 +16573,7 @@ void CGame::_DeleteRandomOccupyFlag(int iMapIndex)
                 // m_pMapList[iMapIndex]->m_pOccupyFlag[i] : Ã€ÃŒ Â±ÃªÂ¹ÃŸÃ€Â» Â¾Ã¸Â¾Ã˜Â´Ã™.	
 
                 //testcode
-                wsprintf(G_cTxt, "(*)Delete OccupyFlag: Side(%d) XY(%d, %d)", m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_cSide, m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_sX, m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_sY);
+                copy_string(G_cTxt, "(*)Delete OccupyFlag: Side(%d) XY(%d, %d)", m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_cSide, m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_sX, m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_sY);
                 log->info(G_cTxt);
 
                 fx = m_pMapList[iMapIndex]->m_pOccupyFlag[i]->m_sX;
@@ -16928,7 +16929,7 @@ bool CGame::__bSetConstructionKit(int iMapIndex, int dX, int dY, int iType, int 
         else return false;
 
         memset(cName, 0, sizeof(cName));
-        wsprintf(cName, "XX%d", iNamingValue);
+        copy_string(cName, "XX%d", iNamingValue);
         cName[0] = '_';
         cName[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -16945,7 +16946,7 @@ bool CGame::__bSetConstructionKit(int iMapIndex, int dX, int dY, int iType, int 
         else
         {
             // Â¼ÂºÂ°Ã¸
-            wsprintf(G_cTxt, "Structure(%s) construction begin(%d,%d)!", cNpcName, tX, tY);
+            copy_string(G_cTxt, "Structure(%s) construction begin(%d,%d)!", cNpcName, tX, tY);
             log->info(G_cTxt);
             return true;
         }
@@ -17091,7 +17092,7 @@ void CGame::SyncMiddlelandMapInfo()
         if (m_iTotalMiddleCrusadeStructures != 0)
         {
             //testcode
-            //wsprintf(G_cTxt, "m_iTotalMiddleCrusadeStructures: %d", m_iTotalMiddleCrusadeStructures);
+            //copy_string(G_cTxt, "m_iTotalMiddleCrusadeStructures: %d", m_iTotalMiddleCrusadeStructures);
             //log->info(G_cTxt);
             bStockMsgToGateServer(G_cData50000, 3 + m_iTotalMiddleCrusadeStructures * 6);
         }
@@ -17106,7 +17107,7 @@ void CGame::GSM_SetGuildConstructLoc(int iGuildGUID, int dX, int dY, char * pMap
     // Ã…Â¬Â¶Ã³Ã€ÃŒÂ¾Ã°Ã†Â®Â·ÃŽÂºÃŽÃ…ÃÃ€Ã‡ Â¿Ã¤ÃƒÂ»Ã€ÃŒ Â¾Ã†Â´ÃÂ¶Ã³ Â´Ã™Â¸Â¥ Â¼Â­Â¹Ã¶Â·ÃŽÂºÃŽÃ…ÃÃ€Ã‡ Ã…ÃšÂ·Â¹Ã†Ã·Ã†Â® ÃÃ‚Ã‡Â¥ Â¼Â³ÃÂ¤ Â¿Ã¤ÃƒÂ»Ã€Ã“. Ã€Ã€Â´Ã¤Ã‡Ã’ Ã‡ÃŠÂ¿Ã¤ Â¾Ã¸Ã€Â½.
 
     //testcode
-    wsprintf(G_cTxt, "SetGuildConstructLoc: %d %s %d %d", iGuildGUID, pMapName, dX, dY);
+    copy_string(G_cTxt, "SetGuildConstructLoc: %d %s %d %d", iGuildGUID, pMapName, dX, dY);
     log->info(G_cTxt);
 
     dwTime = timeGetTime();
@@ -17249,7 +17250,7 @@ void CGame::GSM_ConstructionPoint(int iGuildGUID, int iPoint)
 
             SendNotifyMsg(0, i, DEF_NOTIFY_CONSTRUCTIONPOINT, m_pClientList[i]->m_iConstructionPoint, m_pClientList[i]->m_iWarContribution, 0, 0);
             //testcode
-            wsprintf(G_cTxt, "GSM_ConstructionPoint: %d %d", iGuildGUID, iPoint);
+            copy_string(G_cTxt, "GSM_ConstructionPoint: %d %d", iGuildGUID, iPoint);
             log->info(G_cTxt);
             return;
         }
@@ -17434,7 +17435,7 @@ bool CGame::_bItemLog(int iAction, int iGiveH, int iRecvH, class CItem * pItem, 
         // ÂºÂ¹Â»Ã§ÂµÃˆ Â¾Ã†Ã€ÃŒÃ…Ã› Ã€ÃºÃ€Ã¥ Â¿Ã¤ÃƒÂ»Ã€ÃŒÂ´Ã™. 
         if (m_pClientList[iGiveH] == 0) return false;
         if (m_pClientList[iGiveH]->m_cCharName == 0) return false;
-        wsprintf(G_cTxt, "(!) Delete-DupItem(%s %d %d %d %d) Owner(%s)", pItem->m_cName, pItem->m_dwCount, pItem->m_sTouchEffectValue1,
+        copy_string(G_cTxt, "(!) Delete-DupItem(%s %d %d %d %d) Owner(%s)", pItem->m_cName, pItem->m_dwCount, pItem->m_sTouchEffectValue1,
             pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3,
             m_pClientList[iGiveH]->m_cCharName);
         //	PutItemLogFileList(iGiveH,G_cTxt);
@@ -17451,7 +17452,7 @@ bool CGame::_bItemLog(int iAction, int iGiveH, int iRecvH, class CItem * pItem, 
 
         case DEF_ITEMLOG_EXCHANGE:
             if (m_pClientList[iRecvH]->m_cCharName == 0) return false;
-            wsprintf(cTxt, "(%s) PC(%s)\tExchange\t%s(%d %d %d %d %x)\t%s(%d %d)\tPC(%s)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tExchange\t%s(%d %d %d %d %x)\t%s(%d %d)\tPC(%s)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY, m_pClientList[iRecvH]->m_cCharName);
             PutItemLogFileList(cTxt);
@@ -17459,35 +17460,35 @@ bool CGame::_bItemLog(int iAction, int iGiveH, int iRecvH, class CItem * pItem, 
 
         case DEF_ITEMLOG_GIVE:
             if (m_pClientList[iRecvH]->m_cCharName == 0) return false;
-            wsprintf(cTxt, "(%s) PC(%s)\tGive\t%s(%d %d %d %d %x)\t%s(%d %d)\tPC(%s)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tGive\t%s(%d %d %d %d %x)\t%s(%d %d)\tPC(%s)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY, m_pClientList[iRecvH]->m_cCharName);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_DROP:
-            wsprintf(cTxt, "(%s) PC(%s)\tDrop\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tDrop\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_GET:
-            wsprintf(cTxt, "(%s) PC(%s)\tGet\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tGet\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_MAKE:
-            wsprintf(cTxt, "(%s) PC(%s)\tMake\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tMake\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_DEPLETE:
-            wsprintf(cTxt, "(%s) PC(%s)\tDeplete\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tDeplete\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
@@ -17495,42 +17496,42 @@ bool CGame::_bItemLog(int iAction, int iGiveH, int iRecvH, class CItem * pItem, 
 
         case DEF_ITEMLOG_BUY:
             iItemCount = iRecvH;
-            wsprintf(cTxt, "(%s) PC(%s)\tBuy\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, iItemCount,
+            copy_string(cTxt, "(%s) PC(%s)\tBuy\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, iItemCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_SELL:
-            wsprintf(cTxt, "(%s) PC(%s)\tSell\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tSell\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_RETRIEVE:
-            wsprintf(cTxt, "(%s) PC(%s)\tRetrieve\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tRetrieve\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_DEPOSIT:
-            wsprintf(cTxt, "(%s) PC(%s)\tDeposit\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "(%s) PC(%s)\tDeposit\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_UPGRADEFAIL:
-            wsprintf(cTxt, "(%s) PC(%s)\tUpgrade Fail\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName,
+            copy_string(cTxt, "(%s) PC(%s)\tUpgrade Fail\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName,
                 pItem->m_dwCount, pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
             break;
 
         case DEF_ITEMLOG_UPGRADESUCCESS:
-            wsprintf(cTxt, "(%s) PC(%s)\tUpgrade Success\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName,
+            copy_string(cTxt, "(%s) PC(%s)\tUpgrade Success\t%s(%d %d %d %d %x)\t%s(%d %d)", m_pClientList[iGiveH]->m_cIPaddress, m_pClientList[iGiveH]->m_cCharName, pItem->m_cName,
                 pItem->m_dwCount, pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3, pItem->m_dwAttribute,
                 m_pClientList[iGiveH]->m_cMapName, m_pClientList[iGiveH]->m_sX, m_pClientList[iGiveH]->m_sY);
             PutItemLogFileList(cTxt);
@@ -17561,7 +17562,7 @@ bool CGame::_bItemLog(int iAction, int iClientH, char * cName, class CItem * pIt
 
         case DEF_ITEMLOG_NEWGENDROP:
             if (pItem == 0) return false;
-            wsprintf(cTxt, "NPC(%s)\tDrop\t%s(%d %d %d %d)", cName, pItem->m_cName, pItem->m_dwCount,
+            copy_string(cTxt, "NPC(%s)\tDrop\t%s(%d %d %d %d)", cName, pItem->m_cName, pItem->m_dwCount,
                 pItem->m_sTouchEffectValue1, pItem->m_sTouchEffectValue2, pItem->m_sTouchEffectValue3);
             PutItemLogFileList(cTxt);
             break;
@@ -17569,26 +17570,26 @@ bool CGame::_bItemLog(int iAction, int iClientH, char * cName, class CItem * pIt
         case DEF_ITEMLOG_MAGICLEARN:
             if (cName == 0) return false;
             if (m_pClientList[iClientH] == nullptr) return false;
-            wsprintf(cTxt, "PC(%s)\tLearn\t(%s)\t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName, cName,
+            copy_string(cTxt, "PC(%s)\tLearn\t(%s)\t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName, cName,
                 m_pClientList[iClientH]->m_cMapName, m_pClientList[iClientH]->m_sX, m_pClientList[iClientH]->m_sY, cTemp1);
             PutItemLogFileList(cTxt);
             break;
         case DEF_ITEMLOG_SUMMONMONSTER:
             if (cName == 0) return false;
             if (m_pClientList[iClientH] == nullptr) return false;
-            wsprintf(cTxt, "PC(%s)\tSummon\t(%s)\t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName, cName,
+            copy_string(cTxt, "PC(%s)\tSummon\t(%s)\t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName, cName,
                 m_pClientList[iClientH]->m_cMapName, m_pClientList[iClientH]->m_sX, m_pClientList[iClientH]->m_sY, cTemp1);
             break;
         case DEF_ITEMLOG_POISONED:
             if (m_pClientList[iClientH] == nullptr) return false;
-            wsprintf(cTxt, "PC(%s)\tBe Poisoned\t \t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName,
+            copy_string(cTxt, "PC(%s)\tBe Poisoned\t \t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName,
                 m_pClientList[iClientH]->m_cMapName, m_pClientList[iClientH]->m_sX, m_pClientList[iClientH]->m_sY, cTemp1);
             break;
 
         case DEF_ITEMLOG_REPAIR:
             if (cName == 0) return false;
             if (m_pClientList[iClientH] == nullptr) return false;
-            wsprintf(cTxt, "PC(%s)\tRepair\t(%s)\t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName, cName,
+            copy_string(cTxt, "PC(%s)\tRepair\t(%s)\t%s(%d %d)\t \tIP(%s)", m_pClientList[iClientH]->m_cCharName, cName,
                 m_pClientList[iClientH]->m_cMapName, m_pClientList[iClientH]->m_sX, m_pClientList[iClientH]->m_sY, cTemp1);
             break;
 
@@ -18194,7 +18195,7 @@ void CGame::ShowVersion(int iClientH)
     char cVerMessage[256];
 
     memset(cVerMessage, 0, sizeof(cVerMessage));
-    wsprintf(cVerMessage, "Helbreath Sources %s.%s - www.xtremehb.com", DEF_UPPERVERSION, DEF_LOWERVERSION);
+    copy_string(cVerMessage, "Helbreath Sources %s.%s - www.xtremehb.com", DEF_UPPERVERSION, DEF_LOWERVERSION);
     ShowClientMsg(iClientH, cVerMessage);
 
 }
@@ -18214,32 +18215,32 @@ bool CGame::_bPKLog(int iAction, int iAttackerH, int iVictumH, char * pNPC)
     {
 
         case DEF_PKLOG_REDUCECRIMINAL:
-            wsprintf(cTxt, "(%s) PC(%s)\tReduce\tCC(%d)\t%s(%d %d)\t", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName, m_pClientList[iVictumH]->m_iPKCount,
+            copy_string(cTxt, "(%s) PC(%s)\tReduce\tCC(%d)\t%s(%d %d)\t", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName, m_pClientList[iVictumH]->m_iPKCount,
                 m_pClientList[iVictumH]->m_cMapName, m_pClientList[iVictumH]->m_sX, m_pClientList[iVictumH]->m_sY);
             break;
 
         case DEF_PKLOG_BYPLAYER:
             if (m_pClientList[iAttackerH] == 0) return false;
-            wsprintf(cTxt, "(%s) PC(%s)\tKilled by PC\t \t%s(%d %d)\t(%s) PC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
+            copy_string(cTxt, "(%s) PC(%s)\tKilled by PC\t \t%s(%d %d)\t(%s) PC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
                 m_pClientList[iVictumH]->m_cMapName, m_pClientList[iVictumH]->m_sX, m_pClientList[iVictumH]->m_sY, m_pClientList[iAttackerH]->m_cIPaddress, m_pClientList[iAttackerH]->m_cCharName);
             break;
         case DEF_PKLOG_BYPK:
             if (m_pClientList[iAttackerH] == 0) return false;
-            wsprintf(cTxt, "(%s) PC(%s)\tKilled by PK\tCC(%d)\t%s(%d %d)\t(%s) PC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName, m_pClientList[iAttackerH]->m_iPKCount,
+            copy_string(cTxt, "(%s) PC(%s)\tKilled by PK\tCC(%d)\t%s(%d %d)\t(%s) PC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName, m_pClientList[iAttackerH]->m_iPKCount,
                 m_pClientList[iVictumH]->m_cMapName, m_pClientList[iVictumH]->m_sX, m_pClientList[iVictumH]->m_sY, m_pClientList[iAttackerH]->m_cIPaddress, m_pClientList[iAttackerH]->m_cCharName);
             break;
         case DEF_PKLOG_BYENERMY:
             if (m_pClientList[iAttackerH] == 0) return false;
-            wsprintf(cTxt, "(%s) PC(%s)\tKilled by Enemy\t \t%s(%d %d)\t(%s) PC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
+            copy_string(cTxt, "(%s) PC(%s)\tKilled by Enemy\t \t%s(%d %d)\t(%s) PC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
                 m_pClientList[iVictumH]->m_cMapName, m_pClientList[iVictumH]->m_sX, m_pClientList[iVictumH]->m_sY, m_pClientList[iAttackerH]->m_cIPaddress, m_pClientList[iAttackerH]->m_cCharName);
             break;
         case DEF_PKLOG_BYNPC:
             if (pNPC == 0) return false;
-            wsprintf(cTxt, "(%s) PC(%s)\tKilled by NPC\t \t%s(%d %d)\tNPC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
+            copy_string(cTxt, "(%s) PC(%s)\tKilled by NPC\t \t%s(%d %d)\tNPC(%s)", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
                 m_pClientList[iVictumH]->m_cMapName, m_pClientList[iVictumH]->m_sX, m_pClientList[iVictumH]->m_sY, pNPC);
             break;
         case DEF_PKLOG_BYOTHER:
-            wsprintf(cTxt, "(%s) PC(%s)\tKilled by Other\t \t%s(%d %d)\tUnknown", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
+            copy_string(cTxt, "(%s) PC(%s)\tKilled by Other\t \t%s(%d %d)\tUnknown", m_pClientList[iVictumH]->m_cIPaddress, m_pClientList[iVictumH]->m_cCharName,
                 m_pClientList[iVictumH]->m_cMapName, m_pClientList[iVictumH]->m_sX, m_pClientList[iVictumH]->m_sY);
             break;
         default:
@@ -18269,7 +18270,7 @@ void CGame::RequestResurrectPlayer(int iClientH, bool bResurrect)
     {
         try
         {
-            wsprintf(buff, "(!!!) Player(%s) Tried To Use Resurrection Hack", m_pClientList[iClientH]->m_cCharName);
+            copy_string(buff, "(!!!) Player(%s) Tried To Use Resurrection Hack", m_pClientList[iClientH]->m_cCharName);
             PutHackLogFileList(G_cTxt);
             DeleteClient(iClientH, true, true, true, true);
         }
@@ -18279,7 +18280,7 @@ void CGame::RequestResurrectPlayer(int iClientH, bool bResurrect)
         return;
     }
 
-    wsprintf(buff, "(*) Resurrect Player! %s", m_pClientList[iClientH]->m_cCharName);
+    copy_string(buff, "(*) Resurrect Player! %s", m_pClientList[iClientH]->m_cCharName);
     log->info(buff);
 
 
@@ -18317,7 +18318,7 @@ bool CGame::bCheckClientAttackFrequency(int iClientH, uint32_t dwClientTime)
         {
             try
             {
-                wsprintf(G_cTxt, "Swing Hack: (%s) Player: (%s) - attacking with weapon at irregular rates.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+                copy_string(G_cTxt, "Swing Hack: (%s) Player: (%s) - attacking with weapon at irregular rates.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
                 PutHackLogFileList(G_cTxt);
                 DeleteClient(iClientH, true, true);
             }
@@ -18329,7 +18330,7 @@ bool CGame::bCheckClientAttackFrequency(int iClientH, uint32_t dwClientTime)
         }
 
         //testcode
-        //wsprintf(G_cTxt, "Attack: %d", dwTimeGap);
+        //copy_string(G_cTxt, "Attack: %d", dwTimeGap);
         //log->info(G_cTxt);
     }
 
@@ -18353,7 +18354,7 @@ bool CGame::bCheckClientMagicFrequency(int iClientH, uint32_t dwClientTime)
         {
             try
             {
-                wsprintf(G_cTxt, "Speed Cast: (%s) Player: (%s) - casting magic at irregular rates. ", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+                copy_string(G_cTxt, "Speed Cast: (%s) Player: (%s) - casting magic at irregular rates. ", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
                 PutHackLogFileList(G_cTxt);
                 DeleteClient(iClientH, true, true);
             }
@@ -18368,7 +18369,7 @@ bool CGame::bCheckClientMagicFrequency(int iClientH, uint32_t dwClientTime)
         m_pClientList[iClientH]->m_bMagicPauseTime = false;
 
         //testcode
-        //wsprintf(G_cTxt, "Magic: %d", dwTimeGap);
+        //copy_string(G_cTxt, "Magic: %d", dwTimeGap);
         //log->info(G_cTxt);
     }
 
@@ -18407,7 +18408,7 @@ bool CGame::bCheckClientMoveFrequency(int iClientH, uint32_t dwClientTime)
         {
             try
             {
-                wsprintf(G_cTxt, "Speed Hack: (%s) Player: (%s) - running too fast.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+                copy_string(G_cTxt, "Speed Hack: (%s) Player: (%s) - running too fast.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
                 PutHackLogFileList(G_cTxt);
                 DeleteClient(iClientH, true, true);
             }
@@ -18418,7 +18419,7 @@ bool CGame::bCheckClientMoveFrequency(int iClientH, uint32_t dwClientTime)
         }
 
         // testcode
-        // wsprintf(G_cTxt, "Move: %d", dwTimeGap);
+        // copy_string(G_cTxt, "Move: %d", dwTimeGap);
         // log->info(G_cTxt);
     }
 
@@ -18472,7 +18473,7 @@ void CGame::OnTimer(char cType)
         if (m_iFinalShutdownCount != 0)
         {
             m_iFinalShutdownCount--;
-            wsprintf(G_cTxt, "Final Shutdown...%d", m_iFinalShutdownCount);
+            copy_string(G_cTxt, "Final Shutdown...%d", m_iFinalShutdownCount);
             log->info(G_cTxt);
             if (m_iFinalShutdownCount <= 1)
             {
@@ -18505,7 +18506,7 @@ void CGame::OnTimer(char cType)
             m_pSubLogSock[m_iSubLogSockInitIndex] = new class XSocket(m_hWnd, DEF_SERVERSOCKETBLOCKLIMIT);
             m_pSubLogSock[m_iSubLogSockInitIndex]->bConnect(m_cLogServerAddr, m_iLogServerPort, (WM_ONLOGSOCKETEVENT + m_iSubLogSockInitIndex + 1));
             m_pSubLogSock[m_iSubLogSockInitIndex]->bInitBufferSize(DEF_MSGBUFFERSIZE);
-            wsprintf(G_cTxt, "(!) Try to connect sub-log-socket(%d)... Addr:%s  Port:%d", m_iSubLogSockInitIndex, m_cLogServerAddr, m_iLogServerPort);
+            copy_string(G_cTxt, "(!) Try to connect sub-log-socket(%d)... Addr:%s  Port:%d", m_iSubLogSockInitIndex, m_cLogServerAddr, m_iLogServerPort);
             log->info(G_cTxt);
             m_iSubLogSockInitIndex++;
         }
@@ -19065,7 +19066,7 @@ void CGame::SendCollectedMana()
     if ((m_iCollectedMana[1] == 0) && (m_iCollectedMana[2] == 0)) return;
 
     //testcode
-    wsprintf(G_cTxt, "Sending Collected Mana: %d %d", m_iCollectedMana[1], m_iCollectedMana[2]);
+    copy_string(G_cTxt, "Sending Collected Mana: %d %d", m_iCollectedMana[1], m_iCollectedMana[2]);
     log->info(G_cTxt);
 
     memset(cData, 0, sizeof(cData));
@@ -19109,7 +19110,7 @@ void CGame::_LinkStrikePointMapIndex()
                             // ÀÎµ¦½º¸¦ ±¸Çß´Ù. ÀúÀåÇÑ´Ù.
                             m_pMapList[i]->m_stStrikePoint[z].iMapIndex = x;
                             //testcode
-                            wsprintf(G_cTxt, "(!) Map(%s) Strike Point(%d) Related Map(%s) Index(%d)", m_pMapList[i]->m_cName, z, m_pMapList[i]->m_stStrikePoint[z].cRelatedMapName, x);
+                            copy_string(G_cTxt, "(!) Map(%s) Strike Point(%d) Related Map(%s) Index(%d)", m_pMapList[i]->m_cName, z, m_pMapList[i]->m_stStrikePoint[z].cRelatedMapName, x);
                             log->info(G_cTxt);
 
                             goto LSPMI_LOOPBREAK;
@@ -19129,7 +19130,7 @@ bool CGame::_bRegisterMap(char * pName)
     for (i = 0; i < DEF_MAXMAPS; i++)
         if ((m_pMapList[i] != 0) && (memcmp(m_pMapList[i]->m_cName, cTmpName, 10) == 0))
         {
-            wsprintf(cTxt, "(!!!) CRITICAL ERROR! Map (%s) is already installed! cannot add.", cTmpName);
+            copy_string(cTxt, "(!!!) CRITICAL ERROR! Map (%s) is already installed! cannot add.", cTmpName);
             log->info(cTxt);
             return false;
         }
@@ -19138,11 +19139,11 @@ bool CGame::_bRegisterMap(char * pName)
         if (m_pMapList[i] == 0)
         {
             m_pMapList[i] = (class CMap *)new class CMap(this);
-            wsprintf(cTxt, "(*) Add map (%s)   - Loading map info files...", pName);
+            copy_string(cTxt, "(*) Add map (%s)   - Loading map info files...", pName);
             log->info(cTxt);
             if (m_pMapList[i]->bInit(pName) == false)
             {
-                wsprintf(cTxt, "(!!!) Data file loading fail!", pName);
+                copy_string(cTxt, "(!!!) Data file loading fail!", pName);
                 log->info(cTxt);
                 return false;
             };
@@ -19168,7 +19169,7 @@ bool CGame::_bRegisterMap(char * pName)
             return true;
         }
 
-    wsprintf(cTxt, "(!!!) CRITICAL ERROR! Map (%s) canot be added - no more map space.", pName);
+    copy_string(cTxt, "(!!!) CRITICAL ERROR! Map (%s) canot be added - no more map space.", pName);
     log->info(cTxt);
     return false;
 }
@@ -19389,7 +19390,7 @@ void CGame::Command_YellowBall(int iClientH, char * pData, uint32_t dwMsgSize)
                     if ((m_pClientList[iClientH]->m_cLocation) != (m_pClientList[i]->m_cLocation)) return;
                     ZeroMemory(cMapName, sizeof(cMapName));
                     strcpy(cMapName, m_pClientList[i]->m_cMapName);
-                    wsprintf(G_cTxt, "(%s) Player: (%s) - YellowBall MapName(%s)(%d %d)", m_pClientList[i]->m_cIPaddress, m_pClientList[i]->m_cCharName, m_pClientList[i]->m_cMapName, m_pClientList[i]->m_sX, m_pClientList[i]->m_sY);
+                    copy_string(G_cTxt, "(%s) Player: (%s) - YellowBall MapName(%s)(%d %d)", m_pClientList[i]->m_cIPaddress, m_pClientList[i]->m_cCharName, m_pClientList[i]->m_cMapName, m_pClientList[i]->m_sX, m_pClientList[i]->m_sY);
                     PutItemLogFileList(G_cTxt);
                     ItemDepleteHandler(iClientH, iSoxH, true);
                     RequestTeleportHandler(iClientH, "2   ", cMapName, m_pClientList[i]->m_sX, m_pClientList[i]->m_sY);
@@ -19467,7 +19468,7 @@ void CGame::Command_RedBall(int iClientH, char * pData, uint32_t dwMsgSize)
                 case 5: strcpy(cNpcName, "Gagoyle"); iNpcID = 52; break;
             }
             memset(cName, 0, sizeof(cName));
-            wsprintf(cName, "XX%d", iNamingValue);
+            copy_string(cName, "XX%d", iNamingValue);
             cName[0] = '_';
             cName[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -19482,7 +19483,7 @@ void CGame::Command_RedBall(int iClientH, char * pData, uint32_t dwMsgSize)
             }
             else
             {
-                wsprintf(G_cTxt, "(%s) Player: (%s) - RedBall used %s [%s(%d, %d)] ", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, cNpcName, m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->m_cName, tX, tY);
+                copy_string(G_cTxt, "(%s) Player: (%s) - RedBall used %s [%s(%d, %d)] ", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, cNpcName, m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->m_cName, tX, tY);
                 PutItemLogFileList(G_cTxt);
             }
         }
@@ -19580,7 +19581,7 @@ void CGame::Command_BlueBall(int iClientH, char * pData, uint32_t dwMsgSize)
             pX = m_pClientList[iClientH]->m_sX;
             pY = m_pClientList[iClientH]->m_sY;
 
-            wsprintf(G_cTxt, "(!) BlueBallEvent: SummonMob (%s)-(%d)", cNpcName, iNum);
+            copy_string(G_cTxt, "(!) BlueBallEvent: SummonMob (%s)-(%d)", cNpcName, iNum);
             log->info(G_cTxt);
 
             iNamingValue = m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->iGetEmptyNamingValue();
@@ -19588,7 +19589,7 @@ void CGame::Command_BlueBall(int iClientH, char * pData, uint32_t dwMsgSize)
             {
 
                 memset(cName_Master, 0, sizeof(cName_Master));
-                wsprintf(cName_Master, "XX%d", iNamingValue);
+                copy_string(cName_Master, "XX%d", iNamingValue);
                 cName_Master[0] = '_';
                 cName_Master[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -19606,7 +19607,7 @@ void CGame::Command_BlueBall(int iClientH, char * pData, uint32_t dwMsgSize)
                 {
                     // Slave Mob
                     memset(cName_Slave, 0, sizeof(cName_Slave));
-                    wsprintf(cName_Slave, "XX%d", iNamingValue);
+                    copy_string(cName_Slave, "XX%d", iNamingValue);
                     cName_Slave[0] = '_';
                     cName_Slave[1] = m_pClientList[iClientH]->m_cMapIndex + 65;
 
@@ -19871,7 +19872,7 @@ bool CGame::bPlantSeedBag(int iMapIndex, int dX, int dY, int iItemEffectValue1, 
             memset(cNpcName, 0, sizeof(cNpcName));
             strcpy(cNpcName, "Crops");
             memset(cName, 0, sizeof(cName));
-            wsprintf(cName, "XX%d", iNamingValue);
+            copy_string(cName, "XX%d", iNamingValue);
             cName[0] = '_';
             cName[1] = iMapIndex + 65;
 
@@ -19908,7 +19909,7 @@ bool CGame::bPlantSeedBag(int iMapIndex, int dX, int dY, int iItemEffectValue1, 
                 }
                 m_pNpcList[sOwnerH]->m_sAppr2 = 1;
                 SendEventToNearClient_TypeA(sOwnerH, DEF_OWNERTYPE_NPC, MSGID_EVENT_LOG, DEF_MSGTYPE_CONFIRM, 0, 0, 0);
-                wsprintf(G_cTxt, "(skill:%d type:%d)plant(%s) Agriculture begin(%d,%d) sum(%d)!", m_pNpcList[sOwnerH]->m_cCropSkill, m_pNpcList[sOwnerH]->m_cCropType, cNpcName, tX, tY, m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->m_iTotalAgriculture);
+                copy_string(G_cTxt, "(skill:%d type:%d)plant(%s) Agriculture begin(%d,%d) sum(%d)!", m_pNpcList[sOwnerH]->m_cCropSkill, m_pNpcList[sOwnerH]->m_cCropType, cNpcName, tX, tY, m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->m_iTotalAgriculture);
                 log->info(G_cTxt);
                 return true;
             }
@@ -20070,7 +20071,7 @@ void CGame::_CheckFarmingAction(short sAttackerH, short sTargetH, bool bType)
                 iHammerChance = 0;
             }
             if (m_pClientList[sTargetH]->m_pItemList[iArmorType]->m_wCurLifeSpan < iHammerChance) {
-                wsprintf(G_cTxt, "(iHammerChance (%d), target armor endurance (%d)!", iHammerChance, m_pClientList[sTargetH]->m_pItemList[iArmorType]->m_wCurLifeSpan);
+                copy_string(G_cTxt, "(iHammerChance (%d), target armor endurance (%d)!", iHammerChance, m_pClientList[sTargetH]->m_pItemList[iArmorType]->m_wCurLifeSpan);
                 log->info(G_cTxt);
                 ReleaseItemHandler(sTargetH, iArmorType, true);
                 SendNotifyMsg(0, sTargetH, DEF_NOTIFY_ITEMRELEASED, m_pClientList[sTargetH]->m_pItemList[iArmorType]->m_cEquipPos, iArmorType, 0, 0);
@@ -20264,7 +20265,7 @@ int CGame::iCalculateAttackEffect(short sTargetH, char cTargetType, short sAttac
             {
                 try
                 {
-                    wsprintf(G_cTxt, "TSearch Fullswing Hack: (%s) Player: (%s) - dashing with only (%d) weapon skill.", m_pClientList[sAttackerH]->m_cIPaddress, m_pClientList[sAttackerH]->m_cCharName, m_pClientList[sAttackerH]->m_cSkillMastery[sSkillUsed]);
+                    copy_string(G_cTxt, "TSearch Fullswing Hack: (%s) Player: (%s) - dashing with only (%d) weapon skill.", m_pClientList[sAttackerH]->m_cIPaddress, m_pClientList[sAttackerH]->m_cCharName, m_pClientList[sAttackerH]->m_cSkillMastery[sSkillUsed]);
                     PutHackLogFileList(G_cTxt);
                     DeleteClient(sAttackerH, true, true);
                 }
@@ -20659,7 +20660,7 @@ int CGame::iCalculateAttackEffect(short sTargetH, char cTargetType, short sAttac
                                     m_pClientList[sAttackerH]->m_iWarContribution += iWarContribution;
                                     if (m_pClientList[sAttackerH]->m_iWarContribution > DEF_MAXWARCONTRIBUTION)
                                         m_pClientList[sAttackerH]->m_iWarContribution = DEF_MAXWARCONTRIBUTION;
-                                    wsprintf(G_cTxt, "Construction Complete! WarContribution: +%d", iWarContribution);
+                                    copy_string(G_cTxt, "Construction Complete! WarContribution: +%d", iWarContribution);
                                     log->info(G_cTxt);
                                     SendNotifyMsg(0, sAttackerH, DEF_NOTIFY_CONSTRUCTIONPOINT, m_pClientList[sAttackerH]->m_iConstructionPoint, m_pClientList[sAttackerH]->m_iWarContribution, 0, 0);
                                     break;
@@ -21365,7 +21366,7 @@ int CGame::iCalculateAttackEffect(short sTargetH, char cTargetType, short sAttac
                                         m_pNpcList[sTargetH]->m_iV1 = 0;
                                         m_pNpcList[sTargetH]->m_iManaStock--;
                                         if (m_pNpcList[sTargetH]->m_iManaStock <= 0) m_pNpcList[sTargetH]->m_iManaStock = 0;
-                                        wsprintf(G_cTxt, "ManaStock down: %d", m_pNpcList[sTargetH]->m_iManaStock);
+                                        copy_string(G_cTxt, "ManaStock down: %d", m_pNpcList[sTargetH]->m_iManaStock);
                                         log->info(G_cTxt);
                                     }
                                 }
@@ -22143,7 +22144,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
     {
         try
         {
-            wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) stat points are greater then server accepts.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) stat points are greater then server accepts.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
             PutHackLogFileList(G_cTxt);
             return false;
         }
@@ -22157,7 +22158,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
     {
         try
         {
-            wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) level above max server level.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+            copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) level above max server level.", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
             PutHackLogFileList(G_cTxt);
             return false;
         }
@@ -22171,7 +22172,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
     {
         try
         {
-            wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) experience is below 0 - (Exp:%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iExp);
+            copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) experience is below 0 - (Exp:%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iExp);
             PutHackLogFileList(G_cTxt);
             return false;
         }
@@ -22207,7 +22208,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
             }
             else
             {
-                wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) HP: current/maximum (%d/%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iHP, iGetMaxHP(iClientH));
+                copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) HP: current/maximum (%d/%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iHP, iGetMaxHP(iClientH));
                 PutHackLogFileList(G_cTxt);
                 return false;
             }
@@ -22222,7 +22223,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
     {
         try
         {
-            wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) MP: current/maximum (%d/%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iMP, iGetMaxMP(iClientH));
+            copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) MP: current/maximum (%d/%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iMP, iGetMaxMP(iClientH));
             PutHackLogFileList(G_cTxt);
             return false;
         }
@@ -22236,7 +22237,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
     {
         try
         {
-            wsprintf(G_cTxt, "Packet Editing: (%s) Player: (%s) SP: current/maximum (%d/%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iSP, iGetMaxSP(iClientH));
+            copy_string(G_cTxt, "Packet Editing: (%s) Player: (%s) SP: current/maximum (%d/%d).", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iSP, iGetMaxSP(iClientH));
             PutHackLogFileList(G_cTxt);
             return false;
         }
@@ -22255,7 +22256,7 @@ bool CGame::_bCheckCharacterData(int iClientH)
             {
                 if (memcmp(m_stBannedList[i].m_cBannedIPaddress, m_pClientList[iClientH]->m_cIPaddress, strlen(m_pClientList[iClientH]->m_cIPaddress)) == 0)
                 {
-                    wsprintf(G_cTxt, "Client Rejected: Banned: (%s)", m_pClientList[iClientH]->m_cIPaddress);
+                    copy_string(G_cTxt, "Client Rejected: Banned: (%s)", m_pClientList[iClientH]->m_cIPaddress);
                     log->info(G_cTxt);
                     return false;
                 }
@@ -22820,7 +22821,7 @@ void CGame::SetSkillAll(int iClientH, char * pData, uint32_t dwMsgSize)
         if (_bAddClientItemList(iClientH, pItem, &iEraseReq) == true) {
            if (m_pClientList[iClientH]->m_iCurWeightLoad < 0) m_pClientList[iClientH]->m_iCurWeightLoad = 0;
 
-           wsprintf(G_cTxt, "(*) Get Angel : Char(%s) Player-Majestic-Points(%d) Angel Obtained(%s)", m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iGizonItemUpgradeLeft, cItemName);
+           copy_string(G_cTxt, "(*) Get Angel : Char(%s) Player-Majestic-Points(%d) Angel Obtained(%s)", m_pClientList[iClientH]->m_cCharName, m_pClientList[iClientH]->m_iGizonItemUpgradeLeft, cItemName);
            PutLogFileList(G_cTxt);
 
            pItem->m_sTouchEffectType = DEF_ITET_UNIQUE_OWNER;

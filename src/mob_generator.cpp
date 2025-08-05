@@ -5,6 +5,7 @@
 //
 
 #include "Game.h"
+#include "string_utils.h"
 
 void CGame::MobGenerator()
 {
@@ -40,7 +41,7 @@ void CGame::MobGenerator()
             {
                 // Master Mob????????.
                 memset(cName_Master, 0, sizeof(cName_Master));
-                wsprintf(cName_Master, "XX%d", iNamingValue);
+                copy_string(cName_Master, "XX%d", iNamingValue);
                 cName_Master[0] = '_';
                 cName_Master[1] = i + 65;
 
@@ -803,7 +804,7 @@ void CGame::MobGenerator()
                                             case 6: iResult = 60; break;
                                         }
                                 }
-                                wsprintf(G_cTxt, "(!) Mob-Event Map(%s)[%d (%d,%d)]", m_pMapList[i]->m_cName, iResult, pX, pY);
+                                copy_string(G_cTxt, "(!) Mob-Event Map(%s)[%d (%d,%d)]", m_pMapList[i]->m_cName, iResult, pX, pY);
                             }
                             break;
 
@@ -1065,7 +1066,7 @@ void CGame::MobGenerator()
                 if (iNamingValue != -1)
                 {
                     memset(cName_Slave, 0, sizeof(cName_Slave));
-                    wsprintf(cName_Slave, "XX%d", iNamingValue);
+                    copy_string(cName_Slave, "XX%d", iNamingValue);
                     cName_Slave[0] = 95; // original '_';
                     cName_Slave[1] = i + 65;
 
@@ -1186,7 +1187,7 @@ void CGame::MobGenerator()
                         if ((iMapLevel == 5) && (iDice(1, 3) == 1)) bFirmBerserk = true;
 
                         memset(cName_Master, 0, sizeof(cName_Master));
-                        wsprintf(cName_Master, "XX%d", iNamingValue);
+                        copy_string(cName_Master, "XX%d", iNamingValue);
                         cName_Master[0] = 95; // original '_';
                         cName_Master[1] = i + 65;
 

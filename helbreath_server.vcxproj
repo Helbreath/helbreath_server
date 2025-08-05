@@ -110,6 +110,7 @@
     <ClInclude Include="src\SkillNum.h" />
     <ClInclude Include="src\StrategicPoint.h" />
     <ClInclude Include="src\streams.h" />
+    <ClInclude Include="src\string_utils.h" />
     <ClInclude Include="src\StrTok.h" />
     <ClInclude Include="src\Teleport.h" />
     <ClInclude Include="src\TeleportLoc.h" />

@@ -138,6 +138,9 @@
     <ClInclude Include="src\session.h">
       <Filter>src\sockets</Filter>
     </ClInclude>
+    <ClInclude Include="src\string_utils.h">
+      <Filter>src\utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BuildItem.cpp">

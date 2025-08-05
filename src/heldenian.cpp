@@ -5,6 +5,7 @@
 //
 
 #include "Game.h"
+#include "string_utils.h"
 
 extern int32_t timeGetTime();
 
@@ -24,26 +25,24 @@ void CGame::_CreateHeldenianGUID(uint32_t dwHeldenianGUID, int iWinnerSide)
     pFile = fopen(cFn, "wt");
     if (pFile == 0)
     {
-        wsprintf(cTxt, "(!) Cannot create HeldenianGUID(%d) file", dwHeldenianGUID);
-        log->info(cTxt);
+        log->info("(!) Cannot create HeldenianGUID({}) file", dwHeldenianGUID);
     }
     else
     {
         memset(cTemp, 0, sizeof(cTemp));
 
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "HeldenianGUID = %d", dwHeldenianGUID);
+        copy_string(cTxt, "HeldenianGUID = %d", dwHeldenianGUID);
         strcat(cTemp, cTxt);
 
         memset(cTxt, 0, sizeof(cTxt));
-        wsprintf(cTxt, "winner-side = %d\n", iWinnerSide);
+        copy_string(cTxt, "winner-side = %d\n", iWinnerSide);
         strcat(cTemp, cTxt);
 
         cp = (char *)cTemp;
         fwrite(cp, strlen(cp), 1, pFile);
 
-        wsprintf(cTxt, "(O) HeldenianGUID(%d) file created", dwHeldenianGUID);
-        log->info(cTxt);
+        log->info("(O) HeldenianGUID({}) file created", dwHeldenianGUID);
     }
     if (pFile != 0) fclose(pFile);
 }
@@ -234,7 +233,6 @@ void CGame::HeldenianWarStarter()
     {
         log->info("Heldenian Start : time({} {}:{}), index({})", SysTime.wDayOfWeek, SysTime.wHour, SysTime.wMinute, i);
         var_8A0 = true;
-        GlobalStartHeldenianMode();
     }
 }
 
@@ -257,38 +255,7 @@ void CGame::HeldenianWarEnder()
         {
             m_cHeldenianVictoryType = m_sLastHeldenianWinner;
         }
-        GlobalEndHeldenianMode();
     }
-}
-
-void CGame::GlobalStartHeldenianMode()
-{
-    char cData[120], * cp;
-    uint32_t dwTime, * dwp;
-    uint16_t * wp;
-
-    dwTime = timeGetTime();
-    ZeroMemory(cData, sizeof(cData));
-
-    cp = (char *)cData;
-    *cp = GSM_STARTHELDENIAN; // 21
-    cp++;
-
-    wp = (uint16_t *)cp;
-    *wp = m_cHeldenianModeType;
-    cp += 2;
-
-    wp = (uint16_t *)cp;
-    *wp = m_sLastHeldenianWinner;
-    cp += 2;
-
-    dwp = (uint32_t *)cp;
-    *dwp = dwTime;
-    cp += 4;
-
-    bStockMsgToGateServer(cData, 9);
-    LocalStartHeldenianMode(m_cHeldenianModeType, m_sLastHeldenianWinner, dwTime);
-
 }
 
 /*********************************************************************************************************************
@@ -385,7 +352,7 @@ void CGame::LocalStartHeldenianMode(short sV1, short sV2, uint32_t dwHeldenianGU
                                 }
                             }
                             memset(cName, 0, sizeof(cName));
-                            wsprintf(cName, "XX%d", iNamingValue);
+                            copy_string(cName, "XX%d", iNamingValue);
                             cName[0] = 95;
                             cName[1] = i + 65;
                             bRet = bCreateNewNpc(cTmp, cName, m_pMapList[x]->m_cName, (rand() % 3), 0, DEF_MOVETYPE_RANDOM, &dX, &dY, cNpcWaypointIndex, 0, 0, cSide, false, false, false, true, false);
@@ -431,7 +398,7 @@ void CGame::LocalStartHeldenianMode(short sV1, short sV2, uint32_t dwHeldenianGU
                                 }
                             }
                             memset(cName, 0, sizeof(cName));
-                            wsprintf(cName, "XX%d", iNamingValue);
+                            copy_string(cName, "XX%d", iNamingValue);
                             cName[0] = 95;
                             cName[1] = i + 65;
                             bRet = bCreateNewNpc(cTmp, cName, m_pMapList[x]->m_cName, (rand() % 3), 0, DEF_MOVETYPE_RANDOM, &dX, &dY, cNpcWaypointIndex, 0, 0, cSide, false, false, false, true, false);
@@ -551,7 +518,7 @@ void CGame::ManualEndHeldenianMode(int iClientH, char * pData, uint32_t dwMsgSiz
         }
     }
     sub_4AD0E0();
-    wsprintf(cTemp, "(%s) GM Order(%s): beginapocalypse", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
+    copy_string(cTemp, "(%s) GM Order(%s): beginapocalypse", m_pClientList[iClientH]->m_cIPaddress, m_pClientList[iClientH]->m_cCharName);
     bSendMsgToLS(MSGID_GAMEMASTERLOG, iClientH, false, cTemp);
     delete pStrTok;
 }*/
@@ -746,11 +713,11 @@ void CGame::LocalEndHeldenianMode()
         m_sLastHeldenianWinner = m_cHeldenianVictoryType;
         if (bNotifyHeldenianWinner() == false)
         {
-            wsprintf(G_cTxt, "(!) HELDENIAN End. Result Report Failed");
+            copy_string(G_cTxt, "(!) HELDENIAN End. Result Report Failed");
             log->info(G_cTxt);
         }
     }
-    wsprintf(G_cTxt, "(!) HELDENIAN End. %d", m_sLastHeldenianWinner);
+    copy_string(G_cTxt, "(!) HELDENIAN End. %d", m_sLastHeldenianWinner);
     log->info(G_cTxt);
 
     for (i = 0; i < DEF_MAXMAPS; i++)

@@ -212,7 +212,6 @@ public:
 	void AdminOrder_GetFightzoneTicket(int iClientH);
 	void AutomatedHeldenianTimer();
 	void LocalStartHeldenianMode(short sV1, short sV2, uint32_t dwHeldenianGUID);
-	void GlobalStartHeldenianMode();
 	void HeldenianWarEnder();
 	void HeldenianWarStarter();
 	bool UpdateHeldenianStatus();
@@ -226,7 +225,6 @@ public:
 	void GlobalUpdateConfigs(char cConfigType);
 	void LocalUpdateConfigs(char cConfigType);
 	//void UpdateHeldenianStatus();
-	void GlobalEndHeldenianMode();
 	void LocalEndHeldenianMode();
 	bool bNotifyHeldenianWinner();
 	void RemoveHeldenianNpc(int iNpcH);
@@ -242,8 +240,6 @@ public:
 	void _CheckFarmingAction(short sAttackerH, short sTargetH, bool bType);
 
 	void GreenBall_Weather(int iClientH, char * pData, uint32_t dwMsgSize);
-	void ApocalypseEnder();
-	void ApocalypseStarter();
 	bool bReadScheduleConfigFile(char *pFn);
 
 	bool bReadHeldenianGUIDFile(char * cFn);
@@ -252,8 +248,6 @@ public:
 	void _CreateApocalypseGUID(uint32_t dwApocalypseGUID);
 	void LocalEndApocalypse();
 	void LocalStartApocalypse(uint32_t dwApocalypseGUID);
-	void GlobalEndApocalypseMode();
-	void GlobalStartApocalypseMode(int iClientH, char *pData, uint32_t dwMsgSize);
 	void OpenApocalypseGate(int iClientH);
 
 	// KLKS clean tiles
@@ -274,7 +268,6 @@ public:
 	bool bReadCrusadeGUIDFile(char * cFn);
 	void _CreateCrusadeGUID(uint32_t dwCrusadeGUID, int iWinnerSide);
 	void GlobalStartCrusadeMode();
-	void GSM_SetGuildTeleportLoc(int iGuildGUID, int dX, int dY, char * pMapName);
 	void SyncMiddlelandMapInfo();
 	void RemoveCrusadeStructures();
 	void _SendMapStatus(int iClientH);

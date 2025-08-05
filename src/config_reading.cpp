@@ -5,7 +5,7 @@
 //
 
 #include "Game.h"
-
+#include "string_utils.h"
 
 bool CGame::bReadAdminListConfigFile(char * pFn)
 {
@@ -816,7 +816,7 @@ bool CGame::bReadApocalypseGUIDFile(char * cFn)
                 {
                     case 1:
                         m_dwApocalypseGUID = atoi(token);
-                        wsprintf(G_cTxt, "ApocalypseGUID = %d", m_dwApocalypseGUID);
+                        copy_string(G_cTxt, "ApocalypseGUID = %d", m_dwApocalypseGUID);
                         log->info(G_cTxt);
                         cReadMode = 0;
                         break;
@@ -879,13 +879,13 @@ bool CGame::bReadHeldenianGUIDFile(char * cFn)
                 {
                     case 1:
                         m_dwHeldenianGUID = atoi(token);
-                        wsprintf(G_cTxt, "HeldenianGUID = %d", m_dwHeldenianGUID);
+                        copy_string(G_cTxt, "HeldenianGUID = %d", m_dwHeldenianGUID);
                         log->info(G_cTxt);
                         cReadMode = 0;
                         break;
                     case 2:
                         m_sLastHeldenianWinner = atoi(token);
-                        wsprintf(G_cTxt, "HeldenianWinnerSide = %d", m_sLastHeldenianWinner);
+                        copy_string(G_cTxt, "HeldenianWinnerSide = %d", m_sLastHeldenianWinner);
                         log->info(G_cTxt);
                         cReadMode = 0;
                         break;
@@ -949,7 +949,7 @@ bool CGame::bReadCrusadeGUIDFile(char * cFn)
                 {
                     case 1:
                         m_dwCrusadeGUID = atoi(token);
-                        wsprintf(G_cTxt, "CrusadeGUID = %d", m_dwCrusadeGUID);
+                        copy_string(G_cTxt, "CrusadeGUID = %d", m_dwCrusadeGUID);
                         log->info(G_cTxt);
                         cReadMode = 0;
                         break;
@@ -957,7 +957,7 @@ bool CGame::bReadCrusadeGUIDFile(char * cFn)
                     case 2:
                         // New 13/05/2004 Changed
                         m_iLastCrusadeWinner = atoi(token);
-                        wsprintf(G_cTxt, "CrusadeWinnerSide = %d", m_iLastCrusadeWinner);
+                        copy_string(G_cTxt, "CrusadeWinnerSide = %d", m_iLastCrusadeWinner);
                         log->info(G_cTxt);
                         cReadMode = 0;
                         break;
@@ -1024,12 +1024,12 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         memset(m_cServerName, 0, sizeof(m_cServerName));
                         if (strlen(token) > 10)
                         {
-                            wsprintf(cTxt, "(!!!) Game server name(%s) must within 10 chars!", token);
+                            copy_string(cTxt, "(!!!) Game server name(%s) must within 10 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
                         strcpy(m_cServerName, token);
-                        wsprintf(cTxt, "(*) Game server name : %s", m_cServerName);
+                        copy_string(cTxt, "(*) Game server name : %s", m_cServerName);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1043,7 +1043,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         pHostEnt = ::gethostbyname(ServerAddr);
                         if (pHostEnt != 0)
                         {
-                            wsprintf(ServerAddr, "%d.%d.%d.%d",
+                            copy_string(ServerAddr, "%d.%d.%d.%d",
                                 (pHostEnt->h_addr_list[0][0] & 0x00ff),
                                 (pHostEnt->h_addr_list[0][1] & 0x00ff),
                                 (pHostEnt->h_addr_list[0][2] & 0x00ff),
@@ -1051,11 +1051,11 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         }
                         strcpy(m_cGameServerAddr, ServerAddr);
 
-                        wsprintf(cTxt, "(*) Game server address : %s", m_cGameServerAddr);
+                        copy_string(cTxt, "(*) Game server address : %s", m_cGameServerAddr);
                         log->info(cTxt);
 
                         m_iGameServerPort = atoi(token);
-                        wsprintf(cTxt, "(*) Game server port : %d", m_iGameServerPort);
+                        copy_string(cTxt, "(*) Game server port : %d", m_iGameServerPort);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1073,21 +1073,21 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                             host_entry = gethostbyname(cAddress);
                             if (host_entry == 0)
                             {
-                                wsprintf(cTxt, "(!)DNS (%s) failed", token);
+                                copy_string(cTxt, "(!)DNS (%s) failed", token);
                                 log->info(cTxt);
                                 return false;
                             }
 
-                            wsprintf(cDnsResult, "%d.%d.%d.%d",
+                            copy_string(cDnsResult, "%d.%d.%d.%d",
                                 (pHostEnt->h_addr_list[0][0] & 0x00ff),
                                 (pHostEnt->h_addr_list[0][1] & 0x00ff),
                                 (pHostEnt->h_addr_list[0][2] & 0x00ff),
                                 (pHostEnt->h_addr_list[0][3] & 0x00ff));
 
-                            wsprintf(cTxt, "(!)DNS from (%s) to (%s) success!", token, cDnsResult);
+                            copy_string(cTxt, "(!)DNS from (%s) to (%s) success!", token, cDnsResult);
                             log->info(cTxt);
                             strcpy(m_cLogServerAddr, cDnsResult);
-                            wsprintf(cTxt, "(*) Log server address : %s", m_cLogServerAddr);
+                            copy_string(cTxt, "(*) Log server address : %s", m_cLogServerAddr);
                             log->info(cTxt);
                             cReadMode = 0;
                             break;
@@ -1095,12 +1095,12 @@ bool CGame::bReadProgramConfigFile(char * cFn)
 
                         if (strlen(token) > 20)
                         {
-                            wsprintf(cTxt, "(!!!) Log server address(%s) must within 20 chars!", token);
+                            copy_string(cTxt, "(!!!) Log server address(%s) must within 20 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
                         strcpy(m_cLogServerAddr, token);
-                        wsprintf(cTxt, "(*) Log server address : %s", m_cLogServerAddr);
+                        copy_string(cTxt, "(*) Log server address : %s", m_cLogServerAddr);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1108,7 +1108,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
 
                     case 4:
                         m_iLogServerPort = atoi(token);
-                        wsprintf(cTxt, "(*) Log server port : %d", m_iLogServerPort);
+                        copy_string(cTxt, "(*) Log server port : %d", m_iLogServerPort);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1116,7 +1116,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                     case 5:
                         if (strlen(token) > 10)
                         {
-                            wsprintf(cTxt, "(!!!) CRITICAL ERROR! Map name(%s) must within 10 chars!", token);
+                            copy_string(cTxt, "(!!!) CRITICAL ERROR! Map name(%s) must within 10 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
@@ -1139,21 +1139,21 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                             host_entry = gethostbyname(cAddress);
                             if (host_entry == 0)
                             {
-                                wsprintf(cTxt, "(!)DNS (%s) failed", token);
+                                copy_string(cTxt, "(!)DNS (%s) failed", token);
                                 log->info(cTxt);
                                 return false;
                             }
 
-                            wsprintf(cDnsResult, "%d.%d.%d.%d",
+                            copy_string(cDnsResult, "%d.%d.%d.%d",
                                 (host_entry->h_addr_list[0][0] & 0x00ff),
                                 (host_entry->h_addr_list[0][1] & 0x00ff),
                                 (host_entry->h_addr_list[0][2] & 0x00ff),
                                 (host_entry->h_addr_list[0][3] & 0x00ff));
 
-                            wsprintf(cTxt, "(!)DNS from (%s) to (%s) success!", token, cDnsResult);
+                            copy_string(cTxt, "(!)DNS from (%s) to (%s) success!", token, cDnsResult);
                             log->info(cTxt);
                             strcpy(m_cGateServerAddr, cDnsResult);
-                            wsprintf(cTxt, "(*) Gate server address : %s", m_cGateServerAddr);
+                            copy_string(cTxt, "(*) Gate server address : %s", m_cGateServerAddr);
                             log->info(cTxt);
                             cReadMode = 0;
                             break;
@@ -1161,12 +1161,12 @@ bool CGame::bReadProgramConfigFile(char * cFn)
 
                         if (strlen(token) > 20)
                         {
-                            wsprintf(cTxt, "(!!!) Gate server address(%s) must within 20 chars!", token);
+                            copy_string(cTxt, "(!!!) Gate server address(%s) must within 20 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
                         strcpy(m_cGateServerAddr, token);
-                        wsprintf(cTxt, "(*) Gate server address : %s", m_cGateServerAddr);
+                        copy_string(cTxt, "(*) Gate server address : %s", m_cGateServerAddr);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1174,7 +1174,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
 
                     case 7:
                         m_iGateServerPort = atoi(token);
-                        wsprintf(cTxt, "(*) Gate server port : %d", m_iGateServerPort);
+                        copy_string(cTxt, "(*) Gate server port : %d", m_iGateServerPort);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1183,12 +1183,12 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         memset(m_cGameServerAddrInternal, 0, sizeof(m_cGameServerAddrInternal));
                         if (strlen(token) > 15)
                         {
-                            wsprintf(cTxt, "(!!!) Internal (LAN) Game server address(%s) must within 15 chars!", token);
+                            copy_string(cTxt, "(!!!) Internal (LAN) Game server address(%s) must within 15 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
                         strcpy(m_cGameServerAddrInternal, token);
-                        wsprintf(cTxt, "(*) Internal (LAN) Game server address : %s", m_cGameServerAddrInternal);
+                        copy_string(cTxt, "(*) Internal (LAN) Game server address : %s", m_cGameServerAddrInternal);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1198,12 +1198,12 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         memset(m_cGameServerAddrExternal, 0, sizeof(m_cGameServerAddrExternal));
                         if (strlen(token) > 15)
                         {
-                            wsprintf(cTxt, "(!!!) External (Internet) Game server address(%s) must within 15 chars!", token);
+                            copy_string(cTxt, "(!!!) External (Internet) Game server address(%s) must within 15 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
                         strcpy(m_cGameServerAddrExternal, token);
-                        wsprintf(cTxt, "(*) External (Internet) Game server address : %s", m_cGameServerAddrExternal);
+                        copy_string(cTxt, "(*) External (Internet) Game server address : %s", m_cGameServerAddrExternal);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1212,12 +1212,12 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         memset(m_cGameServerAddr, 0, sizeof(m_cGameServerAddr));
                         if (strlen(token) > 15)
                         {
-                            wsprintf(cTxt, "(!!!) Game server address(%s) must within 15 chars!", token);
+                            copy_string(cTxt, "(!!!) Game server address(%s) must within 15 chars!", token);
                             log->info(cTxt);
                             return false;
                         }
                         strcpy(m_cGameServerAddr, token);
-                        wsprintf(cTxt, "(*) Game server address : %s", m_cGameServerAddr);
+                        copy_string(cTxt, "(*) Game server address : %s", m_cGameServerAddr);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1234,11 +1234,11 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                         }
                         if (m_iGameServerMode == 0)
                         {
-                            wsprintf(cTxt, "(!!!) Game server mode(%s) must be either LAN/lan/INTERNET/internet", token);
+                            copy_string(cTxt, "(!!!) Game server mode(%s) must be either LAN/lan/INTERNET/internet", token);
                             log->info(cTxt);
                             return false;
                         }
-                        wsprintf(cTxt, "(*) Game server mode : %s", cGSMode);
+                        copy_string(cTxt, "(*) Game server mode : %s", cGSMode);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1249,7 +1249,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                             bGateDNS = true;
                         }
                         else bGateDNS = false;
-                        wsprintf(cTxt, "Gate DNS is set to %i", bGateDNS);
+                        copy_string(cTxt, "Gate DNS is set to %i", bGateDNS);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1260,7 +1260,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
                             bLogDNS = true;
                         }
                         else bLogDNS = false;
-                        wsprintf(cTxt, "Log DNS is set to %i", bLogDNS);
+                        copy_string(cTxt, "Log DNS is set to %i", bLogDNS);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1293,7 +1293,7 @@ bool CGame::bReadProgramConfigFile(char * cFn)
 
     if (m_iGameServerMode == 0)
     {
-        wsprintf(cTxt, "(!!!) Game server mode cannot be empty. It must be either LAN/lan/INTERNET/internet", token);
+        copy_string(cTxt, "(!!!) Game server mode cannot be empty. It must be either LAN/lan/INTERNET/internet", token);
         log->info(cTxt);
         return false;
     }
@@ -1347,10 +1347,10 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         }
                         else
                         {
-                            wsprintf(cTxt, "(!!!) Primary drop rate(%s) invalid must be between 1 to 10000", token);
+                            copy_string(cTxt, "(!!!) Primary drop rate(%s) invalid must be between 1 to 10000", token);
                             log->info(cTxt);
                         }
-                        wsprintf(cTxt, "(*) Primary drop rate: (%d)", m_iPrimaryDropRate);
+                        copy_string(cTxt, "(*) Primary drop rate: (%d)", m_iPrimaryDropRate);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1362,10 +1362,10 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         }
                         else
                         {
-                            wsprintf(cTxt, "(!!!) Secondary drop rate(%s) invalid must be between 1 to 10000", token);
+                            copy_string(cTxt, "(!!!) Secondary drop rate(%s) invalid must be between 1 to 10000", token);
                             log->info(cTxt);
                         }
-                        wsprintf(cTxt, "(*) Secondary drop rate: (%d)", m_iSecondaryDropRate);
+                        copy_string(cTxt, "(*) Secondary drop rate: (%d)", m_iSecondaryDropRate);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1374,18 +1374,18 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         if ((memcmp(token, "classic", 7) == 0) || (memcmp(token, "CLASSIC", 7) == 0))
                         {
                             m_bEnemyKillMode = false;
-                            wsprintf(cTxt, "(*) Enemy Kill Mode: CLASSIC");
+                            copy_string(cTxt, "(*) Enemy Kill Mode: CLASSIC");
                             log->info(cTxt);
                         }
                         else if ((memcmp(token, "deathmatch", 10) == 0) || (memcmp(token, "DEATHMATCH", 10) == 0))
                         {
                             m_bEnemyKillMode = true;
-                            wsprintf(cTxt, "(*) Enemy Kill Mode: DEATHMATCH");
+                            copy_string(cTxt, "(*) Enemy Kill Mode: DEATHMATCH");
                             log->info(cTxt);
                         }
                         else
                         {
-                            wsprintf(cTxt, "(!!!) ENEMY-KILL-MODE: (%s) must be either DEATHMATCH or CLASSIC", token);
+                            copy_string(cTxt, "(!!!) ENEMY-KILL-MODE: (%s) must be either DEATHMATCH or CLASSIC", token);
                             log->info(cTxt);
                             return false;
                         }
@@ -1399,10 +1399,10 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         }
                         else
                         {
-                            wsprintf(cTxt, "(!!!) ENEMY-KILL-ADJUST: (%s) invalid must be between 1 to 100", token);
+                            copy_string(cTxt, "(!!!) ENEMY-KILL-ADJUST: (%s) invalid must be between 1 to 100", token);
                             log->info(cTxt);
                         }
-                        wsprintf(cTxt, "(*) Player gains (%d) EK per enemy kill.", m_iEnemyKillAdjust);
+                        copy_string(cTxt, "(*) Player gains (%d) EK per enemy kill.", m_iEnemyKillAdjust);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1411,13 +1411,13 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         if ((memcmp(token, "on", 2) == 0) || (memcmp(token, "ON", 2) == 0))
                         {
                             m_bAdminSecurity = true;
-                            wsprintf(cTxt, "(*) Administator actions limited through security.");
+                            copy_string(cTxt, "(*) Administator actions limited through security.");
                             log->info(cTxt);
                         }
                         if ((memcmp(token, "off", 3) == 0) || (memcmp(token, "OFF", 3) == 0))
                         {
                             m_bAdminSecurity = false;
-                            wsprintf(cTxt, "(*) Administator vulnerability ignored.");
+                            copy_string(cTxt, "(*) Administator vulnerability ignored.");
                             log->info(cTxt);
                         }
 
@@ -1427,7 +1427,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 6:
                         m_sRaidTimeMonday = atoi(token);
                         if (m_sRaidTimeMonday == 0) m_sRaidTimeMonday = 3;
-                        wsprintf(cTxt, "(*) Monday Raid Time : (%d) minutes", m_sRaidTimeMonday);
+                        copy_string(cTxt, "(*) Monday Raid Time : (%d) minutes", m_sRaidTimeMonday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1435,7 +1435,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 7:
                         m_sRaidTimeTuesday = atoi(token);
                         if (m_sRaidTimeTuesday == 0) m_sRaidTimeTuesday = 3;
-                        wsprintf(cTxt, "(*) Tuesday Raid Time : (%d) minutes", m_sRaidTimeTuesday);
+                        copy_string(cTxt, "(*) Tuesday Raid Time : (%d) minutes", m_sRaidTimeTuesday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1443,7 +1443,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 8:
                         m_sRaidTimeWednesday = atoi(token);
                         if (m_sRaidTimeWednesday == 0) m_sRaidTimeWednesday = 3;
-                        wsprintf(cTxt, "(*) Wednesday Raid Time : (%d) minutes", m_sRaidTimeWednesday);
+                        copy_string(cTxt, "(*) Wednesday Raid Time : (%d) minutes", m_sRaidTimeWednesday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1451,7 +1451,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 9:
                         m_sRaidTimeThursday = atoi(token);
                         if (m_sRaidTimeThursday == 0) m_sRaidTimeThursday = 3;
-                        wsprintf(cTxt, "(*) Thursday Raid Time : (%d) minutes", m_sRaidTimeThursday);
+                        copy_string(cTxt, "(*) Thursday Raid Time : (%d) minutes", m_sRaidTimeThursday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1459,7 +1459,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 10:
                         m_sRaidTimeFriday = atoi(token);
                         if (m_sRaidTimeFriday == 0) m_sRaidTimeFriday = 10;
-                        wsprintf(cTxt, "(*) Friday Raid Time : (%d) minutes", m_sRaidTimeFriday);
+                        copy_string(cTxt, "(*) Friday Raid Time : (%d) minutes", m_sRaidTimeFriday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1467,7 +1467,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 11:
                         m_sRaidTimeSaturday = atoi(token);
                         if (m_sRaidTimeSaturday == 0) m_sRaidTimeSaturday = 45;
-                        wsprintf(cTxt, "(*) Saturday Raid Time : (%d) minutes", m_sRaidTimeSaturday);
+                        copy_string(cTxt, "(*) Saturday Raid Time : (%d) minutes", m_sRaidTimeSaturday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1475,7 +1475,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                     case 12:
                         m_sRaidTimeSunday = atoi(token);
                         if (m_sRaidTimeSunday == 0) m_sRaidTimeSunday = 60;
-                        wsprintf(cTxt, "(*) Sunday Raid Time : (%d) minutes", m_sRaidTimeSunday);
+                        copy_string(cTxt, "(*) Sunday Raid Time : (%d) minutes", m_sRaidTimeSunday);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
@@ -1484,25 +1484,25 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         if ((memcmp(token, "player", 6) == 0) || (memcmp(token, "PLAYER", 6) == 0))
                         {
                             m_bLogChatOption = 1;
-                            wsprintf(cTxt, "(*) Logging Player Chat.");
+                            copy_string(cTxt, "(*) Logging Player Chat.");
                             log->info(cTxt);
                         }
                         if ((memcmp(token, "gm", 2) == 0) || (memcmp(token, "GM", 2) == 0))
                         {
                             m_bLogChatOption = 2;
-                            wsprintf(cTxt, "(*) Logging GM Chat.");
+                            copy_string(cTxt, "(*) Logging GM Chat.");
                             log->info(cTxt);
                         }
                         if ((memcmp(token, "all", 3) == 0) || (memcmp(token, "ALL", 3) == 0))
                         {
                             m_bLogChatOption = 3;
-                            wsprintf(cTxt, "(*) Logging All Chat.");
+                            copy_string(cTxt, "(*) Logging All Chat.");
                             log->info(cTxt);
                         }
                         if ((memcmp(token, "none", 4) == 0) || (memcmp(token, "NONE", 4) == 0))
                         {
                             m_bLogChatOption = 4;
-                            wsprintf(cTxt, "(*) Not Logging Any Chat.");
+                            copy_string(cTxt, "(*) Not Logging Any Chat.");
                             log->info(cTxt);
                         }
                         cReadMode = 0;
@@ -1510,14 +1510,14 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
 
                     case 14:
                         m_iSummonGuildCost = atoi(token);
-                        wsprintf(cTxt, "(*) Summoning guild costs (%d) gold", m_iSummonGuildCost);
+                        copy_string(cTxt, "(*) Summoning guild costs (%d) gold", m_iSummonGuildCost);
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
 
                     case 15:
                         m_sSlateSuccessRate = atoi(token);
-                        wsprintf(cTxt, "(*) Slate Success Rate (%d) percent", m_sSlateSuccessRate);
+                        copy_string(cTxt, "(*) Slate Success Rate (%d) percent", m_sSlateSuccessRate);
                         log->info(cTxt);
                         if (m_sSlateSuccessRate == 0) m_sSlateSuccessRate = 14;
                         cReadMode = 0;
@@ -1537,7 +1537,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
 
                     case 18:
                         m_cRepDropModifier = atoi(token);
-                        wsprintf(cTxt, "(*) Rep<->Drop modifier: (%d)", m_cRepDropModifier);
+                        copy_string(cTxt, "(*) Rep<->Drop modifier: (%d)", m_cRepDropModifier);
                         log->info(cTxt);
                         if (m_cRepDropModifier < 0) m_cRepDropModifier = 0;
                         cReadMode = 0;
@@ -1548,7 +1548,7 @@ bool CGame::bReadSettingsConfigFile(char * cFn)
                         len = strlen(token);
                         if (len > 10) len = 10;
                         memcpy(m_cSecurityNumber, token, len);
-                        wsprintf(cTxt, "(*) Security number memorized!");
+                        copy_string(cTxt, "(*) Security number memorized!");
                         log->info(cTxt);
                         cReadMode = 0;
                         break;
