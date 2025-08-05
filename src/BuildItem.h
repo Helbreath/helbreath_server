@@ -4,20 +4,15 @@
 // Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
 //
 
-#if !defined(AFX_BUILDITEM_H__D8858F0E_7737_4E39_9BF9_960C73B0727A__INCLUDED_)
-#define AFX_BUILDITEM_H__D8858F0E_7737_4E39_9BF9_960C73B0727A__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include <windows.h>
+#include <cstdint>
 
 class CBuildItem  
 {
 public:
 	CBuildItem();
-	virtual ~CBuildItem();
+	~CBuildItem();
 
 	char  m_cName[21];
 	short m_sItemID;
@@ -26,13 +21,11 @@ public:
 	
 	int  m_iMaterialItemID[6];
 	int  m_iMaterialItemCount[6];
-	int  m_iMaterialItemValue[6];		// Àç·á ¾ÆÀÌÅÛ °¡ÁßÄ¡ 
+	int  m_iMaterialItemValue[6];
 	int  m_iIndex[6];
 
 	int	 m_iMaxValue;
 	int  m_iAverageValue;	
-	int   m_iMaxSkill;					// ÀÌ ¾ÆÀÌÅÛÀ» Á¦ÀÛÇØ¼­ ¿Ã¸± ¼ö ÀÖ´Â ÃÖ´ë ½ºÅ³
-	uint16_t  m_wAttribute;					// ¾ÆÀÌÅÛÀÇ ¼Ó¼ºÀ» ºÎ¿©ÇÒ ¼ö ÀÖ´Ù.
+	int   m_iMaxSkill;
+	uint16_t  m_wAttribute;
 };
-
-#endif // !defined(AFX_BUILDITEM_H__D8858F0E_7737_4E39_9BF9_960C73B0727A__INCLUDED_)

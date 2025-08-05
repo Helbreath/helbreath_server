@@ -6,13 +6,14 @@
 
 #pragma once
 
-class CStrategicPoint  
+class CPotion  
 {
 public:
-	CStrategicPoint() = default;
-	~CStrategicPoint() = default;
+	CPotion();
+	~CPotion() = default;
 
-	int	m_iSide{};
-	int m_iValue{};
-	int m_iX{}, m_iY{};
+	char m_cName[21];
+	short m_sArray[12];
+
+	int m_iSkillLimit, m_iDifficulty;
 };

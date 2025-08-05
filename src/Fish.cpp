@@ -5,21 +5,18 @@
 //
 
 #include "Fish.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "Item.h"
 
 CFish::CFish(char cMapIndex, short sX, short sY, short sType, class CItem * pItem, int iDifficulty)
 {
-	m_cMapIndex		= cMapIndex;
-	m_sX			= sX;
-	m_sY			= sY;
-	m_sType			= sType;
-	m_pItem			= pItem;
+	m_cMapIndex = cMapIndex;
+	m_sX = sX;
+	m_sY = sY;
+	m_sType = sType;
+	m_pItem = pItem;
 
 	m_sEngagingCount = 0;
-	m_iDifficulty    = iDifficulty;
+	m_iDifficulty = iDifficulty;
 	
 	if (m_iDifficulty <= 0) 
 		m_iDifficulty = 1;
@@ -27,5 +24,5 @@ CFish::CFish(char cMapIndex, short sX, short sY, short sType, class CItem * pIte
 
 CFish::~CFish()
 {
-	if (m_pItem != NULL) delete m_pItem;
+	if (m_pItem != nullptr) delete m_pItem;
 }

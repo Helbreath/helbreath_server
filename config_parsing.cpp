@@ -23,7 +23,7 @@ bool CGame::_bDecodeBuildItemConfigFileContents(char * pData, uint32_t dwMsgSize
 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -352,7 +352,7 @@ bool CGame::_bDecodeBuildItemConfigFileContents(char * pData, uint32_t dwMsgSize
                                 log->critical("(!!!) CRITICAL ERROR! BuildItem configuration file error - Not Existing Item({})", m_pBuildItemList[iIndex]->m_cName);
 
                                 delete m_pBuildItemList[iIndex];
-                                m_pBuildItemList[iIndex] = NULL;
+                                m_pBuildItemList[iIndex] = 0;
 
                                 delete pContents;
                                 delete pStrTok;
@@ -411,7 +411,7 @@ bool CGame::_bDecodeDupItemIDFileContents(char * pData, uint32_t dwMsgSize)
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
 
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -429,7 +429,7 @@ bool CGame::_bDecodeDupItemIDFileContents(char * pData, uint32_t dwMsgSize)
                                 return false;
                             }
 
-                            if (m_pDupItemIDList[atoi(token)] != NULL)
+                            if (m_pDupItemIDList[atoi(token)] != 0)
                             {
                                 log->info("(!!!) ERROR! DupItemID configuration file error - Duplicate magic number.");
                                 delete pContents;
@@ -555,7 +555,7 @@ bool CGame::_bDecodeItemConfigFileContents(char * pData, uint32_t dwMsgSize)
 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -574,7 +574,7 @@ bool CGame::_bDecodeItemConfigFileContents(char * pData, uint32_t dwMsgSize)
                             }
                             iItemConfigListIndex = atoi(token);
 
-                            if (m_pItemConfigList[iItemConfigListIndex] != NULL)
+                            if (m_pItemConfigList[iItemConfigListIndex] != 0)
                             {
                                 log->critical("(!!!) CRITICAL ERROR! Duplicate ItemIDnum({})", iItemConfigListIndex);
                                 delete pContents;
@@ -948,7 +948,7 @@ bool CGame::_bDecodeMagicConfigFileContents(char * pData, uint32_t dwMsgSize)
 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -966,7 +966,7 @@ bool CGame::_bDecodeMagicConfigFileContents(char * pData, uint32_t dwMsgSize)
                                 return false;
                             }
 
-                            if (m_pMagicConfigList[atoi(token)] != NULL)
+                            if (m_pMagicConfigList[atoi(token)] != 0)
                             {
                                 log->critical("(!!!) CRITICAL ERROR! MAGIC configuration file error - Duplicate magic number.");
                                 delete pContents;
@@ -1284,7 +1284,7 @@ bool CGame::_bDecodeSkillConfigFileContents(char * pData, uint32_t dwMsgSize)
 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -1302,7 +1302,7 @@ bool CGame::_bDecodeSkillConfigFileContents(char * pData, uint32_t dwMsgSize)
                                 return false;
                             }
 
-                            if (m_pSkillConfigList[atoi(token)] != NULL)
+                            if (m_pSkillConfigList[atoi(token)] != 0)
                             {
                                 log->critical("(!!!) CRITICAL ERROR! SKILL configuration file error - Duplicate magic number.");
                                 delete pContents;
@@ -1451,10 +1451,10 @@ void CGame::_bDecodeNoticementFileContents(char * pData, uint32_t dwMsgSize)
 
     cp = (pData);
 
-    if (m_pNoticementData != NULL)
+    if (m_pNoticementData != 0)
     {
         delete m_pNoticementData;
-        m_pNoticementData = NULL;
+        m_pNoticementData = 0;
     }
 
     m_pNoticementData = new char[strlen(cp) + 2];
@@ -1481,7 +1481,7 @@ bool CGame::_bDecodeNpcConfigFileContents(char * pData, uint32_t dwMsgSize)
 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -1919,7 +1919,7 @@ bool CGame::_bDecodeOccupyFlagSaveFileContents(char * pData, uint32_t dwMsgSize)
     pStrTok = new CStrTok(pContents, seps);
     token = pStrTok->pGet();
 
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -2032,7 +2032,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
     int    iTemp;
     bool   bIsNotUsedItemFound = false;
 
-    if (m_pClientList[iClientH] == NULL) return false;
+    if (m_pClientList[iClientH] == 0) return false;
 
     iTotalGold = 0;
     iItemIndex = 0;
@@ -2051,7 +2051,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
 
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -2063,7 +2063,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                     memset(cTmpName, 0, sizeof(cTmpName));
                     strcpy(cTmpName, token);
                     for (i = 0; i < DEF_MAXMAPS; i++)
-                        if ((m_pMapList[i] != NULL) && (memcmp(m_pMapList[i]->m_cName, cTmpName, 10) == 0))
+                        if ((m_pMapList[i] != 0) && (memcmp(m_pMapList[i]->m_cName, cTmpName, 10) == 0))
                         {
                             m_pClientList[iClientH]->m_cMapIndex = (char)i;
                         }
@@ -2315,7 +2315,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                             cReadModeA = 0;
                             cReadModeB = 0;
 
-                            if ((m_pClientList[iClientH]->m_pItemList[iItemIndex]->m_dwAttribute & 0x00000001) != NULL)
+                            if ((m_pClientList[iClientH]->m_pItemList[iItemIndex]->m_dwAttribute & 0x00000001) != 0)
                             {
                                 m_pClientList[iClientH]->m_pItemList[iItemIndex]->m_wMaxLifeSpan = m_pClientList[iClientH]->m_pItemList[iItemIndex]->m_sItemSpecEffectValue1;
                             }
@@ -2338,7 +2338,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                             {
                                 iNotUsedItemPrice += m_pClientList[iClientH]->m_pItemList[iItemIndex]->m_wPrice;
                                 delete m_pClientList[iClientH]->m_pItemList[iItemIndex];
-                                m_pClientList[iClientH]->m_pItemList[iItemIndex] = NULL;
+                                m_pClientList[iClientH]->m_pItemList[iItemIndex] = 0;
 
                                 bIsNotUsedItemFound = true;
                             }
@@ -2350,7 +2350,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
 
                                     iNotUsedItemPrice += m_pClientList[iClientH]->m_pItemList[iItemIndex]->m_wPrice;
                                     delete m_pClientList[iClientH]->m_pItemList[iItemIndex];
-                                    m_pClientList[iClientH]->m_pItemList[iItemIndex] = NULL;
+                                    m_pClientList[iClientH]->m_pItemList[iItemIndex] = 0;
                                 }
                                 else iItemIndex++;
                             break;
@@ -2428,7 +2428,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                     {
                         for (i = 0; i < DEF_MAXITEMS; i++)
                         {
-                            if ((token[i] == '1') && (m_pClientList[iClientH]->m_pItemList[i] != NULL))
+                            if ((token[i] == '1') && (m_pClientList[iClientH]->m_pItemList[i] != 0))
                             {
                                 if (m_pClientList[iClientH]->m_pItemList[i]->m_cItemType == DEF_ITEMTYPE_EQUIP)
                                     m_pClientList[iClientH]->m_bIsItemEquipped[i] = true;
@@ -2436,7 +2436,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                             }
                             else m_pClientList[iClientH]->m_bIsItemEquipped[i] = false;
 
-                            if ((m_pClientList[iClientH] != NULL) && (m_pClientList[iClientH]->m_bIsItemEquipped[i] == true))
+                            if ((m_pClientList[iClientH] != 0) && (m_pClientList[iClientH]->m_bIsItemEquipped[i] == true))
                             {
                                 if (bEquipItemHandler(iClientH, i) == false)
                                     m_pClientList[iClientH]->m_bIsItemEquipped[i] = false;
@@ -2831,7 +2831,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                             cReadModeA = 0;
                             cReadModeB = 0;
 
-                            if ((m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]->m_dwAttribute & 0x00000001) != NULL)
+                            if ((m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]->m_dwAttribute & 0x00000001) != 0)
                             {
                                 m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]->m_wMaxLifeSpan = m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]->m_sItemSpecEffectValue1;
                             }
@@ -2865,7 +2865,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                             {
                                 iNotUsedItemPrice += m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]->m_wPrice;
                                 delete m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex];
-                                m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex] = NULL;
+                                m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex] = 0;
                             }
                             else
                                 if (_bCheckDupItemID(m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]) == true)
@@ -2874,7 +2874,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
 
                                     iNotUsedItemPrice += m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex]->m_wPrice;
                                     delete m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex];
-                                    m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex] = NULL;
+                                    m_pClientList[iClientH]->m_pItemInBankList[iItemInBankIndex] = 0;
                                 }
                                 else iItemInBankIndex++;
                             break;
@@ -3054,7 +3054,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                     break;
 
                 case 42:
-                    if (token != NULL)
+                    if (token != 0)
                     {
                         memset(m_pClientList[iClientH]->m_cProfile, 0, sizeof(m_pClientList[iClientH]->m_cProfile));
                         strcpy(m_pClientList[iClientH]->m_cProfile, token);
@@ -3624,7 +3624,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
                     }
 
                     m_pClientList[iClientH]->m_iPartyID = atoi(token);
-                    if (m_pClientList[iClientH]->m_iPartyID != NULL) m_pClientList[iClientH]->m_iPartyStatus = DEF_PARTYSTATUS_CONFIRM;
+                    if (m_pClientList[iClientH]->m_iPartyID != 0) m_pClientList[iClientH]->m_iPartyStatus = DEF_PARTYSTATUS_CONFIRM;
                     cReadModeA = 0;
                     break;
 
@@ -3870,7 +3870,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
 //         iDateSum2 = (int64_t)(SysTime.wMonth * 10000 + SysTime.wDay * 100 + SysTime.wHour);
 //         if (iDateSum2 >= iDateSum1)
 //         {
-//             SendNotifyMsg(NULL, i, DEF_NOTIFY_FIGHTZONERESERVE, -2, NULL, NULL, NULL);
+//             SendNotifyMsg(0, i, DEF_NOTIFY_FIGHTZONERESERVE, -2, 0, 0, 0);
 //             m_pClientList[iClientH]->m_iFightzoneNumber = 0;
 //             m_pClientList[iClientH]->m_iReserveTime = 0;
 //             m_pClientList[iClientH]->m_iFightZoneTicketNumber = 0;
@@ -3959,7 +3959,7 @@ bool CGame::_bDecodePortionConfigFileContents(char * pData, uint32_t dwMsgSize)
 
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -3977,14 +3977,14 @@ bool CGame::_bDecodePortionConfigFileContents(char * pData, uint32_t dwMsgSize)
                                 return false;
                             }
 
-                            if (m_pPortionConfigList[atoi(token)] != NULL)
+                            if (m_pPortionConfigList[atoi(token)] != 0)
                             {
-                                log->critical("(!!!) CRITICAL ERROR! POTION configuration file error - Duplicate portion number.");
+                                log->critical("(!!!) CRITICAL ERROR! POTION configuration file error - Duplicate potion number.");
                                 delete pContents;
                                 delete pStrTok;
                                 return false;
                             }
-                            m_pPortionConfigList[atoi(token)] = new class CPortion;
+                            m_pPortionConfigList[atoi(token)] = new class CPotion;
                             iPortionConfigListIndex = atoi(token);
 
                             cReadModeB = 2;
@@ -4094,7 +4094,7 @@ bool CGame::_bDecodeQuestConfigFileContents(char * pData, uint32_t dwMsgSize)
     pStrTok = new class CStrTok(pContents, seps);
     token = pStrTok->pGet();
 
-    while (token != NULL)
+    while (token != 0)
     {
         if (cReadModeA != 0)
         {
@@ -4112,7 +4112,7 @@ bool CGame::_bDecodeQuestConfigFileContents(char * pData, uint32_t dwMsgSize)
                                 return false;
                             }
 
-                            if (m_pQuestConfigList[atoi(token)] != NULL)
+                            if (m_pQuestConfigList[atoi(token)] != 0)
                             {
                                 log->critical("(!!!) CRITICAL ERROR! QUEST configuration file error - Duplicate quest number.");
                                 delete pContents;

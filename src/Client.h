@@ -9,30 +9,35 @@
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
-#include "XSocket.h"
+#include <memory>
 #include "Item.h"
 #include "GuildsMan.h"
 #include "Magic.h"
 #include "GlobalDef.h"
+#include "streams.h"
 
 #define DEF_CLIENTSOCKETBLOCKLIMIT	15
 
 #define DEF_MSGBUFFERSIZE	30000
 #define DEF_MAXITEMS		50
 #define DEF_MAXBANKITEMS	200
-#define DEF_MAXGUILDSMAN	128 // ÃÖ´ë ±æµå¿ø ¼ö 
+#define DEF_MAXGUILDSMAN	128
 
-#define	DEF_MAXMAGICTYPE	100	// º¯°æÇÏ·Á¸é ·Î±×¼­¹ö³»¿ëµµ ¹Ù²Ù¾î¾ß ÇÑ´Ù.
+#define	DEF_MAXMAGICTYPE	100
 #define DEF_MAXSKILLTYPE	60
 
 #define DEF_MAXPARTYMEMBERS	9
 
 #define DEF_SPECABLTYTIMESEC	1200
 
+class session;
+
 class CClient  
 {
 public:
 
+    int64_t send_msg(const char * data, int64_t size, char key = 0) const;
+    int64_t send_msg(stream_write & sw) const;
     std::shared_ptr<session> session_;
 
 	char m_cVar;
@@ -43,18 +48,15 @@ public:
 
 	bool bCreateNewParty();
 
-	// Hack Checkers
 	uint32_t m_dwMagicFreqTime, m_dwMoveFreqTime, m_dwAttackFreqTime;
 	bool m_bIsMoveBlocked, m_bMagicItem;
 	uint32_t dwClientTime;
 	bool m_bMagicConfirm;
 	int m_iSpellCount;
 	bool m_bMagicPauseTime;
-	//int m_iUninteruptibleCheck;
-	//char m_cConnectionCheck;
 
-	CClient(HWND hWnd);
-	virtual ~CClient();
+	CClient();
+	~CClient();
 
 	char m_cCharName[11];
 	char m_cAccountName[11];
@@ -67,27 +69,26 @@ public:
 	char  m_cMapIndex;
 	short m_sX, m_sY;
 	
-	char  m_cGuildName[21];		// ±æµåÀÇ ÀÌ¸§ 
-	char  m_cLocation[11];      //  <- ¸ÊÀÌ¸§ÀÌ ±×´ë·Î ÀúÀåµÈ´Ù. ¼Ò¼Ó ¸¶À» 
-	int   m_iGuildRank;			// -1ÀÌ¸é ¹«ÀÇ¹Ì. 0ÀÌ¸é ±æµå ¸¶½ºÅÍ. ¾ç¼ö´Â ±æµå³»¿¡¼­ÀÇ ¼­¿­ 
+	char  m_cGuildName[21];
+	char  m_cLocation[11];
+	int   m_iGuildRank;
 	int   m_iGuildGUID;
 	
 	char  m_cDir;
-	short m_sType;				// ÇöÀç Å¸ÀÔ <- Æú¸®¸ðÇÁ ½Ã¿¡ º¯ÇÑ´Ù. 
-	short m_sOriginalType;		// ¿À¸®Áö³¯ Å¸ÀÔ
+	short m_sType;
+	short m_sOriginalType;
 	short m_sAppr1;
 	short m_sAppr2;
 	short m_sAppr3;
 	short m_sAppr4;
-	int   m_iApprColor;			// v1.4 ¿ÜÇü ÄÃ·¯Å×ÀÌºí
+	int   m_iApprColor;
 	int   m_iStatus;
 
 	uint32_t m_dwTime, m_dwHPTime, m_dwMPTime, m_dwSPTime, m_dwAutoSaveTime, m_dwHungerTime, m_dwWarmEffectTime;
-	// Player Æ¯¼ºÄ¡ 
 
 	char m_cSex, m_cSkin, m_cHairStyle, m_cHairColor, m_cUnderwear;
 
-	int  m_iHP;						// Hit Point
+	int  m_iHP;
 	int  m_iHPstock;
 	int  m_iMP;
 	int  m_iSP;
@@ -95,40 +96,35 @@ public:
 	int m_iNextLevelExp;
 	bool m_bIsKilled;
 
-	int  m_iDefenseRatio;		// Defense Ratio
-	int  m_iHitRatio;			// Hit Ratio
+	int  m_iDefenseRatio;
+	int  m_iHitRatio;
 
-	// v1.432 »ç¿ëÇÏÁö ¾Ê´Â´Ù.
-	//int  m_iHitRatio_ItemEffect_SM; // ¾ÆÀÌÅÛ Âø¿ëÀ¸·Î ÀÎÇÑ HitRatio º¯°æ°ª
-	//int  m_iHitRatio_ItemEffect_L;
-
-	int  m_iDamageAbsorption_Armor[DEF_MAXITEMEQUIPPOS];		// °©¿Ê Âø¿ëÀ¸·Î ÀÎÇÑ Damage Èí¼ö È¿°ú
-	int  m_iDamageAbsorption_Shield;	// Parrying ±â¼ú ¼º°ø½ÃÀÇ Damage Èí¼ö È¿°ú 
+	int  m_iDamageAbsorption_Armor[DEF_MAXITEMEQUIPPOS];
+	int  m_iDamageAbsorption_Shield;
 
 	int  m_iLevel;
 	int  m_iStr, m_iInt, m_iVit, m_iDex, m_iMag, m_iCharisma;
-	//char m_cLU_Str, m_cLU_Int, m_cLU_Vit, m_cLU_Dex, m_cLU_Mag, m_cLU_Char;   // ·¹º§¾÷½Ã¿¡ ÇÒ´çµÇ¾î ¿Ã¶ó°¡´Â Æ¯¼ºÄ¡°ª.
+	//char m_cLU_Str, m_cLU_Int, m_cLU_Vit, m_cLU_Dex, m_cLU_Mag, m_cLU_Char;
 	int  m_iLuck; 
 	int  m_iLU_Pool;
 	char m_cAura;
-	//MOG var - 3.51
 	int m_iGizonItemUpgradeLeft;
 
 	int m_iAddTransMana, m_iAddChargeCritical;
 
 	int  m_iEnemyKillCount, m_iPKCount, m_iRewardGold;
-	int  m_iCurWeightLoad;		// ÇöÀç ÃÑ ¼ÒÁöÇ° ¹«°Ô 
+	int  m_iCurWeightLoad;
 
-	char m_cSide;				// ÇÃ·¹ÀÌ¾îÀÇ Æí 
+	char m_cSide;
 	
 	bool m_bInhibition;
 
-	char m_cAttackDiceThrow_SM;	// °ø°ÝÄ¡ ÁÖ»çÀ§ ´øÁö´Â È¸¼ö 
-	char m_cAttackDiceRange_SM;	// °ø°ÝÄ¡ ÁÖ»çÀ§ ¹üÀ§ 
-	char m_cAttackDiceThrow_L;	// °ø°ÝÄ¡ ÁÖ»çÀ§ ´øÁö´Â È¸¼ö 
-	char m_cAttackDiceRange_L;	// °ø°ÝÄ¡ ÁÖ»çÀ§ ¹üÀ§ 
-	char m_cAttackBonus_SM;		// °ø°Ý º¸³Ê½º
-	char m_cAttackBonus_L;		// °ø°Ý º¸³Ê½º
+	char m_cAttackDiceThrow_SM;
+	char m_cAttackDiceRange_SM;
+	char m_cAttackDiceThrow_L;
+	char m_cAttackDiceRange_L;
+	char m_cAttackBonus_SM;
+	char m_cAttackBonus_L;
 
 	class CItem * m_pItemList[DEF_MAXITEMS];
 	POINT m_ItemPosList[DEF_MAXITEMS];
@@ -136,14 +132,14 @@ public:
 	
 	bool  m_bIsItemEquipped[DEF_MAXITEMS];
 	short m_sItemEquipmentStatus[DEF_MAXITEMEQUIPPOS];
-	char  m_cArrowIndex;		// ÇÃ·¹ÀÌ¾î°¡ È°À» »ç¿ëÇÒ¶§ È­»ì ¾ÆÀÌÅÛ ÀÎµ¦½º. ÃÊ±â°ªÀº -1(ÇÒ´ç ¾ÈµÊ)
+	char  m_cArrowIndex;
 
 	char           m_cMagicMastery[DEF_MAXMAGICTYPE];
-	unsigned char  m_cSkillMastery[DEF_MAXSKILLTYPE]; // v1.4
+	unsigned char  m_cSkillMastery[DEF_MAXSKILLTYPE];
 
 	int   m_iSkillSSN[DEF_MAXSKILLTYPE];
 	bool  m_bSkillUsingStatus[DEF_MAXSKILLTYPE];
-	int   m_iSkillUsingTimeID[DEF_MAXSKILLTYPE]; //v1.12
+	int   m_iSkillUsingTimeID[DEF_MAXSKILLTYPE];
 
 	char  m_cMagicEffectStatus[DEF_MAXMAGICEFFECTS];
 
@@ -161,10 +157,7 @@ public:
 	
 	int   m_iPenaltyBlockYear, m_iPenaltyBlockMonth, m_iPenaltyBlockDay; // v1.4
 
-	//v1.4311-3 Ãß°¡ º¯¼ö ¼±¾ð »çÅõÀå ¹øÈ£¿Í »çÅõÀå ¿¹¾àÇÑ ½Ã°£
 	int   m_iFightzoneNumber , m_iReserveTime, m_iFightZoneTicketNumber ; 
-
-	class XSocket * m_pXSock;
 
 	int   m_iAdminUserLevel;     // °ü¸®ÀÚ ·¹º§. 0ÀÌ¸é ¹«È¿. ¹øÈ£°¡ ¿Ã¶ó°¥ ¼ö·Ï ±ÇÇÑÀÌ Ä¿Áø´Ù.
 	int   m_iRating;
@@ -379,6 +372,3 @@ public:
 	char m_cSaveCount;
 
 };
-
-#endif // !defined(AFX_CLIENT_H__39CC7700_789F_11D2_A8E6_00001C7030A6__INCLUDED_)
-

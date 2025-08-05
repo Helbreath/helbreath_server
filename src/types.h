@@ -36,3 +36,22 @@ enum class server_status_t
     SHUTDOWN,
     OFFLINE,
 };
+
+struct RECT
+{
+    RECT(int32_t a, int32_t b, int32_t c, int32_t d) { left = a; top = b; right = c; bottom = d; }
+    RECT() { left = top = right = bottom = 0; };
+    RECT(const RECT & r) { left = r.left; top = r.top; right = r.right; bottom = r.bottom; }
+    int32_t left;
+    int32_t top;
+    int32_t right;
+    int32_t bottom;
+};
+
+struct POINT
+{
+    POINT(int32_t a, int32_t b) { x = a; y = b; }
+    POINT() { x = y = 0; };
+    int32_t  x;
+    int32_t  y;
+};

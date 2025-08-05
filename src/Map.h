@@ -4,14 +4,9 @@
 // Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
 //
 
-#if !defined(AFX_MAP_H__12609160_8060_11D2_A8E6_00001C7030A6__INCLUDED_)
-#define AFX_MAP_H__12609160_8060_11D2_A8E6_00001C7030A6__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
-#include <windows.h>
+#include <cstdint>
 #include "OccupyFlag.h"
 #include "Tile.h"
 #include "StrategicPoint.h"
@@ -33,13 +28,12 @@
 #define DEF_MAXITEMEVENTS		200
 #define DEF_MAXMINERALPOINT		200
 #define DEF_MAXHELDENIANDOOR	200
-#define DEF_MAXOCCUPYFLAG		20001 //3001
+#define DEF_MAXOCCUPYFLAG		20001
 #define	DEF_MAXINITIALPOINT		20
 #define DEF_MAXAGRICULTURE		200
 #define DEF_MAXDYNAMICGATES		10
 #define DEF_MAXHELDENIANTOWER	200
 
-#include <windows.h>
 #include "Game.h"
 #include "StrTok.h"
 #include "TeleportLoc.h"
@@ -52,9 +46,6 @@
 #define DEF_MAXSTRATEGICPOINTS			200
 #define DEF_MAXSECTORS					60
 #define DEF_MAXSTRIKEPOINTS				20
-
-
-
 
 class CMap  
 {
@@ -78,17 +69,17 @@ public:
 	bool bGetIsMoveAllowedTile(short dX, short dY);
 	void SetNamingValueEmpty(int iValue);
 	int iGetEmptyNamingValue();
-	bool bGetDynamicObject(short sX, short sY, short * pType, uint32_t * pRegisterTime, int * pIndex = NULL);
+	bool bGetDynamicObject(short sX, short sY, short * pType, uint32_t * pRegisterTime, int * pIndex = 0);
 	void SetDynamicObject(uint16_t wID, short sType, short sX, short sY, uint32_t dwRegisterTime);
 	bool bGetIsTeleport(short dX, short dY);
 	bool bSearchTeleportDest(int sX, int sY, char * pMapName, int * pDx, int * pDy, char * pDir);
 	bool bInit(char * pName);
 	bool bIsValidLoc(short sX, short sY);
-	class CItem * pGetItem(short sX, short sY, short * pRemainItemSprite, short * pRemainItemSpriteFrame, char * pRemainItemColor);
-	bool bSetItem(short sX, short sY, class CItem * pItem);
+	CItem * pGetItem(short sX, short sY, short * pRemainItemSprite, short * pRemainItemSpriteFrame, char * pRemainItemColor);
+	bool bSetItem(short sX, short sY, CItem * pItem);
 	void ClearDeadOwner(short sX, short sY);
 	void ClearOwner(int iDebugCode, short sOwnerH, char cOwnerType, short sX, short sY);
-	bool bGetMoveable(short dX, short dY, short * pDOtype = NULL, short * pTopItem = NULL);
+	bool bGetMoveable(short dX, short dY, short * pDOtype = 0, short * pTopItem = 0);
 	void GetOwner(short * pOwner, char * pOwnerClass, short sX, short sY);
 	void SetOwner(short sOwner, char cOwnerClass, short sX, short sY);
 	void SetDeadOwner(short sOwner, char cOwnerClass, short sX, short sY);
@@ -96,15 +87,15 @@ public:
 	bool bAddCropsTotalSum();
 	void SetBigOwner(short sOwner, char cOwnerClass, short sX, short sY, char cArea);
 
-	CMap(class CGame * pGame);
-	virtual ~CMap();
+	CMap(CGame * pGame);
+	~CMap();
 
-	class CTile * m_pTile;
-	class CGame * m_pGame;
+	CTile * m_pTile;
+	CGame * m_pGame;
 	char  m_cName[11];
 	char  m_cLocationName[11];
 	short m_sSizeX, m_sSizeY, m_sTileDataSize;
-	class CTeleportLoc * m_pTeleportLoc[DEF_MAXTELEPORTLOC];
+	CTeleportLoc * m_pTeleportLoc[DEF_MAXTELEPORTLOC];
 	
 	//short m_sInitialPointX, m_sInitialPointY;
 	POINT m_pInitialPoint[DEF_MAXINITIALPOINT];
@@ -116,22 +107,21 @@ public:
 	int   m_iTotalAliveObject;
 	int   m_iMaximumObject;
 
-	char  m_cType;				// ¸ÊÀÇ Çü½Ä. 0ÀÌ¸é º¸Åë. 1ÀÌ¸é °ø°ÝÇàÀ§°¡ ¹üÁË°¡ ¾Æ´Ï´Ù.
+	char  m_cType;
 
-	bool  m_bIsFixedDayMode;	// Ç×»ó ÁÖ°£¸ðµåÀÎÁö: °Ç¹° ³»ºÎ µî 
+	bool  m_bIsFixedDayMode;
 
 	struct {		    
-		bool bDefined;
-		char cType;				// 1:RANDOMAREA   2:RANDOMWAYPOINT
+		bool bDefined{};
+		char cType{};				// 1:RANDOMAREA   2:RANDOMWAYPOINT
 		
-		char cWaypoint[10];     // RANDOMWAYPOINT µî
-		RECT rcRect;			// RANDOMAREA¹ß»ýÀÇ °æ¿ì 
+		char cWaypoint[10]{};     // RANDOMWAYPOINT
+		RECT rcRect{};			// RANDOMAREA 
 		
-		int  iTotalActiveMob;
-		int  iMobType;
-		int  iMaxMobs;
-		int  iCurMobs;
-		
+        int iTotalActiveMob{};
+		int iMobType{};
+		int iMaxMobs{};
+		int iCurMobs{};
 	} m_stSpotMobGenerator[DEF_MAXSPOTMOBGENERATOR];
 
 	POINT m_WaypointList[DEF_MAXWAYPOINTCFG];
@@ -157,16 +147,16 @@ public:
 	POINT m_MineralPointList[DEF_MAXMINERALPOINT];
 	int   m_iTotalMineralPoint, m_iMaxMineral, m_iCurMineral;
 
-	char  m_cWhetherStatus;		// ±â»ó »óÅÂ. 0ÀÌ¸é ¾øÀ½. 1~3 ºñ 4~6 ´« 7~9 ÆøÇ³ 
-	uint32_t m_dwWhetherLastTime, m_dwWhetherStartTime;  // ³¯¾¾ Áö¼Ó, ½ÃÀÛ ½Ã°£ 
+	char  m_cWhetherStatus;
+	uint32_t m_dwWhetherLastTime, m_dwWhetherStartTime;
 
 	int   m_iLevelLimit;
-	int   m_iUpperLevelLimit;	// »óÀ§ ·¾ Á¦ÇÑ 
+	int   m_iUpperLevelLimit;
 
-	class COccupyFlag * m_pOccupyFlag[DEF_MAXOCCUPYFLAG];
+	COccupyFlag * m_pOccupyFlag[DEF_MAXOCCUPYFLAG];
 	int   m_iTotalOccupyFlags;
 	
-	class CStrategicPoint * m_pStrategicPointList[DEF_MAXSTRATEGICPOINTS];
+	CStrategicPoint * m_pStrategicPointList[DEF_MAXSTRATEGICPOINTS];
 	bool  m_bIsAttackEnabled;
 
 	bool  m_bIsFightZone;
@@ -196,7 +186,6 @@ public:
 		int m_iDynamicGateY;
 	} m_stDynamicGateCoords[DEF_MAXDYNAMICGATES];
 
-	// ÇöÀç ¸Ê¿¡¼­ÀÇ ÇÃ·¹ÀÌ¾îµéÀÇ È°µ¿ ¼ºÇâÀ» ÆÄ¾ÇÇÏ´Â Å×ÀÌºí.
 	struct {
 		int iPlayerActivity;
 		int iNeutralActivity;
@@ -243,13 +232,13 @@ public:
 	} m_stStrikePoint[DEF_MAXSTRIKEPOINTS];
 	int m_iTotalStrikePoints;
 
-	bool m_bIsDisabled;		// Æø°ÝÀ¸·Î ±â´ÉÀÌ ¸¶ºñµÈ °æ¿ì 
+	bool m_bIsDisabled;
 	int m_iTotalAgriculture;
 
 	struct {
-		char cType;			// ÀÌ°Ô NULLÀÌ¸é Á¤ÀÇµÇÁö ¾ÊÀº°ÍÀ» ÀÇ¹Ì.
-		char cSide;			// »çÀÌµå
-		short sX, sY;		// ¼³Ä¡µÈ À§Ä¡ 
+        char cType{};
+        char cSide{};
+        short sX{}, sY{};
 	} m_stCrusadeStructureInfo[DEF_MAXCRUSADESTRUCTURES];
 	int m_iTotalCrusadeStructures;
 	bool m_bIsEnergySphereAutoCreation;
@@ -262,5 +251,3 @@ public:
 	bool m_bIsApocalypseMap;
 	bool m_bIsHeldenianMap;
 };
-
-#endif // !defined(AFX_MAP_H__12609160_8060_11D2_A8E6_00001C7030A6__INCLUDED_)

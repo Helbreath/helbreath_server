@@ -36,12 +36,6 @@
     <ClInclude Include="src\Client.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\CrusadeCore.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DebugDialog.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\DelayEvent.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -61,9 +55,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\GuildsMan.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IrcBot.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Item.h">
@@ -96,16 +87,10 @@
     <ClInclude Include="src\OccupyFlag.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Player.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Portion.h">
+    <ClInclude Include="src\Potion.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Quest.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\rusadeCore.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Skill.h">
@@ -118,9 +103,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\StrTok.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Structure.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Teleport.h">
@@ -139,9 +121,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Version.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\XSocket.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\time_utils.h">
@@ -167,12 +146,6 @@
     <ClCompile Include="src\Client.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\CrusadeCore.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DebugDialog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\DelayEvent.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -186,9 +159,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\GuildsMan.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IrcBot.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Item.cpp">
@@ -212,46 +182,16 @@
     <ClCompile Include="src\Npc.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\NpcItem.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\OccupyFlag.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Portion.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Quest.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rusadeCore.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Skill.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\StrategicPoint.cpp">
+    <ClCompile Include="src\Potion.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\StrTok.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Structure.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Teleport.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TeleportLoc.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TempNpcItem.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tile.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\XSocket.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\timer_manager.cpp">
@@ -265,6 +205,27 @@
     </ClCompile>
     <ClCompile Include="config_parsing.cpp">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\talk_to_npc.cpp">
+      <Filter>src\units</Filter>
+    </ClCompile>
+    <ClCompile Include="src\message_handlers.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\admin_order.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\config_reading.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\npc_item_generator.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\npc_behavior.cpp">
+      <Filter>src\units</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
