@@ -1,15 +1,12 @@
-// Magic.h: interface for the CMagic class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
-#if !defined(AFX_MAGIC_H__CD611900_EF3A_11D2_9B6C_00001C7030A6__INCLUDED_)
-#define AFX_MAGIC_H__CD611900_EF3A_11D2_9B6C_00001C7030A6__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
-#include <windows.h>
+#include <cstdint>
 
 #define DEF_MAGICTYPE_DAMAGE_SPOT				1
 #define DEF_MAGICTYPE_HPUP_SPOT					2
@@ -51,20 +48,18 @@ class CMagic
 {									 
 public:
 	CMagic();
-	virtual ~CMagic();
+	~CMagic();
 
 	char m_cName[31];
 
 	short m_sType;
-	DWORD m_dwDelayTime, m_dwLastTime;
+	uint32_t m_dwDelayTime, m_dwLastTime;
 	short m_sValue1, m_sValue2, m_sValue3, m_sValue4, m_sValue5, m_sValue6;
 	short m_sValue7, m_sValue8, m_sValue9, m_sValue10, m_sValue11, m_sValue12;
 	short m_sIntLimit;
-	int   m_iGoldCost;
+	int m_iGoldCost;
 	
-	char  m_cCategory; // ¸¶aý Ál·u: RDaÝ ¸¶aý 0, °r°Ý¸¶aý 1, aclî ¸¶aý 2 
-	int   m_iAttribute; // ¸¶aý LÓLs:  ¶A 1 ÇD´A 2 sN 3 a° 4  
+	char m_cCategory;
+	int m_iAttribute;
 };
-
-#endif // !defined(AFX_MAGIC_H__CD611900_EF3A_11D2_9B6C_00001C7030A6__INCLUDED_)
 

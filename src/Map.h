@@ -1,15 +1,12 @@
-// Map.h: interface for the CMap class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
-#if !defined(AFX_MAP_H__12609160_8060_11D2_A8E6_00001C7030A6__INCLUDED_)
-#define AFX_MAP_H__12609160_8060_11D2_A8E6_00001C7030A6__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
-#include <windows.h>
+#include <cstdint>
 #include "OccupyFlag.h"
 #include "Tile.h"
 #include "StrategicPoint.h"
@@ -31,13 +28,12 @@
 #define DEF_MAXITEMEVENTS		200
 #define DEF_MAXMINERALPOINT		200
 #define DEF_MAXHELDENIANDOOR	200
-#define DEF_MAXOCCUPYFLAG		20001 //3001
+#define DEF_MAXOCCUPYFLAG		20001
 #define	DEF_MAXINITIALPOINT		20
 #define DEF_MAXAGRICULTURE		200
 #define DEF_MAXDYNAMICGATES		10
 #define DEF_MAXHELDENIANTOWER	200
 
-#include <windows.h>
 #include "Game.h"
 #include "StrTok.h"
 #include "TeleportLoc.h"
@@ -51,85 +47,81 @@
 #define DEF_MAXSECTORS					60
 #define DEF_MAXSTRIKEPOINTS				20
 
-
-
-
 class CMap  
 {
 public:
 	
-	BOOL bCheckFlySpaceAvailable(short sX, char sY, char cDir, short sOwner);
-	BOOL bGetIsFarm(short tX, short tY);
+	bool bCheckFlySpaceAvailable(short sX, char sY, char cDir, short sOwner);
+	bool bGetIsFarm(short tX, short tY);
 	void RestoreStrikePoints();
-	BOOL bRemoveCrusadeStructureInfo(short sX, short sY);
-	BOOL bAddCrusadeStructureInfo(char cType, short sX, short sY, char cSide);
+	bool bRemoveCrusadeStructureInfo(short sX, short sY);
+	bool bAddCrusadeStructureInfo(char cType, short sX, short sY, char cSide);
 	int iGetAttribute(int dX, int dY, int iBitMask);
 	void _SetupNoAttackArea();
 	void ClearTempSectorInfo();
 	void ClearSectorInfo();
 	int iRegisterOccupyFlag(int dX, int dY, int iSide, int iEKNum, int iDOI);
 	int  iCheckItem(short sX, short sY);
-	void SetTempMoveAllowedFlag(int dX, int dY, BOOL bFlag);
+	void SetTempMoveAllowedFlag(int dX, int dY, bool bFlag);
 	int iAnalyze(char cType, int *pX, int *pY, int * pV1, int *pV2, int * pV3);
-	BOOL bGetIsWater(short dX, short dY);
+	bool bGetIsWater(short dX, short dY);
 	void GetDeadOwner(short * pOwner, char * pOwnerClass, short sX, short sY);
-	BOOL bGetIsMoveAllowedTile(short dX, short dY);
+	bool bGetIsMoveAllowedTile(short dX, short dY);
 	void SetNamingValueEmpty(int iValue);
 	int iGetEmptyNamingValue();
-	BOOL bGetDynamicObject(short sX, short sY, short * pType, DWORD * pRegisterTime, int * pIndex = NULL);
-	void SetDynamicObject(WORD wID, short sType, short sX, short sY, DWORD dwRegisterTime);
-	BOOL bGetIsTeleport(short dX, short dY);
-	BOOL bSearchTeleportDest(int sX, int sY, char * pMapName, int * pDx, int * pDy, char * pDir);
-	BOOL bInit(char * pName);
-	BOOL bIsValidLoc(short sX, short sY);
-	class CItem * pGetItem(short sX, short sY, short * pRemainItemSprite, short * pRemainItemSpriteFrame, char * pRemainItemColor);
-	BOOL bSetItem(short sX, short sY, class CItem * pItem);
+	bool bGetDynamicObject(short sX, short sY, short * pType, uint32_t * pRegisterTime, int * pIndex = 0);
+	void SetDynamicObject(uint16_t wID, short sType, short sX, short sY, uint32_t dwRegisterTime);
+	bool bGetIsTeleport(short dX, short dY);
+	bool bSearchTeleportDest(int sX, int sY, char * pMapName, int * pDx, int * pDy, char * pDir);
+	bool bInit(char * pName);
+	bool bIsValidLoc(short sX, short sY);
+	CItem * pGetItem(short sX, short sY, short * pRemainItemSprite, short * pRemainItemSpriteFrame, char * pRemainItemColor);
+	bool bSetItem(short sX, short sY, CItem * pItem);
 	void ClearDeadOwner(short sX, short sY);
 	void ClearOwner(int iDebugCode, short sOwnerH, char cOwnerType, short sX, short sY);
-	BOOL bGetMoveable(short dX, short dY, short * pDOtype = NULL, short * pTopItem = NULL);
+	bool bGetMoveable(short dX, short dY, short * pDOtype = 0, short * pTopItem = 0);
 	void GetOwner(short * pOwner, char * pOwnerClass, short sX, short sY);
 	void SetOwner(short sOwner, char cOwnerClass, short sX, short sY);
 	void SetDeadOwner(short sOwner, char cOwnerClass, short sX, short sY);
-	BOOL bRemoveCropsTotalSum();
-	BOOL bAddCropsTotalSum();
+	bool bRemoveCropsTotalSum();
+	bool bAddCropsTotalSum();
 	void SetBigOwner(short sOwner, char cOwnerClass, short sX, short sY, char cArea);
 
-	CMap(class CGame * pGame);
-	virtual ~CMap();
+	CMap(CGame * pGame);
+	~CMap();
 
-	class CTile * m_pTile;
-	class CGame * m_pGame;
+	CTile * m_pTile;
+	CGame * m_pGame;
 	char  m_cName[11];
 	char  m_cLocationName[11];
 	short m_sSizeX, m_sSizeY, m_sTileDataSize;
-	class CTeleportLoc * m_pTeleportLoc[DEF_MAXTELEPORTLOC];
+	CTeleportLoc * m_pTeleportLoc[DEF_MAXTELEPORTLOC];
 	
 	//short m_sInitialPointX, m_sInitialPointY;
 	POINT m_pInitialPoint[DEF_MAXINITIALPOINT];
 
-	BOOL  m_bNamingValueUsingStatus[1000]; // 0~999
-	BOOL  m_bRandomMobGenerator;
+	bool  m_bNamingValueUsingStatus[1000]; // 0~999
+	bool  m_bRandomMobGenerator;
 	char  m_cRandomMobGeneratorLevel;
 	int   m_iTotalActiveObject;
 	int   m_iTotalAliveObject;
 	int   m_iMaximumObject;
 
-	char  m_cType;				// 맵의 형식. 0이면 보통. 1이면 공격행위가 범죄가 아니다.
+	char  m_cType;
 
-	BOOL  m_bIsFixedDayMode;	// 항상 주간모드인지: 건물 내부 등 
+	bool  m_bIsFixedDayMode;
 
 	struct {		    
-		BOOL bDefined;
-		char cType;				// 1:RANDOMAREA   2:RANDOMWAYPOINT
+		bool bDefined{};
+		char cType{};				// 1:RANDOMAREA   2:RANDOMWAYPOINT
 		
-		char cWaypoint[10];     // RANDOMWAYPOINT 등
-		RECT rcRect;			// RANDOMAREA발생의 경우 
+		char cWaypoint[10]{};     // RANDOMWAYPOINT
+		RECT rcRect{};			// RANDOMAREA 
 		
-		int  iTotalActiveMob;
-		int  iMobType;
-		int  iMaxMobs;
-		int  iCurMobs;
-		
+        int iTotalActiveMob{};
+		int iMobType{};
+		int iMaxMobs{};
+		int iCurMobs{};
 	} m_stSpotMobGenerator[DEF_MAXSPOTMOBGENERATOR];
 
 	POINT m_WaypointList[DEF_MAXWAYPOINTCFG];
@@ -145,29 +137,29 @@ public:
 	short m_sDynamicGateCoordRectX1, m_sDynamicGateCoordRectY1, m_sDynamicGateCoordRectX2, m_sDynamicGateCoordRectY2;
 	char  m_cDynamicGateCoordDestMap[11];
 	short m_sDynamicGateCoordTgtX, m_sDynamicGateCoordTgtY;
-	BOOL  m_bIsCitizenLimit;
+	bool  m_bIsCitizenLimit;
 	short m_sHeldenianTowerType, m_sHeldenianTowerXPos, m_sHeldenianTowerYPos;
 	char  m_cHeldenianTowerSide;
 	char  m_cHeldenianModeMap;
 
-	BOOL  m_bMineralGenerator;
+	bool  m_bMineralGenerator;
 	char  m_cMineralGeneratorLevel;
 	POINT m_MineralPointList[DEF_MAXMINERALPOINT];
 	int   m_iTotalMineralPoint, m_iMaxMineral, m_iCurMineral;
 
-	char  m_cWhetherStatus;		// 기상 상태. 0이면 없음. 1~3 비 4~6 눈 7~9 폭풍 
-	DWORD m_dwWhetherLastTime, m_dwWhetherStartTime;  // 날씨 지속, 시작 시간 
+	char  m_cWhetherStatus;
+	uint32_t m_dwWhetherLastTime, m_dwWhetherStartTime;
 
 	int   m_iLevelLimit;
-	int   m_iUpperLevelLimit;	// 상위 렙 제한 
+	int   m_iUpperLevelLimit;
 
-	class COccupyFlag * m_pOccupyFlag[DEF_MAXOCCUPYFLAG];
+	COccupyFlag * m_pOccupyFlag[DEF_MAXOCCUPYFLAG];
 	int   m_iTotalOccupyFlags;
 	
-	class CStrategicPoint * m_pStrategicPointList[DEF_MAXSTRATEGICPOINTS];
-	BOOL  m_bIsAttackEnabled;
+	CStrategicPoint * m_pStrategicPointList[DEF_MAXSTRATEGICPOINTS];
+	bool  m_bIsAttackEnabled;
 
-	BOOL  m_bIsFightZone;
+	bool  m_bIsFightZone;
 
 	struct {
 		char cType;
@@ -184,17 +176,16 @@ public:
 
 	int m_iTotalEnergySphereGoalPoint;
 
-	BOOL m_bIsEnergySphereGoalEnabled;
+	bool m_bIsEnergySphereGoalEnabled;
 	int m_iCurEnergySphereGoalPointIndex; 
 
 	struct {
-		BOOL m_bIsGateMap;
+		bool m_bIsGateMap;
 		char m_cDynamicGateMap[11];
 		int m_iDynamicGateX;
 		int m_iDynamicGateY;
 	} m_stDynamicGateCoords[DEF_MAXDYNAMICGATES];
 
-	// 현재 맵에서의 플레이어들의 활동 성향을 파악하는 테이블.
 	struct {
 		int iPlayerActivity;
 		int iNeutralActivity;
@@ -241,24 +232,22 @@ public:
 	} m_stStrikePoint[DEF_MAXSTRIKEPOINTS];
 	int m_iTotalStrikePoints;
 
-	BOOL m_bIsDisabled;		// 폭격으로 기능이 마비된 경우 
+	bool m_bIsDisabled;
 	int m_iTotalAgriculture;
 
 	struct {
-		char cType;			// 이게 NULL이면 정의되지 않은것을 의미.
-		char cSide;			// 사이드
-		short sX, sY;		// 설치된 위치 
+        char cType{};
+        char cSide{};
+        short sX{}, sY{};
 	} m_stCrusadeStructureInfo[DEF_MAXCRUSADESTRUCTURES];
 	int m_iTotalCrusadeStructures;
-	BOOL m_bIsEnergySphereAutoCreation;
+	bool m_bIsEnergySphereAutoCreation;
 private:
-	BOOL _bDecodeMapDataFileContents();
+	bool _bDecodeMapDataFileContents();
 public:
 	// Snow BOOLean for certain maps to snow instead of rain
-	BOOL m_bIsSnowEnabled;
-	BOOL m_bIsRecallImpossible;
-	BOOL m_bIsApocalypseMap;
-	BOOL m_bIsHeldenianMap;
+	bool m_bIsSnowEnabled;
+	bool m_bIsRecallImpossible;
+	bool m_bIsApocalypseMap;
+	bool m_bIsHeldenianMap;
 };
-
-#endif // !defined(AFX_MAP_H__12609160_8060_11D2_A8E6_00001C7030A6__INCLUDED_)

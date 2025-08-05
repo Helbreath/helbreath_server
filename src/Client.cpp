@@ -1,347 +1,351 @@
-// Client.cpp: implementation of the CClient class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
 #include "Client.h"
+#include "session.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+extern int32_t timeGetTime();
 
-CClient::CClient(HWND hWnd)
+CClient::CClient()
 {
- register int i;
-
-	m_pXSock = NULL;
-	m_pXSock = new class XSocket(hWnd, DEF_CLIENTSOCKETBLOCKLIMIT);
-	m_pXSock->bInitBufferSize(DEF_MSGBUFFERSIZE);
-
-	ZeroMemory(m_cProfile, sizeof(m_cProfile));
-	strcpy(m_cProfile, "__________");
-
-	ZeroMemory(m_cCharName, sizeof(m_cCharName));
-	ZeroMemory(m_cAccountName, sizeof(m_cAccountName));
-	ZeroMemory(m_cAccountPassword, sizeof(m_cAccountPassword));
-
-	ZeroMemory(m_cGuildName, sizeof(m_cGuildName));
-	ZeroMemory(m_cLocation, sizeof(m_cLocation));
-	strcpy(m_cLocation, "NONE");
-	m_iGuildRank = -1;
-	m_iGuildGUID = -1;
-
-	m_bIsInitComplete = FALSE;
-
-	//m_cLU_Str = m_cLU_Int = m_cLU_Vit = m_cLU_Dex = m_cLU_Mag = m_cLU_Char = 0;
-	m_iLU_Pool = 0;
-	m_cAura = 0;
-
-	// v1.432 사용하지 않는다.
-	//m_iHitRatio_ItemEffect_SM = 0;
-	//m_iHitRatio_ItemEffect_L  = 0;
-	m_cVar = 0;
-	m_iEnemyKillCount = 0;
-	m_iPKCount = 0;
-	m_iRewardGold = 0;
-	m_iCurWeightLoad = 0;
-	m_dwLogoutHackCheck = 0;
-
-	// Charges
-	m_iAddTransMana = 0;
-	m_iAddChargeCritical = 0;
-
-	m_bIsSafeAttackMode  = FALSE;
-
-	// 아이템 장착 상태 초기화한 후 설정한다.
-	for (i = 0; i < DEF_MAXITEMEQUIPPOS; i++) 
-		m_sItemEquipmentStatus[i] = -1;
-	
-	// 아이템 리스트 초기화 
-	for (i = 0; i < DEF_MAXITEMS; i++) {
-		m_pItemList[i]       = NULL;
-		m_ItemPosList[i].x   = 40;
-		m_ItemPosList[i].y   = 30;
-		m_bIsItemEquipped[i] = FALSE;
-	}
-	m_cArrowIndex = -1;	// 화살 아이템 인덱스는 할당되지 않은 상태 
-
-	// 맡겨논 아이템 리스트 초기화.
-	for (i = 0; i < DEF_MAXBANKITEMS; i++) {
-		m_pItemInBankList[i] = NULL;
-	}
-
-	// Magic - Skill 숙련도 리스트 초기화 
-	for (i = 0; i < DEF_MAXMAGICTYPE; i++)
-		m_cMagicMastery[i] = NULL;
-	
-	for (i = 0; i < DEF_MAXSKILLTYPE; i++)
-		m_cSkillMastery[i] = NULL;
-
-	for (i = 0; i < DEF_MAXSKILLTYPE; i++) {
-		m_bSkillUsingStatus[i] = FALSE;
-		m_iSkillUsingTimeID[i] = NULL;
-	}
-
-	// testcode
-	m_cMapIndex = -1;
-	m_sX = -1;
-	m_sY = -1;
-	m_cDir = 5; 
-	m_sType   = 0;
-	m_sOriginalType = 0;
-	m_sAppr1  = 0;
-	m_sAppr2  = 0;
-	m_sAppr3  = 0;
-	m_sAppr4  = 0;
-	m_iApprColor = 0; // v1.4
-	m_iStatus = 0;
-
-	m_cSex  = 0;
-	m_cSkin = 0;
-	m_cHairStyle  = 0;
-	m_cHairColor  = 0;
-	m_cUnderwear  = 0;
-
-	m_cAttackDiceThrow_SM = 0;	// 공격치 주사위 던지는 회수 @@@@@@@@@@@@@
-	m_cAttackDiceRange_SM = 0;
-	m_cAttackDiceThrow_L = 0;	// 공격치 주사위 던지는 회수 @@@@@@@@@@@@@
-	m_cAttackDiceRange_L = 0;
-	m_cAttackBonus_SM    = 0;
-	m_cAttackBonus_L     = 0;
-	
-	// 플레이어의 소속 마을에 따라서 사이드가 결정되며 이것을 보고 NPC가 공격여부를 결정할 것이다. 
-	m_cSide = 0;
-
-	m_iHitRatio = 0;
-	m_iDefenseRatio = 0;
-	
-	for (i = 0; i < DEF_MAXITEMEQUIPPOS; i++) m_iDamageAbsorption_Armor[i]  = 0;
-	m_iDamageAbsorption_Shield = 0;
+    int i;
+
+    memset(m_cProfile, 0, sizeof(m_cProfile));
+    strcpy(m_cProfile, "__________");
+
+    memset(m_cCharName, 0, sizeof(m_cCharName));
+    memset(m_cAccountName, 0, sizeof(m_cAccountName));
+    memset(m_cAccountPassword, 0, sizeof(m_cAccountPassword));
+
+    memset(m_cGuildName, 0, sizeof(m_cGuildName));
+    memset(m_cLocation, 0, sizeof(m_cLocation));
+    strcpy(m_cLocation, "NONE");
+    m_iGuildRank = -1;
+    m_iGuildGUID = -1;
+
+    m_bIsInitComplete = false;
+
+    //m_cLU_Str = m_cLU_Int = m_cLU_Vit = m_cLU_Dex = m_cLU_Mag = m_cLU_Char = 0;
+    m_iLU_Pool = 0;
+    m_cAura = 0;
+
+    //m_iHitRatio_ItemEffect_SM = 0;
+    //m_iHitRatio_ItemEffect_L  = 0;
+    m_cVar = 0;
+    m_iEnemyKillCount = 0;
+    m_iPKCount = 0;
+    m_iRewardGold = 0;
+    m_iCurWeightLoad = 0;
+    m_dwLogoutHackCheck = 0;
+
+    // Charges
+    m_iAddTransMana = 0;
+    m_iAddChargeCritical = 0;
+
+    m_bIsSafeAttackMode = false;
+
+    for (i = 0; i < DEF_MAXITEMEQUIPPOS; i++)
+        m_sItemEquipmentStatus[i] = -1;
+
+    for (i = 0; i < DEF_MAXITEMS; i++)
+    {
+        m_pItemList[i] = 0;
+        m_ItemPosList[i].x = 40;
+        m_ItemPosList[i].y = 30;
+        m_bIsItemEquipped[i] = false;
+    }
+    m_cArrowIndex = -1;
+
+    for (i = 0; i < DEF_MAXBANKITEMS; i++)
+    {
+        m_pItemInBankList[i] = 0;
+    }
+
+    for (i = 0; i < DEF_MAXMAGICTYPE; i++)
+        m_cMagicMastery[i] = 0;
+
+    for (i = 0; i < DEF_MAXSKILLTYPE; i++)
+        m_cSkillMastery[i] = 0;
+
+    for (i = 0; i < DEF_MAXSKILLTYPE; i++)
+    {
+        m_bSkillUsingStatus[i] = false;
+        m_iSkillUsingTimeID[i] = 0;
+    }
+
+    m_cMapIndex = -1;
+    m_sX = -1;
+    m_sY = -1;
+    m_cDir = 5;
+    m_sType = 0;
+    m_sOriginalType = 0;
+    m_sAppr1 = 0;
+    m_sAppr2 = 0;
+    m_sAppr3 = 0;
+    m_sAppr4 = 0;
+    m_iApprColor = 0;
+    m_iStatus = 0;
+
+    m_cSex = 0;
+    m_cSkin = 0;
+    m_cHairStyle = 0;
+    m_cHairColor = 0;
+    m_cUnderwear = 0;
+
+    m_cAttackDiceThrow_SM = 0;
+    m_cAttackDiceRange_SM = 0;
+    m_cAttackDiceThrow_L = 0;
+    m_cAttackDiceRange_L = 0;
+    m_cAttackBonus_SM = 0;
+    m_cAttackBonus_L = 0;
 
-	m_iHPstock = 0;
-	m_bIsKilled = FALSE;
+    m_cSide = 0;
 
-	for (i = 0; i < DEF_MAXMAGICEFFECTS; i++) 
-		m_cMagicEffectStatus[i]	= 0;
+    m_iHitRatio = 0;
+    m_iDefenseRatio = 0;
+
+    for (i = 0; i < DEF_MAXITEMEQUIPPOS; i++) m_iDamageAbsorption_Armor[i] = 0;
+    m_iDamageAbsorption_Shield = 0;
 
-	m_iWhisperPlayerIndex = -1;
-	ZeroMemory(m_cWhisperPlayerName, sizeof(m_cWhisperPlayerName));
+    m_iHPstock = 0;
+    m_bIsKilled = false;
 
-	m_iHungerStatus  = 100;  // 최대값은 100
-	
-	m_bIsWarLocation = FALSE;
+    for (i = 0; i < DEF_MAXMAGICEFFECTS; i++)
+        m_cMagicEffectStatus[i] = 0;
 
-	m_bIsPoisoned    = FALSE;
-	m_iPoisonLevel   = NULL;
+    m_iWhisperPlayerIndex = -1;
+    memset(m_cWhisperPlayerName, 0, sizeof(m_cWhisperPlayerName));
 
-	m_iAdminUserLevel  = 0;
-	m_iRating          = 0;
-	m_iTimeLeft_ShutUp = 0;
-	m_iTimeLeft_Rating = 0;
-	m_iTimeLeft_ForceRecall  = 0;
-	m_iTimeLeft_FirmStaminar = 0;
-	
-	m_iRecentWalkTime  = 0;
-	m_iRecentRunTime   = 0;
-	m_sV1			   = 0;
+    m_iHungerStatus = 100;
 
-	m_bIsOnServerChange  = FALSE;
-	m_bInhibition = FALSE;
+    m_bIsWarLocation = false;
 
-	m_iExpStock = 0;
+    m_bIsPoisoned = false;
+    m_iPoisonLevel = 0;
 
-	m_iAllocatedFish = NULL;
-	m_iFishChance    = 0;
+    m_iAdminUserLevel = 0;
+    m_iRating = 0;
+    m_iTimeLeft_ShutUp = 0;
+    m_iTimeLeft_Rating = 0;
+    m_iTimeLeft_ForceRecall = 0;
+    m_iTimeLeft_FirmStaminar = 0;
 
-	ZeroMemory(m_cIPaddress, sizeof(m_cIPaddress)); 
-	m_bIsOnWaitingProcess = FALSE;
+    m_iRecentWalkTime = 0;
+    m_iRecentRunTime = 0;
+    m_sV1 = 0;
 
-	m_iSuperAttackLeft  = 0;
-	m_iSuperAttackCount = 0;
+    m_bIsOnServerChange = false;
+    m_bInhibition = false;
 
-	m_sUsingWeaponSkill = 5; // 기본적으로 맨손격투 
+    m_iExpStock = 0;
 
-	m_iManaSaveRatio   = 0;
-	m_iAddResistMagic  = 0;
-	m_iAddPhysicalDamage = 0;
-	m_iAddMagicalDamage  = 0;
-	m_bIsLuckyEffect     = FALSE;
-	m_iSideEffect_MaxHPdown = 0;
+    m_iAllocatedFish = 0;
+    m_iFishChance = 0;
 
-	m_iAddAbsAir   = 0;	// 속성별 대미지 흡수
-	m_iAddAbsEarth = 0;
-	m_iAddAbsFire  = 0;
-	m_iAddAbsWater = 0;
+    memset(m_cIPaddress, 0, sizeof(m_cIPaddress));
+    m_bIsOnWaitingProcess = false;
 
-	m_iComboAttackCount = 0;
-	m_iDownSkillIndex   = -1;
-	m_bInRecallImpossibleMap = 0;
+    m_iSuperAttackLeft = 0;
+    m_iSuperAttackCount = 0;
 
-	m_iMagicDamageSaveItemIndex = -1;
+    m_sUsingWeaponSkill = 5;
 
-	m_sCharIDnum1 = m_sCharIDnum2 = m_sCharIDnum3 = 0;
+    m_iManaSaveRatio = 0;
+    m_iAddResistMagic = 0;
+    m_iAddPhysicalDamage = 0;
+    m_iAddMagicalDamage = 0;
+    m_bIsLuckyEffect = false;
+    m_iSideEffect_MaxHPdown = 0;
 
-	// New 06/05/2004
-	m_iPartyID = 0;
-	m_iPartyStatus = 0;
-	m_iReqJoinPartyClientH = 0;
-	ZeroMemory(m_cReqJoinPartyName,sizeof(m_cReqJoinPartyName));
+    m_iAddAbsAir = 0;
+    m_iAddAbsEarth = 0;
+    m_iAddAbsFire = 0;
+    m_iAddAbsWater = 0;
 
-	/*m_iPartyRank = -1; // v1.42
-	m_iPartyMemberCount = 0;
-	m_iPartyGUID        = 0;
+    m_iComboAttackCount = 0;
+    m_iDownSkillIndex = -1;
+    m_bInRecallImpossibleMap = 0;
 
-	for (i = 0; i < DEF_MAXPARTYMEMBERS; i++) {
-		m_stPartyMemberName[i].iIndex = 0;
-		ZeroMemory(m_stPartyMemberName[i].cName, sizeof(m_stPartyMemberName[i].cName));
-	}*/
+    m_iMagicDamageSaveItemIndex = -1;
 
-	m_iAbuseCount     = 0;
-	m_bIsBWMonitor    = FALSE;
-	m_bIsExchangeMode = FALSE;
+    m_sCharIDnum1 = m_sCharIDnum2 = m_sCharIDnum3 = 0;
 
-	//hbest
-	isForceSet = FALSE;
+    m_iPartyID = 0;
+    m_iPartyStatus = 0;
+    m_iReqJoinPartyClientH = 0;
+    memset(m_cReqJoinPartyName, 0, sizeof(m_cReqJoinPartyName));
 
-	// v1.4311-3 추가 변수 초기화 사투장 예약 관련 변수 
-    m_iFightZoneTicketNumber =	m_iFightzoneNumber = m_iReserveTime = 0 ;            
+    /*m_iPartyRank = -1;
+    m_iPartyMemberCount = 0;
+    m_iPartyGUID        = 0;
 
-	m_iPenaltyBlockYear = m_iPenaltyBlockMonth = m_iPenaltyBlockDay = 0; // v1.4
+    for (i = 0; i < DEF_MAXPARTYMEMBERS; i++) {
+        m_stPartyMemberName[i].iIndex = 0;
+        memset(m_stPartyMemberName[i].cName, 0, sizeof(m_stPartyMemberName[i].cName));
+    }*/
 
-	m_iExchangeH = NULL;											// 교환할 대상의 인덱스 
-	ZeroMemory(m_cExchangeName, sizeof(m_cExchangeName));			// 교환할 대상의 이름 
-	ZeroMemory(m_cExchangeItemName, sizeof(m_cExchangeItemName));	// 교환할 아이템 이름 
+    m_iAbuseCount = 0;
+    m_bIsBWMonitor = false;
+    m_bIsExchangeMode = false;
 
-	for(i=0; i<4; i++){
-		m_cExchangeItemIndex[i]  = -1; 
-		m_iExchangeItemAmount[i] = 0;
-	}
+    isForceSet = false;
 
-	m_bIsExchangeConfirm = FALSE;
+    m_iFightZoneTicketNumber = m_iFightzoneNumber = m_iReserveTime = 0;
 
-	m_iQuest		 = NULL; // 현재 할당된 Quest 
-	m_iQuestID       = NULL; // QuestID
-	m_iAskedQuest	 = NULL; // 물어본 퀘스트 
-	m_iCurQuestCount = NULL; // 현재 퀘스트 상태 
+    m_iPenaltyBlockYear = m_iPenaltyBlockMonth = m_iPenaltyBlockDay = 0;
 
-	m_iQuestRewardType	 = NULL; // 퀘스트 해결시 상품 종류 -> 아이템의 ID값이다.
-	m_iQuestRewardAmount = NULL; // 상품 갯수 
+    m_iExchangeH = 0;
+    memset(m_cExchangeName, 0, sizeof(m_cExchangeName));
+    memset(m_cExchangeItemName, 0, sizeof(m_cExchangeItemName));
 
-	m_iContribution = NULL;			// 공헌도 
-	m_bQuestMatchFlag_Loc = FALSE;  // 퀘스트 장소 확인용 플래그.
-	m_bIsQuestCompleted   = FALSE;
+    for (i = 0; i < 4; i++)
+    {
+        m_cExchangeItemIndex[i] = -1;
+        m_iExchangeItemAmount[i] = 0;
+    }
 
-	m_cHeroArmourBonus = 0;
+    m_bIsExchangeConfirm = false;
 
-	m_bIsNeutral      = FALSE;
-	m_bIsObserverMode = FALSE;
+    m_iQuest = 0;
+    m_iQuestID = 0;
+    m_iAskedQuest = 0;
+    m_iCurQuestCount = 0;
 
-	// 2000.8.1 이벤트 상품 수여 확인용 
-	m_iSpecialEventID = 200081;
+    m_iQuestRewardType = 0;
+    m_iQuestRewardAmount = 0;
 
-	m_iSpecialWeaponEffectType  = 0;	// 희귀 아이템 효과 종류: 0-None 1-필살기대미지추가 2-중독효과 3-정의의 4-저주의
-	m_iSpecialWeaponEffectValue = 0;	// 희귀 아이템 효과 값
+    m_iContribution = 0;
+    m_bQuestMatchFlag_Loc = false;
+    m_bIsQuestCompleted = false;
 
-	m_iAddHP = m_iAddSP = m_iAddMP = 0; 
-	m_iAddAR = m_iAddPR = m_iAddDR = 0;
-	m_iAddAbsPD = m_iAddAbsMD = 0;
-	m_iAddCD = m_iAddExp = m_iAddGold = 0;
-		
-	m_iSpecialAbilityTime = DEF_SPECABLTYTIMESEC;		// DEF_SPECABLTYTIMESEC 초마다 한번씩 특수 능력을 쓸 수 있다.
-	m_iSpecialAbilityType = NULL;
-	m_bIsSpecialAbilityEnabled = FALSE;
-	m_iSpecialAbilityLastSec   = 0;
+    m_cHeroArmourBonus = 0;
 
-	m_iSpecialAbilityEquipPos  = 0;
+    m_bIsNeutral = false;
+    m_bIsObserverMode = false;
 
-	m_iMoveMsgRecvCount   = 0;
-	m_iAttackMsgRecvCount = 0;
-	m_iRunMsgRecvCount    = 0;
-	m_iSkillMsgRecvCount  = 0;
+    m_iSpecialEventID = 200081;
 
-	m_bIsAdminCommandEnabled = FALSE;
-	m_iAlterItemDropIndex = -1;
+    m_iSpecialWeaponEffectType = 0;
+    m_iSpecialWeaponEffectValue = 0;
 
-	m_iAutoExpAmount = 0;
-	m_iWarContribution = 0;
+    m_iAddHP = m_iAddSP = m_iAddMP = 0;
+    m_iAddAR = m_iAddPR = m_iAddDR = 0;
+    m_iAddAbsPD = m_iAddAbsMD = 0;
+    m_iAddCD = m_iAddExp = m_iAddGold = 0;
 
-	m_dwMoveLAT = m_dwRunLAT = m_dwAttackLAT = 0;
+    m_iSpecialAbilityTime = DEF_SPECABLTYTIMESEC;
+    m_iSpecialAbilityType = 0;
+    m_bIsSpecialAbilityEnabled = false;
+    m_iSpecialAbilityLastSec = 0;
 
-	m_dwInitCCTimeRcv = 0;
-	m_dwInitCCTime = 0;
+    m_iSpecialAbilityEquipPos = 0;
 
-	ZeroMemory(m_cLockedMapName, sizeof(m_cLockedMapName));
-	strcpy(m_cLockedMapName, "NONE");
-	m_iLockedMapTime = NULL;
+    m_iMoveMsgRecvCount = 0;
+    m_iAttackMsgRecvCount = 0;
+    m_iRunMsgRecvCount = 0;
+    m_iSkillMsgRecvCount = 0;
 
-	m_iCrusadeDuty  = NULL;
-	m_dwCrusadeGUID = NULL;
-	m_dwHeldenianGUID = NULL;
+    m_bIsAdminCommandEnabled = false;
+    m_iAlterItemDropIndex = -1;
 
-	for (i = 0; i < DEF_MAXCRUSADESTRUCTURES; i++) {
-		m_stCrusadeStructureInfo[i].cType = NULL;
-		m_stCrusadeStructureInfo[i].cSide = NULL;
-		m_stCrusadeStructureInfo[i].sX = NULL;
-		m_stCrusadeStructureInfo[i].sY = NULL;
-	}
+    m_iAutoExpAmount = 0;
+    m_iWarContribution = 0;
 
-	m_iCSIsendPoint = NULL;
+    m_dwMoveLAT = m_dwRunLAT = m_dwAttackLAT = 0;
 
-	m_bIsSendingMapStatus = FALSE;
-	ZeroMemory(m_cSendingMapName, sizeof(m_cSendingMapName));
+    m_dwInitCCTimeRcv = 0;
+    m_dwInitCCTime = 0;
 
-	m_iConstructionPoint = NULL;
+    memset(m_cLockedMapName, 0, sizeof(m_cLockedMapName));
+    strcpy(m_cLockedMapName, "NONE");
+    m_iLockedMapTime = 0;
 
-	ZeroMemory(m_cConstructMapName, sizeof(m_cConstructMapName));
-	m_iConstructLocX = m_iConstructLocY = -1;
+    m_iCrusadeDuty = 0;
+    m_dwCrusadeGUID = 0;
+    m_dwHeldenianGUID = 0;
 
-	m_bIsAdminOrderGoto = FALSE;
-	m_bIsInsideWarehouse = FALSE;
-	m_bIsInsideWizardTower = FALSE;
-	m_bIsInsideOwnTown = FALSE;
-	m_bIsCheckingWhisperPlayer = FALSE;
-	m_bIsOwnLocation = FALSE;
-	m_pIsProcessingAllowed = FALSE;
+    for (i = 0; i < DEF_MAXCRUSADESTRUCTURES; i++)
+    {
+        m_stCrusadeStructureInfo[i].cType = 0;
+        m_stCrusadeStructureInfo[i].cSide = 0;
+        m_stCrusadeStructureInfo[i].sX = 0;
+        m_stCrusadeStructureInfo[i].sY = 0;
+    }
 
-	m_cHeroArmorBonus = 0;
+    m_iCSIsendPoint = 0;
 
-	m_bIsBeingResurrected = FALSE;
-	m_bMagicConfirm = FALSE;
-	m_bMagicItem = FALSE;
-	m_iSpellCount = 0;
-	m_bMagicPauseTime = FALSE;
+    m_bIsSendingMapStatus = false;
+    memset(m_cSendingMapName, 0, sizeof(m_cSendingMapName));
+
+    m_iConstructionPoint = 0;
+
+    memset(m_cConstructMapName, 0, sizeof(m_cConstructMapName));
+    m_iConstructLocX = m_iConstructLocY = -1;
+
+    m_bIsAdminOrderGoto = false;
+    m_bIsInsideWarehouse = false;
+    m_bIsInsideWizardTower = false;
+    m_bIsInsideOwnTown = false;
+    m_bIsCheckingWhisperPlayer = false;
+    m_bIsOwnLocation = false;
+    m_pIsProcessingAllowed = false;
+
+    m_cHeroArmorBonus = 0;
+
+    m_bIsBeingResurrected = false;
+    m_bMagicConfirm = false;
+    m_bMagicItem = false;
+    m_iSpellCount = 0;
+    m_bMagicPauseTime = false;
 }
 
 CClient::~CClient()
 {
- int i;
-	
-	if (m_pXSock != NULL) delete m_pXSock;
-	for (i = 0; i < DEF_MAXITEMS; i++)
-		if (m_pItemList[i] != NULL) {
-			delete m_pItemList[i];
-			m_pItemList[i] = NULL;
-		}
-	for(i = 0; i < DEF_MAXBANKITEMS; i++)
-		if (m_pItemInBankList[i] != NULL) {
-			delete m_pItemInBankList[i];
-			m_pItemInBankList[i]=NULL;
-		}
+    int i;
+
+    if (m_pXSock != 0) delete m_pXSock;
+    for (i = 0; i < DEF_MAXITEMS; i++)
+        if (m_pItemList[i] != 0)
+        {
+            delete m_pItemList[i];
+            m_pItemList[i] = 0;
+        }
+    for (i = 0; i < DEF_MAXBANKITEMS; i++)
+        if (m_pItemInBankList[i] != 0)
+        {
+            delete m_pItemInBankList[i];
+            m_pItemInBankList[i] = 0;
+        }
 }
 
-BOOL CClient::bCreateNewParty()
+int64_t CClient::send_msg(const char * data, int64_t size, char key) const
 {
- int i;
+    session_->send_msg(data, size, key);
+}
 
-	if (m_iPartyRank != -1) return FALSE;
+int64_t CClient::send_msg(stream_write & sw) const
+{
+    session_->send_msg(sw);
+}
 
-	m_iPartyRank = 0;
-	m_iPartyMemberCount = 0;
-	m_iPartyGUID = (rand() % 999999) + timeGetTime();
+bool CClient::bCreateNewParty()
+{
+    int i;
 
-	for (i = 0; i < DEF_MAXPARTYMEMBERS; i++) {
-		m_stPartyMemberName[i].iIndex = 0;
-		ZeroMemory(m_stPartyMemberName[i].cName, sizeof(m_stPartyMemberName[i].cName));
-	}
+    if (m_iPartyRank != -1) return false;
 
-	return TRUE;
+    m_iPartyRank = 0;
+    m_iPartyMemberCount = 0;
+    m_iPartyGUID = (rand() % 999999) + timeGetTime();
+
+    for (i = 0; i < DEF_MAXPARTYMEMBERS; i++)
+    {
+        m_stPartyMemberName[i].iIndex = 0;
+        memset(m_stPartyMemberName[i].cName, 0, sizeof(m_stPartyMemberName[i].cName));
+    }
+
+    return true;
 }

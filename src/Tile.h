@@ -1,16 +1,14 @@
-// Tile.h: interface for the CTile class.
 //
-//////////////////////////////////////////////////////////////////////
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
 
-#if !defined(AFX_TILE_H__12609161_8060_11D2_A8E6_00001C7030A6__INCLUDED_)
-#define AFX_TILE_H__12609161_8060_11D2_A8E6_00001C7030A6__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
-#include <windows.h>
-#include "Item.h"
+#include <cstdint>
+
+class CItem;
 
 #define DEF_TILE_PER_ITEMS	12
 
@@ -18,31 +16,26 @@ class CTile
 {												  
 public:
 	CTile();
-	virtual ~CTile();
+	~CTile();
 
-	char  m_cOwnerClass;		// DEF_OT_PLAYER / DEF_OT_NPC
+	char m_cOwnerClass;		// DEF_OT_PLAYER / DEF_OT_NPC
 	short m_sOwner;
 
-	char  m_cDeadOwnerClass;	// DEF_OT_PLAYER / DEF_OT_NPC 죽어있는 플레이어는 이곳에 
+	char m_cDeadOwnerClass;	// DEF_OT_PLAYER / DEF_OT_NPC
 	short m_sDeadOwner;
 
-	class CItem * m_pItem[DEF_TILE_PER_ITEMS];
-	char  m_cTotalItem;
+	CItem * m_pItem[DEF_TILE_PER_ITEMS];
+	char m_cTotalItem;
 
-	WORD  m_wDynamicObjectID;
+	uint16_t  m_wDynamicObjectID;
 	short m_sDynamicObjectType;
-	DWORD m_dwDynamicObjectRegisterTime;
+	uint32_t m_dwDynamicObjectRegisterTime;
 
-	BOOL  m_bIsMoveAllowed, m_bIsTeleport, m_bIsWater, m_bIsFarm, m_bIsTempMoveAllowed;
+	bool m_bIsMoveAllowed, m_bIsTeleport, m_bIsWater, m_bIsFarm, m_bIsTempMoveAllowed;
 
-	// 점령지 표시용 
-	int   m_iOccupyStatus;    // Aresden이면 -값으로, Elvine이면 +로 더해진다. 총 합이 이 지역의 경향성 
-	int   m_iOccupyFlagIndex; // 이 타일 위에 서 있는 점령깃발의 인덱스 
+	int m_iOccupyStatus;
+	int m_iOccupyFlagIndex;
 
 	// Crusade
-	int	  m_iAttribute;		  // 타일의 상태 비트: 첫번째 비트(마법 보호) 두번째 비트(물리 공격 보호) 세번째 비트(안전지대)
-	
-	
+	int m_iAttribute;
 };
-
-#endif // !defined(AFX_TILE_H__12609161_8060_11D2_A8E6_00001C7030A6__INCLUDED_)

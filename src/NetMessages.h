@@ -1,3 +1,9 @@
+//
+// Copyright (c) Helbreath Team (helbreath at helbreath dot dev)
+//
+// Distributed under the Apache 2.0 License. (See accompanying file LICENSE)
+//
+
 // missing messages 
 //0x0BE5, 0x0BE6, 0x0BE7, 0x0BE8, 0x0BEA
 
@@ -62,7 +68,7 @@
  #define DEF_COMMONTYPE_BUILDITEM				0x0A23
  #define DEF_COMMONTYPE_GETMAGICABILITY			0x0A24
 
-// v1.4311-3 �߰� �޼��� ���� ����� �ޱ����� �޼���  ��忡�� �����  DEF_COMMONTYPE_REQ_GETOCCUPYFIGHTZONETICKET DEF_COMMONTYPE_BANGUILD
+// v1.4311-3 Ãß°¡ ¸Þ¼¼Áö ¼±¾ð ÀÔÀå±Ç ¹Þ±âÀ§ÇÑ ¸Þ¼¼Áö  ±æµå¿¡¼­ °­ÅðµÊ  DEF_COMMONTYPE_REQ_GETOCCUPYFIGHTZONETICKET DEF_COMMONTYPE_BANGUILD
  #define DEF_COMMONTYPE_REQ_GETOCCUPYFIGHTZONETICKET	0x0A25
  #define DEF_COMMONTYPE_BANGUILD						0x0A26
 
@@ -196,7 +202,7 @@
  #define DEF_NOTIFY_RESPONSE_CREATENEWPARTY			0x0B80
  #define DEF_NOTIFY_QUERY_JOINPARTY					0x0B81
 
-// v1.4311-3 �޼��� ���� ���� ������ ������ ��� �� ��� ������ ���� �������� ������ �˸�
+// v1.4311-3 ¸Þ¼¼Áö ¼±¾ð ¼±¾ð »çÅõÀå ¿¹¾àÀÌ Ãë¼Ò ¹× ±æµå ¸¶½ºÅÍ ¸í·É »ç¿ë±ÇÇÑÀÌ ¾øÀ½À» ¾Ë¸²
 // #define DEF_NOTIFY_SUCCESSBANGUILDMAN			0x0B82
 
  
@@ -227,9 +233,9 @@
  #define DEF_NOTIFY_FORCERECALLTIME					0x0BA7
  #define DEF_NOTIFY_ITEMUPGRADEFAIL					0x0BA8
 
- #define DEF_NOTIFY_NOMOREAGRICULTURE				0x0BB0  //? ���۹� ����
- #define DEF_NOTIFY_AGRICULTURESKILLLIMIT			0x0BB1  //? ��ų ����
- #define DEF_NOTIFY_AGRICULTURENOAREA				0x0BB2  //? ���۹��� ������ �ִ� ������ �ƴϴ�.
+ #define DEF_NOTIFY_NOMOREAGRICULTURE				0x0BB0  //? ³óÀÛ¹° Á¦ÇÑ
+ #define DEF_NOTIFY_AGRICULTURESKILLLIMIT			0x0BB1  //? ½ºÅ³ Á¦ÇÑ
+ #define DEF_NOTIFY_AGRICULTURENOAREA				0x0BB2  //? ³óÀÛ¹°À» ÁöÀ»¼ö ÀÖ´Â °ø°£ÀÌ ¾Æ´Ï´Ù.
  #define DEF_NOTIFY_SETTING_SUCCESS					0x0BB3
  #define DEF_NOTIFY_SETTING_FAILED					0x0BB4
  #define DEF_NOTIFY_STATECHANGE_SUCCESS				0x0BB5
@@ -283,7 +289,7 @@
 
 #define MSGID_REQUEST_LOGIN					0x0FC94201
 #define MSGID_REQUEST_CREATENEWACCOUNT		0x0FC94202
-#define MSGID_RESPONSE_LOG					0x0FC94203	// Login, createnewaccount, createnewcharacter, deletecharacter �� ���� ���� 
+#define MSGID_RESPONSE_LOG					0x0FC94203	// Login, createnewaccount, createnewcharacter, deletecharacter µîµî¿¡ ´ëÇÑ ÀÀ´ä 
 #define MSGID_REQUEST_CREATENEWCHARACTER	0x0FC94204
 #define MSGID_REQUEST_ENTERGAME				0x0FC94205
 #define MSGID_RESPONSE_ENTERGAME			0x0FC94206
@@ -319,12 +325,12 @@
  #define DEF_LOGRESMSGTYPE_PASSWORDCHANGEFAIL			0x0A01
  #define DEF_LOGRESMSGTYPE_NOTEXISTINGWORLDSERVER		0x0A02			
  
-// ���� ���ٽ� �ɼ� 
+// °ÔÀÓ Á¢±Ù½Ã ¿É¼Ç 
  #define DEF_ENTERGAMEMSGTYPE_NEW						0x0F1C
  #define DEF_ENTERGAMEMSGTYPE_NOENTER_FORCEDISCONN		0x0F1D
  #define DEF_ENTERGAMEMSGTYPE_CHANGINGSERVER			0x0F1E
 
-// ���� ���� ��� 
+// °ÔÀÓ Á¢±Ù °á°ú 
  #define DEF_ENTERGAMERESTYPE_PLAYING			0x0F20
  #define DEF_ENTERGAMERESTYPE_REJECT			0x0F21
  #define DEF_ENTERGAMERESTYPE_CONFIRM			0x0F22
@@ -344,11 +350,11 @@
 
 #define MSGID_REQUEST_FULLOBJECTDATA		0x0DF40000
 
-// �α׼������� ���Ӽ����� �뺸�ϴ� �޽��� 
+// ·Î±×¼­¹ö¿¡¼­ °ÔÀÓ¼­¹ö·Î Åëº¸ÇÏ´Â ¸Þ½ÃÁö 
 #define MSGID_GUILDNOTIFY					0x0DF30760
 #define DEF_GUILDNOTIFY_NEWGUILDSMAN		0x1F00
 
-// �ڷ���Ʈ 
+// ÅÚ·¹Æ÷Æ® 
 #define MSGID_REQUEST_TELEPORT				0x0EA03201
 #define MSGID_REQUEST_CITYHALLTELEPORT		0x0EA03202
 #define MSGID_REQUEST_HELDENIANTELEPORT		0x0EA03206
@@ -364,7 +370,7 @@
 
 #define MSGID_ENTERGAMECONFIRM				0x12A01006
 
-// v1.4311-3 ���� ������ ���� ���� �޼��� 
+// v1.4311-3 ¼±¾ð »çÅõÀå ¿¹¾à °ü·Ã ¸Þ¼¼Áö 
 #define MSGID_REQUEST_FIGHTZONE_RESERVE		0x12A01007
 #define MSGID_RESPONSE_FIGHTZONE_RESERVE	0x12A01008
 
@@ -446,7 +452,7 @@
 
 #define MSGID_SERVERSTOCKMSG						0x3AE90013
 
-// Gate-Server�� ���� ����
+// Gate-Server°£ Àü´Þ ³»¿ë
 #define GSM_REQUEST_FINDCHARACTER					0x01
 #define GSM_RESPONSE_FINDCHARACTER					0x02
 #define GSM_GRANDMAGICRESULT						0x03
