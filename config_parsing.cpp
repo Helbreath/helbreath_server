@@ -2032,7 +2032,7 @@ bool CGame::_bDecodePlayerDatafileContents(int iClientH, char * pData, uint32_t 
     int    iTemp;
     bool   bIsNotUsedItemFound = false;
 
-    if (m_pClientList[iClientH] == 0) return false;
+    if (m_pClientList[iClientH] == nullptr) return false;
 
     iTotalGold = 0;
     iItemIndex = 0;

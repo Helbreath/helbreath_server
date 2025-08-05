@@ -100,7 +100,7 @@ int CGame::_iTalkToNpcResult_Cityhall(int iClientH, int * pQuestType, int * pMod
 
 int CGame::_iTalkToNpcResult_Guard(int iClientH, int * pQuestType, int * pMode, int * pRewardType, int * pRewardAmount, int * pContribution, char * pTargetName, int * pTargetType, int * pTargetCount, int * pX, int * pY, int * pRange)
 {
-    if (m_pClientList[iClientH] == 0) return 0;
+    if (m_pClientList[iClientH] == nullptr) return 0;
 
     if (memcmp(m_pClientList[iClientH]->m_cLocation, "are", 3) == 0)
     {

@@ -14,7 +14,7 @@ void CGame::AdminOrder_CallGuard(int iClientH, char * pData, uint32_t dwMsgSize)
     class  CStrTok * pStrTok;
     int i, iNamingValue, tX, tY;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelCallGaurd)
@@ -100,7 +100,7 @@ void CGame::AdminOrder_Kill(int iClientH, char * pData, uint32_t dwMsgSize)
     int i;
     int sAttackerWeapon, sDamage, iExH;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelGMKill)
@@ -208,7 +208,7 @@ void CGame::AdminOrder_Revive(int iClientH, char * pData, uint32_t dwMsgSize)
     int i;
     int sAttackerWeapon, sDamage, sHP;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelGMRevive)
@@ -303,7 +303,7 @@ void CGame::AdminOrder_SummonDemon(int iClientH)
     char cName[21], cNpcName[21], cNpcWaypoint[11];
     int iNamingValue, tX, tY;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSummonDemon)
@@ -354,7 +354,7 @@ void CGame::AdminOrder_SummonDeath(int iClientH)
     char cName[21], cNpcName[21], cNpcWaypoint[11];
     int iNamingValue, tX, tY;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSummonDeath)
@@ -407,7 +407,7 @@ void CGame::AdminOrder_ReserveFightzone(int iClientH, char * pData, uint32_t dwM
     class  CStrTok * pStrTok;
     int iNum;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
 
@@ -477,7 +477,7 @@ void CGame::AdminOrder_CloseConn(int iClientH, char * pData, uint32_t dwMsgSize)
     class  CStrTok * pStrTok;
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelGMCloseconn)
@@ -527,7 +527,7 @@ void CGame::AdminOrder_Polymorph(int iClientH, char * pData, uint32_t dwMsgSize)
     char * token, cBuff[256];
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelPolymorph)
@@ -805,7 +805,7 @@ void CGame::AdminOrder_SetInvi(int iClientH, char * pData, uint32_t dwMsgSize)
     char * token, cBuff[256];
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSetInvis)
@@ -840,7 +840,7 @@ void CGame::AdminOrder_CheckIP(int iClientH, char * pData, uint32_t dwMsgSize)
     class  CStrTok * pStrTok;
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelCheckIP)
@@ -890,7 +890,7 @@ void CGame::AdminOrder_CreateFish(int iClientH, char * pData, uint32_t dwMsgSize
     class  CItem * pItem;
     int tX, tY, iType;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelCreateFish)
@@ -958,7 +958,7 @@ void CGame::AdminOrder_Teleport(int iClientH, char * pData, uint32_t dwMsgSize)
 
     dX = dY = -1;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelTeleport)
@@ -1101,7 +1101,7 @@ void CGame::AdminOrder_Time(int iClientH, char * pData, uint32_t dwMsgSize)
     int i;
 
     if ((dwMsgSize) <= 0) return;
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelTime)
     {
         SendNotifyMsg(0, iClientH, DEF_NOTIFY_ADMINUSERLEVELLOW, 0, 0, 0, 0);
@@ -1157,7 +1157,7 @@ void CGame::AdminOrder_CheckRep(int iClientH, char * pData, uint32_t dwMsgSize)
     char * token, cName[11], cTargetName[11], cRepMessage[256], cTemp[256], seps[] = "= \t\n", cBuff[256];
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     memset(cTemp, 0, sizeof(cTemp));
     memset(cRepMessage, 0, sizeof(cRepMessage));
     if (m_pClientList[iClientH]->m_iAdminUserLevel < 1)
@@ -1235,7 +1235,7 @@ void CGame::AdminOrder_Pushplayer(int iClientH, char * pData, uint32_t dwMsgSize
 
     dX = dY = -1;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelPushPlayer)
@@ -1403,7 +1403,7 @@ void CGame::AdminOrder_SummonGuild(int iClientH, char * pData, uint32_t dwMsgSiz
     int    pX, pY, i;
     // class  CStrTok * pStrTok;
     char buff[100];
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     //if (m_pClientList[iClientH]->m_iAdminUserLevel < 3) {
@@ -1438,7 +1438,7 @@ void CGame::AdminOrder_CheckStats(int iClientH, char * pData, uint32_t dwMsgSize
     char * token, cName[11], cTargetName[11];
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if (m_pClientList[iClientH]->m_iAdminUserLevel < 1)
     {
         SendNotifyMsg(0, iClientH, DEF_NOTIFY_ADMINUSERLEVELLOW, 0, 0, 0, 0);
@@ -1499,7 +1499,7 @@ void CGame::AdminOrder_GoTo(int iClientH, char * pData, uint32_t dwMsgSize)
     char * cp;
     uint16_t * wp;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelGoto)
@@ -1589,7 +1589,7 @@ void CGame::AdminOrder_MonsterCount(int iClientH, char * pData, uint32_t dwMsgSi
 {
     int iMonsterCount;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelMonsterCount)
@@ -1610,7 +1610,7 @@ void CGame::AdminOrder_SetForceRecallTime(int iClientH, char * pData, uint32_t d
     uint16_t * wp;
     int    iTime;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
 
@@ -1660,7 +1660,7 @@ void CGame::AdminOrder_SetForceRecallTime(int iClientH, char * pData, uint32_t d
 
 void CGame::AdminOrder_UnsummonBoss(int iClientH)
 {
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelUnsummonBoss)
     {
@@ -1693,7 +1693,7 @@ void CGame::AdminOrder_UnsummonBoss(int iClientH)
 
 void CGame::AdminOrder_ClearNpc(int iClientH)
 {
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelClearNpc)
     {
@@ -1736,7 +1736,7 @@ void CGame::AdminOrder_SetAttackMode(int iClientH, char * pData, uint32_t dwMsgS
     class  CStrTok * pStrTok;
     int    i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSetAttackMode)
@@ -1779,7 +1779,7 @@ void CGame::AdminOrder_UnsummonAll(int iClientH)
 {
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelUnsummonAll)
     {
@@ -1799,7 +1799,7 @@ void CGame::AdminOrder_UnsummonDemon(int iClientH)
 {
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelUnsummonDemon)
     {
@@ -1823,7 +1823,7 @@ void CGame::AdminOrder_Summon(int iClientH, char * pData, uint32_t dwMsgSize)
     class  CStrTok * pStrTok;
     bool   bMaster;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 
@@ -1921,7 +1921,7 @@ void CGame::AdminOrder_SummonAll(int iClientH, char * pData, uint32_t dwMsgSize)
     int    pX, pY, i;
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 
@@ -1997,7 +1997,7 @@ void CGame::AdminOrder_SummonPlayer(int iClientH, char * pData, uint32_t dwMsgSi
     int    pX, pY, i;
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSummonPlayer)
@@ -2074,7 +2074,7 @@ void CGame::AdminOrder_SummonPlayer(int iClientH, char * pData, uint32_t dwMsgSi
 void CGame::AdminOrder_DisconnectAll(int iClientH, char * pData, uint32_t dwMsgSize)
 {
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 
@@ -2091,7 +2091,7 @@ void CGame::AdminOrder_DisconnectAll(int iClientH, char * pData, uint32_t dwMsgS
 void CGame::AdminOrder_SetObserverMode(int iClientH)
 {
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
 
     if (m_pClientList[iClientH]->m_bIsObserverMode == true)
     {
@@ -2118,7 +2118,7 @@ void CGame::AdminOrder_EnableAdminCommand(int iClientH, char * pData, uint32_t d
     char   seps[] = "= \t\n";
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     memset(cBuff, 0, sizeof(cBuff));
@@ -2164,7 +2164,7 @@ void CGame::AdminOrder_CreateItem(int iClientH, char * pData, uint32_t dwMsgSize
     double dV1, dV2, dV3;
 
     // if the client doesnt exist than no effect.
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 
     // if the command is just "/createitem " than no effect.
@@ -2410,7 +2410,7 @@ void CGame::AdminOrder_GetFightzoneTicket(int iClientH)
     char cTemp[21];
     SYSTEMTIME SysTime;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if (memcmp(m_pMapList[m_pClientList[iClientH]->m_cMapIndex]->m_cName, "fightzone", 9) == 0)
     {
 
@@ -2463,7 +2463,7 @@ void CGame::AdminOrder_GetNpcStatus(int iClientH, char * pData, uint32_t dwMsgSi
     class  CStrTok * pStrTok;
     int i;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelGetNpcStatus)
@@ -2505,7 +2505,7 @@ void CGame::AdminOrder_SetZerk(int iClientH, char * pData, uint32_t dwMsgSize)
     char * token, cBuff[256];
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSetZerk)
@@ -2545,7 +2545,7 @@ void CGame::AdminOrder_SetFreeze(int iClientH, char * pData, uint32_t dwMsgSize)
     char * token, cBuff[256];
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSetIce)
@@ -2580,7 +2580,7 @@ void CGame::AdminOrder_SetStatus(int iClientH, char * pData, uint32_t dwMsgSize)
     int    iPass;
     class  CStrTok * pStrTok;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelSetStatus)
@@ -2660,7 +2660,7 @@ void CGame::AdminOrder_Weather(int iClientH, char * pData, uint32_t dwMsgSize)
 
     dwTime = timeGetTime();
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
 
     if (m_pClientList[iClientH]->m_iAdminUserLevel < m_iAdminLevelWeather)
@@ -2733,7 +2733,7 @@ void CGame::AdminOrder_SummonStorm(int iClientH, char * pData, uint32_t dwMsgSiz
     int    dX1, dY1, iWhetherBonus, iResult = 0, tX, tY, iErr, ix, iy;
     int    iStormCount, iMagicAttr;
 
-    if (m_pClientList[iClientH] == 0) return;
+    if (m_pClientList[iClientH] == nullptr) return;
     if ((dwMsgSize) <= 0) return;
     if (m_pClientList[iClientH]->m_bIsAdminCommandEnabled == false) return;
 

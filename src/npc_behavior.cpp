@@ -6,6 +6,10 @@
 
 #include "Game.h"
 
+extern int32_t timeGetTime();
+
+char _tmp_cTmpDirX[9] = { 0,0,1,1,1,0,-1,-1,-1 };
+char _tmp_cTmpDirY[9] = { 0,-1,-1,0,1,1,1,0,-1 };
 
 void CGame::NpcBehavior_Attack(int iNpcH)
 {
@@ -30,7 +34,6 @@ void CGame::NpcBehavior_Attack(int iNpcH)
             if (m_pNpcList[iNpcH]->m_iBuildCount > 0) return;
     }
 
-    // v1.432-2
     int iStX, iStY;
     if (m_pMapList[m_pNpcList[iNpcH]->m_cMapIndex] != 0)
     {
@@ -123,8 +126,8 @@ void CGame::NpcBehavior_Attack(int iNpcH)
                     iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 2);
                     break;
 
-                case 36: // Crossbow Guard Tower: È° °ø°Ý
-                    SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 2); // È°
+                case 36: // Crossbow Guard Tower
+                    SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 2);
                     iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 2, false, false, false);
                     break;
 
@@ -137,8 +140,8 @@ void CGame::NpcBehavior_Attack(int iNpcH)
         }
         else
         {
-            SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 1); // 1 : Ä®µîÀÇ ±ÙÁ¢¹«±â·Î °ø°ÝÇÏ´Â ÀÇ¹Ì 
-            iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 1, false, false); // °ø°Ý¿¡ ´ëÇÑ È¿°ú¸¦ °è»êÇÑ´Ù. 
+            SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 1);
+            iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 1, false, false);
         }
         m_pNpcList[iNpcH]->m_iAttackCount++;
 
@@ -278,7 +281,7 @@ void CGame::NpcBehavior_Attack(int iNpcH)
                     if ((m_pMagicConfigList[96]->m_sValue1 <= m_pNpcList[iNpcH]->m_iMana) && (iDice(1, 3) == 2))
                         iMagicType = 96; // Earth Shock Wave
                     else if (m_pMagicConfigList[81]->m_sValue1 <= m_pNpcList[iNpcH]->m_iMana)
-                        iMagicType = 81; // Metoer Strike
+                        iMagicType = 81; // Meteor Strike
                     break;
 
             }
@@ -320,7 +323,7 @@ void CGame::NpcBehavior_Attack(int iNpcH)
                     }
                 }
 
-                SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 1); // 1 : Ä®µîÀÇ ±ÙÁ¢¹«±â·Î °ø°ÝÇÏ´Â ÀÇ¹Ì 
+                SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 1);
                 NpcMagicHandler(iNpcH, dX, dY, iMagicType);
                 m_pNpcList[iNpcH]->m_dwTime = dwTime + 2000;
                 return;
@@ -340,14 +343,13 @@ void CGame::NpcBehavior_Attack(int iNpcH)
 
             if (iMagicType != -1)
             {
-                SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 1); // 1 : Ä®µîÀÇ ±ÙÁ¢¹«±â·Î °ø°ÝÇÏ´Â ÀÇ¹Ì 
+                SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX + _tmp_cTmpDirX[cDir], m_pNpcList[iNpcH]->m_sY + _tmp_cTmpDirY[cDir], 1);
                 NpcMagicHandler(iNpcH, dX, dY, iMagicType);
                 m_pNpcList[iNpcH]->m_dwTime = dwTime + 2000;
                 return;
             }
         }
 
-        // v1.41
         if ((m_pNpcList[iNpcH]->m_iAttackRange > 1) &&
             (abs(sX - dX) <= m_pNpcList[iNpcH]->m_iAttackRange) && (abs(sY - dY) <= m_pNpcList[iNpcH]->m_iAttackRange))
         {
@@ -376,14 +378,14 @@ void CGame::NpcBehavior_Attack(int iNpcH)
             {
                 switch (m_pNpcList[iNpcH]->m_sType)
                 {
-                    case 51: // v2.05 Catapult
+                    case 51: // Catapult
                         SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 1);
                         m_pNpcList[iNpcH]->m_iMagicHitRatio = 1000;
                         NpcMagicHandler(iNpcH, dX, dY, 61);
                         break;
 
-                    case 54: // Dark Elf: È° °ø°ÝÀ» ÇÑ´Ù.
-                        SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 2); // 2: È°°ø°Ý 
+                    case 54: // Dark Elf
+                        SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 2);
                         iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 2);
                         break;
 
@@ -461,12 +463,12 @@ void CGame::NpcBehavior_Attack(int iNpcH)
                                 break;
                         }
                         NBA_BREAK1:;
-                        SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 20); // 20: ÇÊ»ì±â
+                        SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 20);
                         iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 20);
                         break;
 
                     default:
-                        SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 20); // 20: ÇÊ»ì±â 
+                        SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, dX, dY, 20);
                         iCalculateAttackEffect(m_pNpcList[iNpcH]->m_iTargetIndex, m_pNpcList[iNpcH]->m_cTargetType, iNpcH, DEF_OWNERTYPE_NPC, dX, dY, 20);
                         break;
                 }
@@ -603,8 +605,7 @@ void CGame::_NpcBehavior_GrandMagicGenerator(int iNpcH)
                     m_pNpcList[iNpcH]->m_iManaStock = 0;
                     m_iAresdenMana = 0;
                 }
-                wsprintf(G_cTxt, "(!) Aresden GMG %d/%d", m_pNpcList[iNpcH]->m_iManaStock, m_pNpcList[iNpcH]->m_iMaxMana);
-                log->info(G_cTxt);
+                log->info("(!) Aresden GMG %d/%d", m_pNpcList[iNpcH]->m_iManaStock, m_pNpcList[iNpcH]->m_iMaxMana);
             }
             break;
 
@@ -620,8 +621,7 @@ void CGame::_NpcBehavior_GrandMagicGenerator(int iNpcH)
                     m_pNpcList[iNpcH]->m_iManaStock = 0;
                     m_iElvineMana = 0;
                 }
-                wsprintf(G_cTxt, "(!) Elvine GMG %d/%d", m_pNpcList[iNpcH]->m_iManaStock, m_pNpcList[iNpcH]->m_iMaxMana);
-                log->info(G_cTxt);
+                log->info("(!) Elvine GMG %d/%d", m_pNpcList[iNpcH]->m_iManaStock, m_pNpcList[iNpcH]->m_iMaxMana);
             }
             break;
     }
@@ -733,13 +733,12 @@ void CGame::NpcBehavior_Flee(int iNpcH)
 
     if (m_pNpcList[iNpcH]->m_sBehaviorTurnCount > 10)
     {
-        // 10
         m_pNpcList[iNpcH]->m_sBehaviorTurnCount = 0;
         m_pNpcList[iNpcH]->m_cBehavior = DEF_BEHAVIOR_MOVE;
         m_pNpcList[iNpcH]->m_tmp_iError = 0;
         if (m_pNpcList[iNpcH]->m_iHP <= 3)
         {
-            m_pNpcList[iNpcH]->m_iHP += iDice(1, m_pNpcList[iNpcH]->m_iHitDice); // ! ¿¡³ÊÁö ºÎÁ·À¸·Î µµ¸ÁÃÆÀ»¶§ ¼º°øÀûÀ¸·Î µµ¸ÁÃÆÀ¸¹Ç·Î ¿¡³ÊÁö Áõ°¡.
+            m_pNpcList[iNpcH]->m_iHP += iDice(1, m_pNpcList[iNpcH]->m_iHitDice);
             if (m_pNpcList[iNpcH]->m_iHP <= 0) m_pNpcList[iNpcH]->m_iHP = 1;
         }
         return;
@@ -808,7 +807,6 @@ void CGame::NpcBehavior_Move(int iNpcH)
             return;
     }
 
-    // v1.432-2
     int iStX, iStY;
     if (m_pMapList[m_pNpcList[iNpcH]->m_cMapIndex] != 0)
     {
@@ -972,7 +970,6 @@ void CGame::NpcBehavior_Stop(int iNpcH)
 
                         if (bFlag == true)
                         {
-                            // ÀûÀ» ¹ß°ßÇß´Ù. °ø°Ý µ¿ÀÛÀ¸·Î ¾Ë·Á¾ß ÇÑ´Ù.	
                             SendEventToNearClient_TypeA(iNpcH, DEF_OWNERTYPE_NPC, MSGID_EVENT_MOTION, DEF_OBJECTATTACK, m_pNpcList[iNpcH]->m_sX, m_pNpcList[iNpcH]->m_sY, 1);
                         }
                     }
@@ -989,7 +986,7 @@ void CGame::NpcBehavior_Stop(int iNpcH)
                     }
                     break;
 
-                case 42: // ManaStone: v2.05 Á¤±âÀûÀ¸·Î ¸¶³ª½ºÅæÀÇ ¿¡³ÊÁö¸¦ 5¾¿ »ý¼ºÇÑ´Ù.
+                case 42: // ManaStone
                     m_pNpcList[iNpcH]->m_sBehaviorTurnCount = 0;
                     m_pNpcList[iNpcH]->m_iV1 += 5;
                     if (m_pNpcList[iNpcH]->m_iV1 >= 5) m_pNpcList[iNpcH]->m_iV1 = 5;
@@ -1004,13 +1001,10 @@ void CGame::NpcBehavior_Stop(int iNpcH)
 
     if ((sTarget != 0))
     {
-
-        // °ø°Ý¸ñÇ¥ ¹ß°ß. 
         m_pNpcList[iNpcH]->m_cBehavior = DEF_BEHAVIOR_ATTACK;
         m_pNpcList[iNpcH]->m_sBehaviorTurnCount = 0;
         m_pNpcList[iNpcH]->m_iTargetIndex = sTarget;
         m_pNpcList[iNpcH]->m_cTargetType = cTargetType;
-        // ¿©±â¼­ Ç¥È¿ µ¿ÀÛ°°Àº°ÍÀ» À§ÇÑ ¸Þ½ÃÁö ¹ß¼Û. 
         return;
     }
 }
